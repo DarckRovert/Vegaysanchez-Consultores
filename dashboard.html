@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGAF-V&S v3.1 — Suite Enterprise de Conciliación, PLE 5.2, PCGE y Tasaciones RNT</title>
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <style>
+        :root {
+            --bg-deep: #070d18;
+            --bg-surface: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.72);
+            --border-subtle: rgba(255, 255, 255, 0.09);
+            --border-gold: rgba(212, 175, 55, 0.38);
+            --primary-navy: #003366;
+            --accent-gold: #d4af37;
+            --gold-gradient: linear-gradient(135deg, #fae29c 0%, #d4af37 50%, #997819 100%);
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-gold: #f5d77f;
+            --emerald: #10b981;
+            --emerald-bg: rgba(16, 185, 129, 0.14);
+            --ruby: #f43f5e;
+            --ruby-bg: rgba(244, 63, 94, 0.14);
+            --amber: #f59e0b;
+            --amber-bg: rgba(245, 158, 11, 0.14);
+            --blue: #38bdf8;
+            --blue-bg: rgba(56, 189, 248, 0.14);
+            --purple: #a855f7;
+            --purple-bg: rgba(168, 85, 247, 0.14);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body {
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(0, 51, 102, 0.32) 0%, transparent 42%),
+                radial-gradient(circle at 90% 90%, rgba(212, 175, 55, 0.08) 0%, transparent 42%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav.app-navbar {
+            padding: 12px 26px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .brand-cluster { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .brand-logo-frame { background: #ffffff; padding: 3px 8px; border-radius: 6px; display: flex; align-items: center; }
+        .brand-logo-frame img { height: 28px; object-fit: contain; }
+        .brand-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: #ffffff; }
+        .badge-sgaf {
+            background: rgba(212, 175, 55, 0.16);
+            border: 1px solid var(--border-gold);
+            color: var(--text-gold);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+        .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+        .nav-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            padding: 8px 13px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+        }
+        .nav-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.05); }
+        .nav-btn.active {
+            color: #ffffff;
+            background: rgba(0, 51, 102, 0.75);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 14px rgba(0, 51, 102, 0.5);
+        }
+
+        .app-container {
+            flex: 1;
+            max-width: 1380px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 22px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+        .kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 14px; }
+        .kpi-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .kpi-icon {
+            width: 44px; height: 44px; border-radius: 11px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .kpi-icon.blue { background: var(--blue-bg); color: var(--blue); }
+        .kpi-icon.green { background: var(--emerald-bg); color: var(--emerald); }
+        .kpi-icon.amber { background: var(--amber-bg); color: var(--amber); }
+        .kpi-icon.red { background: var(--ruby-bg); color: var(--ruby); }
+        .kpi-icon.purple { background: var(--purple-bg); color: var(--purple); }
+        .kpi-data h4 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+        .kpi-data p { font-family: 'Montserrat', sans-serif; font-size: 1.28rem; font-weight: 800; color: #ffffff; }
+
+        .tab-module { display: none; flex-direction: column; gap: 18px; }
+        .tab-module.active { display: flex; }
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 22px;
+        }
+        .panel-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 18px; flex-wrap: wrap; gap: 12px;
+        }
+        .panel-header h2 {
+            font-family: 'Montserrat', sans-serif; font-size: 1.18rem; font-weight: 700;
+            color: #ffffff; display: flex; align-items: center; gap: 10px;
+        }
+
+        .btn {
+            background: var(--gold-gradient); color: #070d18; font-weight: 700; border: none;
+            padding: 9px 15px; border-radius: 8px; font-size: 0.85rem; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s;
+        }
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35); }
+        .btn-outline { background: transparent; color: var(--text-light); border: 1px solid var(--border-subtle); }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.24); color: #ffffff; }
+        .btn-green { background: var(--emerald); color: #ffffff; }
+        .btn-green:hover { background: #059669; }
+        .btn-xs { padding: 4px 9px; font-size: 0.74rem; border-radius: 5px; }
+
+        .drop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+        .drop-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.16); border-radius: 12px; padding: 20px;
+            text-align: center; background: rgba(0, 0, 0, 0.22); cursor: pointer; transition: all 0.2s;
+        }
+        .drop-zone:hover { border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.04); }
+        .drop-zone i { font-size: 2rem; color: var(--accent-gold); margin-bottom: 8px; }
+        .drop-zone h3 { font-size: 0.96rem; font-weight: 600; margin-bottom: 4px; }
+        .drop-zone p { font-size: 0.78rem; color: var(--text-muted); }
+        .sha-badge {
+            margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: #93c5fd; word-break: break-all;
+        }
+
+        .table-responsive { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border-subtle); }
+        table.sgaf-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; text-align: left; }
+        table.sgaf-table th {
+            background: rgba(15, 23, 42, 0.96); color: var(--text-muted); font-family: 'Montserrat', sans-serif;
+            font-size: 0.74rem; font-weight: 700; text-transform: uppercase; padding: 11px 13px;
+            border-bottom: 1px solid var(--border-subtle); white-space: nowrap;
+        }
+        table.sgaf-table td {
+            padding: 10px 13px; border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #e2e8f0; vertical-align: middle;
+        }
+        table.sgaf-table tr:hover td { background: rgba(255, 255, 255, 0.025); }
+
+        .badge-status {
+            font-family: 'Montserrat', sans-serif; font-size: 0.69rem; font-weight: 800;
+            padding: 3px 8px; border-radius: 4px; letter-spacing: 0.03em; display: inline-block; white-space: nowrap;
+        }
+        .badge-concordante { background: var(--emerald-bg); color: #6ee7b7; border: 1px solid var(--emerald); }
+        .badge-reubicado { background: var(--amber-bg); color: #fcd34d; border: 1px solid var(--amber); }
+        .badge-dudosa { background: var(--purple-bg); color: #d8b4fe; border: 1px solid var(--purple); }
+        .badge-inmueble { background: rgba(148, 163, 184, 0.16); color: #cbd5e1; border: 1px solid #94a3b8; }
+        .badge-sobrante { background: var(--blue-bg); color: #7dd3fc; border: 1px solid var(--blue); }
+        .badge-faltante { background: var(--ruby-bg); color: #fda4af; border: 1px solid var(--ruby); }
+
+        .form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        .input-group label { font-size: 0.76rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+        .input-control {
+            background: rgba(15, 23, 42, 0.85); border: 1px solid var(--border-subtle);
+            border-radius: 8px; padding: 9px 12px; color: #ffffff; font-size: 0.9rem;
+        }
+        .input-control:focus { outline: none; border-color: var(--accent-gold); }
+
+        .valuation-result-box {
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.07) 0%, rgba(15, 23, 42, 0.85) 100%);
+            border: 1px solid var(--border-gold); border-radius: 12px; padding: 18px;
+            margin-top: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+        }
+        .val-metrics { display: flex; gap: 26px; flex-wrap: wrap; }
+        .val-item h5 { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
+        .val-item p { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 800; color: #ffffff; }
+        .val-item p.vnr-value { color: var(--text-gold); }
+
+        .pagination-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 12px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap; gap: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .drop-grid, .form-grid-3, .form-grid-2 { grid-template-columns: 1fr; }
+            .app-container { padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="app-navbar">
+        <a href="index.html" class="brand-cluster">
+            <div class="brand-logo-frame"><img src="img/logo.png" alt="Vega y Sánchez Consultores SAC"></div>
+            <div>
+                <span class="brand-title">Vega y Sánchez Consultores SAC</span> <span style="color: rgba(212,175,55,0.6); margin: 0 4px;">|</span> <span style="color: var(--accent-gold); font-size: 0.85rem; font-weight: 600;">Gestión del Activo Fijo y Existencias</span>
+                <span class="badge-sgaf">SGAF-V&S v5.2 Enterprise</span>
+            </div>
+        </a>
+
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="switchTab('tab-conciliador')">
+                <i class="fas fa-random"></i> Conciliación & Arbitraje
+            </button>
+            <button class="nav-btn" onclick="switchTab('tab-valuaciones')">
+                <i class="fas fa-calculator"></i> Tasaciones RNT / Seguros
+            </button>
+            <button class="nav-btn" onclick="switchTab('tab-sunat')">
+                <i class="fas fa-file-invoice"></i> PLE 5.2 (36 Campos) & PCGE
+            </button>
+            <button class="nav-btn" onclick="switchTab('tab-tributario')">
+                <i class="fas fa-shield-alt"></i> Art. 43° LIR & Desmedros
+            </button>
+        </div>
+    </nav>
+
+    <div class="app-container">
+
+        <!-- KPIs Superiores -->
+        <div class="kpi-strip">
+            <div class="kpi-card">
+                <div class="kpi-icon blue"><i class="fas fa-cubes"></i></div>
+                <div class="kpi-data">
+                    <h4>Universo Evaluado</h4>
+                    <p id="kpi-total-items">0</p>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon green"><i class="fas fa-check-circle"></i></div>
+                <div class="kpi-data">
+                    <h4>Concordantes / Reubic.</h4>
+                    <p id="kpi-concordantes" style="color: var(--emerald);">0</p>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon purple"><i class="fas fa-gavel"></i></div>
+                <div class="kpi-data">
+                    <h4>Zona Gris (Arbitraje)</h4>
+                    <p id="kpi-dudosos" style="color: #d8b4fe;">0</p>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon amber"><i class="fas fa-building"></i></div>
+                <div class="kpi-data">
+                    <h4>Inmuebles SUNARP (331/332)</h4>
+                    <p id="kpi-inmuebles" style="color: var(--amber);">0</p>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="kpi-data">
+                    <h4>Sobrantes / Faltantes</h4>
+                    <p id="kpi-discrepancias" style="color: var(--ruby);">0 / 0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: CONCILIACIÓN + WEB WORKER + ZONA GRIS + ETIQUETAS CODE128 -->
+        <section class="tab-module active" id="tab-conciliador">
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-random" style="color: var(--accent-gold);"></i> Motor de Conciliación Físico-Contable en 5 Cascadas (Web Worker)</h2>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-outline" onclick="loadSampleDemoData()">
+                            <i class="fas fa-database"></i> Muestra Corporativa
+                        </button>
+                        <button class="btn btn-outline" style="border-color: var(--accent-gold); color: var(--text-gold);" onclick="loadIndustrialPlantPreset()">
+                            <i class="fas fa-industry"></i> Demo Industrial: Concentradora Rimac S.A.
+                        </button>
+                        <button class="btn" id="btn-run-worker" onclick="executeReconciliation()">
+                            <i class="fas fa-bolt"></i> Ejecutar Cruce Óptimo
+                        </button>
+                    </div>
+                </div>
+
+                <div class="drop-grid">
+                    <div class="drop-zone" onclick="document.getElementById('file-accounting').click()">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <h3>1. Libro Mayor de Activos (SAP / Concar / Excel / CSV)</h3>
+                        <p id="label-accounting">Autodetección multi-cabecera y normalización de depreciación negativa SAP</p>
+                        <div class="sha-badge" id="sha-accounting"></div>
+                        <input type="file" id="file-accounting" accept=".xlsx,.xls,.csv,.json" style="display: none;" onchange="handleFileSelect(event, 'accounting')">
+                    </div>
+
+                    <div class="drop-zone" onclick="document.getElementById('file-field').click()">
+                        <i class="fas fa-barcode"></i>
+                        <h3>2. Levantamiento Físico (App Móvil PWA .JSON / Pistola Láser .XLSX)</h3>
+                        <p id="label-field">Soporta consolidado de Brigadas SGAF (.json / .csv) o Excel</p>
+                        <div class="sha-badge" id="sha-field"></div>
+                        <input type="file" id="file-field" accept=".xlsx,.xls,.csv,.json" style="display: none;" onchange="handleFileSelect(event, 'field')">
+                    </div>
+                </div>
+
+                <!-- Filtros, Búsqueda Instantánea y Exportaciones -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button class="btn btn-outline btn-xs" onclick="setFilter('ALL')">Todos</button>
+                        <button class="btn btn-outline btn-xs" style="color: #a7f3d0;" onclick="setFilter('MUEBLES')">Muebles (333-338)</button>
+                        <button class="btn btn-outline btn-xs" style="color: #cbd5e1;" onclick="setFilter('INMUEBLES')">Inmuebles (331/332)</button>
+                        <button class="btn btn-outline btn-xs" style="color: #6ee7b7;" onclick="setFilter('CONCORDANTE')">Concordantes</button>
+                        <button class="btn btn-outline btn-xs" style="color: #d8b4fe;" onclick="setFilter('CONCILIACION_DUDOSA')">Zona Gris (Arbitraje)</button>
+                        <button class="btn btn-outline btn-xs" style="color: #fcd34d;" onclick="setFilter('REUBICADO')">Reubicados</button>
+                        <button class="btn btn-outline btn-xs" style="color: #7dd3fc;" onclick="setFilter('SOBRANTE')">Sobrantes</button>
+                        <button class="btn btn-outline btn-xs" style="color: #fda4af;" onclick="setFilter('FALTANTE')">Faltantes</button>
+                        <button class="btn btn-outline btn-xs" style="color: #f87171;" onclick="setFilter('BAJA')">Malos / Bajas</button>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                        <input type="text" id="search-reconciliation" class="input-control" style="padding: 6px 12px; font-size: 0.82rem; width: 220px;" placeholder="Buscar código, serie, descripción..." oninput="resetPageAndRender()">
+                        <button class="btn btn-outline" style="font-size: 0.8rem; padding: 7px 12px; border-color: var(--border-gold); color: var(--text-gold);" onclick="printCode128Labels()">
+                            <i class="fas fa-tags"></i> Imprimir Etiquetas Code 128B
+                        </button>
+                        <button class="btn btn-green" style="font-size: 0.8rem; padding: 7px 12px;" onclick="exportResultsToExcel()">
+                            <i class="fas fa-file-excel"></i> Exportar Sábana + PCGE (.XLSX)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="sgaf-table">
+                        <thead>
+                            <tr>
+                                <th>Estado Auditoría</th>
+                                <th>Cód. Campo</th>
+                                <th>Cód. Contable</th>
+                                <th>Cuenta</th>
+                                <th>Descripción Campo</th>
+                                <th>Descripción Libros</th>
+                                <th>Serie</th>
+                                <th>Valor Neto (PEN)</th>
+                                <th>Similitud</th>
+                                <th>Dictamen / Arbitraje Pericial</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-reconciliation"></tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-bar">
+                    <span id="pagination-info">Mostrando 0 de 0 registros</span>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-outline btn-xs" onclick="changePage(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                        <button class="btn btn-outline btn-xs" onclick="changePage(1)">Siguiente <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: TASACIONES RNT ART. 129 + ROSS-HEIDECKE + PÓLIZAS DE SEGUROS -->
+        <section class="tab-module" id="tab-valuaciones">
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-calculator" style="color: var(--accent-gold);"></i> Valuaciones Periciales RNT (Art. 129° / Ross-Heidecke) y Suma Asegurable</h2>
+                    <span style="font-size: 0.82rem; color: var(--text-muted);">R.M. N° 172-2016-VIVIENDA &bull; Valores expresados sin IGV</span>
+                </div>
+
+                <div class="form-grid-3">
+                    <div class="input-group">
+                        <label>Código / Placa del Bien</label>
+                        <input type="text" class="input-control" id="val-code" value="ACT-TOY-01" oninput="calculateRossHeidecke()">
+                    </div>
+                    <div class="input-group">
+                        <label>Descripción Técnica del Activo</label>
+                        <input type="text" class="input-control" id="val-desc" value="Camioneta Pick-Up 4x4 Doble Cabina">
+                    </div>
+                    <div class="input-group">
+                        <label>Valor Similar Nuevo (VSN / VRN sin IGV)</label>
+                        <input type="number" class="input-control" id="val-vrn" value="135000" oninput="calculateRossHeidecke()">
+                    </div>
+                </div>
+
+                <div class="form-grid-3">
+                    <div class="input-group">
+                        <label>Edad Efectiva E (Años)</label>
+                        <input type="number" class="input-control" id="val-age" value="4" step="0.5" oninput="calculateRossHeidecke()">
+                    </div>
+                    <div class="input-group">
+                        <label>Vida Útil Total T (Años)</label>
+                        <input type="number" class="input-control" id="val-life" value="10" oninput="calculateRossHeidecke()">
+                    </div>
+                    <div class="input-group">
+                        <label>Estado de Conservación RNT</label>
+                        <select class="input-control" id="val-state" onchange="calculateRossHeidecke()">
+                            <option value="0.0000">1.0 - Óptimo / Nuevo (C = 0.00%)</option>
+                            <option value="0.0003">1.5 - Muy Bueno (C = 0.03%)</option>
+                            <option value="0.0252" selected>2.0 - Bueno / Operativo (C = 2.52%)</option>
+                            <option value="0.0814">2.5 - Regular / Mantenimiento (C = 8.14%)</option>
+                            <option value="0.1810">3.0 - Malo / Desgaste Severo (C = 18.10%)</option>
+                            <option value="0.5260">4.0 - Muy Malo / Crítico (C = 52.60%)</option>
+                            <option value="1.0000">5.0 - Inservible / Chatarra (C = 100.0%)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid-3">
+                    <div class="input-group">
+                        <label>Valor Residual (%)</label>
+                        <input type="number" class="input-control" id="val-residual" value="10" max="50" min="0" oninput="calculateRossHeidecke()">
+                    </div>
+                    <div class="input-group">
+                        <label>Moneda de Valuación</label>
+                        <select class="input-control" id="val-currency" onchange="calculateRossHeidecke()">
+                            <option value="PEN" selected>PEN (Soles S/)</option>
+                            <option value="USD">USD (Dólares US$ — Flota / Minería)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Registro Pericial (CIP / REPEV SBS)</label>
+                        <input type="text" class="input-control" id="val-perito" value="[POR CONSIGNAR REGISTRO CIP / REPEV SBS]">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap;">
+                    <button class="btn" onclick="calculateRossHeidecke()"><i class="fas fa-sync-alt"></i> Recalcular Liquidación</button>
+                    <button class="btn btn-outline" style="border-color: var(--accent-gold); color: var(--text-gold);" onclick="loadMiningVehiclePreset()">
+                        <i class="fas fa-truck-pickup"></i> Demo Minero: Camioneta Unidad BKM-842
+                    </button>
+                    <button class="btn btn-green" onclick="generatePericialDictamen()">
+                        <i class="fas fa-file-signature"></i> Emitir Dictamen Pericial Imprimible
+                    </button>
+                </div>
+
+                <div class="valuation-result-box">
+                    <div class="val-metrics">
+                        <div class="val-item">
+                            <h5>Factor Ross R(x)</h5>
+                            <p id="res-factor-ross">28.00%</p>
+                        </div>
+                        <div class="val-item">
+                            <h5>Depreciación Total P</h5>
+                            <p id="res-dep-pct">29.81%</p>
+                        </div>
+                        <div class="val-item">
+                            <h5>Valor Neto Reposición (VNR)</h5>
+                            <p class="vnr-value" id="res-vnr">S/ 98,775.59</p>
+                        </div>
+                        <div class="val-item">
+                            <h5>Suma Asegurable Póliza (VRN)</h5>
+                            <p id="res-seguro" style="color: #7dd3fc;">S/ 135,000.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="vehicular-model-box" style="margin-top: 18px; background: rgba(212, 175, 55, 0.08); border: 1px solid var(--border-gold); border-radius: 10px; padding: 18px 22px; display: none;">
+                    <h3 style="font-size: 1rem; color: var(--text-gold); margin-bottom: 8px;">
+                        <i class="fas fa-check-double" style="color: var(--emerald);"></i>
+                        Liquidación Reglamentaria RNT Art. 129° (Flota Liviana / Maquinaria Móvil — Sin IGV)
+                    </h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-top: 10px;">
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Valor Reposición (VR US$)</span>
+                            <div style="font-size: 1.35rem; font-weight: 800; color: #fae29c;" id="veh-vr-usd">US$ 6,045.71</div>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Valor Comercial (VC US$)</span>
+                            <div style="font-size: 1.35rem; font-weight: 800; color: #a7f3d0;" id="veh-vc-usd">US$ 5,441.14</div>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Valor Comercial Soles (T.C. 3.781)</span>
+                            <div style="font-size: 1.35rem; font-weight: 800; color: var(--emerald);" id="veh-vc-pen">S/ 20,572.94</div>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Suma Asegurable Todo Riesgo</span>
+                            <div style="font-size: 1.35rem; font-weight: 800; color: #7dd3fc;" id="veh-ins-usd">US$ 28,000.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: SUNAT PLE 5.2 (36 CAMPOS EXACTOS) & ASIENTOS PCGE -->
+        <section class="tab-module" id="tab-sunat">
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-file-invoice" style="color: var(--accent-gold);"></i> Generador SUNAT PLE 5.2 Anexo 2 (`070100` — 36 Campos Exactos) & Asientos PCGE</h2>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-green" onclick="downloadPleFile()">
+                            <i class="fas fa-file-code"></i> Descargar PLE 070100 (.TXT 36 Campos)
+                        </button>
+                        <button class="btn" onclick="downloadPcgeCsv()">
+                            <i class="fas fa-balance-scale"></i> Descargar Voucher Asientos PCGE (.CSV)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-grid-3">
+                    <div class="input-group">
+                        <label>RUC del Contribuyente Auditado</label>
+                        <input type="text" class="input-control" id="sunat-ruc" value="20550099114" maxlength="11" oninput="updatePleBanner()">
+                    </div>
+                    <div class="input-group">
+                        <label>Razón Social del Cliente</label>
+                        <input type="text" class="input-control" id="sunat-razon" value="CONCENTRADORA INDUSTRIAL RIMAC S.A.">
+                    </div>
+                    <div class="input-group">
+                        <label>Ejercicio Fiscal (AAAA)</label>
+                        <input type="text" class="input-control" id="sunat-periodo" value="2026" maxlength="4" oninput="updatePleBanner()">
+                    </div>
+                </div>
+
+                <div style="background: rgba(0, 51, 102, 0.35); border-left: 4px solid var(--accent-gold); padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; font-size: 0.84rem;">
+                    <strong>Nomenclatura Anual Oficial SUNAT (`MM=00, DD=00`):</strong>
+                    <span id="ple-filename-preview" style="font-family: 'JetBrains Mono', monospace; color: var(--text-gold);">LE2055009911420260000070100001111.TXT</span>
+                    &bull; <span style="color: #6ee7b7; font-weight: 700;">✓ Validador Integrado: 36 pipes exactos por fila | Desc &le; 40 chars | Marca/Modelo/Serie &le; 20 chars</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="sgaf-table">
+                        <thead>
+                            <tr>
+                                <th>Periodo PLE</th>
+                                <th>CUO</th>
+                                <th>Código</th>
+                                <th>Cuenta PCGE</th>
+                                <th>Descripción (Máx 40)</th>
+                                <th>Marca / Modelo</th>
+                                <th>Serie</th>
+                                <th>Costo (PEN)</th>
+                                <th>Dep. Acum. (PEN)</th>
+                                <th>Valor Neto (PEN)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-sunat"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: MOTOR TRIBUTARIO DUAL (ART. 43° LIR + D.S. 086-2020-EF) -->
+        <section class="tab-module" id="tab-tributario">
+            <div class="glass-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-shield-alt" style="color: var(--accent-gold);"></i> Motor Tributario Dual: Baja de Activos (Art. 43° LIR) & Destrucción de Desmedros (D.S. 086-2020-EF)</h2>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <label style="font-size: 0.78rem; color: var(--text-muted);">Plazo Preaviso SUNAT:</label>
+                        <select id="sunat-days-mode" class="input-control" style="padding: 5px 10px; font-size: 0.8rem;" onchange="renderCartaSunat()">
+                            <option value="2" selected>2 Días Hábiles (D.S. N° 086-2020-EF Vigente)</option>
+                            <option value="6">6 Días Hábiles (Criterio Conservador)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="kpi-strip" style="margin-bottom: 18px;">
+                    <div class="kpi-card">
+                        <div class="kpi-icon red"><i class="fas fa-dumpster"></i></div>
+                        <div class="kpi-data">
+                            <h4>Bienes con Saldo Deducible</h4>
+                            <p id="kpi-desmedros-count" style="color: var(--ruby);">0</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon amber"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="kpi-data">
+                            <h4>Valor Neto Deducible (PEN)</h4>
+                            <p id="kpi-desmedros-vneto" style="color: var(--amber);">S/ 0.00</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon green"><i class="fas fa-hand-holding-usd"></i></div>
+                        <div class="kpi-data">
+                            <h4>Escudo Fiscal Renta (29.5%)</h4>
+                            <p id="kpi-escudo-fiscal" style="color: var(--emerald);">S/ 0.00</p>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="fas fa-balance-scale"></i></div>
+                        <div class="kpi-data">
+                            <h4>Castigo VN = 0 / Reval. NIC 16</h4>
+                            <p id="kpi-castigo-cero" style="color: var(--blue);">0 bienes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+                    <button class="btn" onclick="renderInformeArt43()">
+                        <i class="fas fa-hard-hat"></i> 1. Informe Técnico Obsolescencia Art. 43° LIR (CIP/CTP)
+                    </button>
+                    <button class="btn btn-green" onclick="renderCartaSunat()">
+                        <i class="fas fa-envelope-open-text"></i> 2. Carta Preaviso SUNAT (D.S. 086-2020-EF)
+                    </button>
+                    <button class="btn btn-outline" onclick="renderActaNotarial()">
+                        <i class="fas fa-file-signature"></i> 3. Modelo Acta Notarial de Destrucción
+                    </button>
+                    <button class="btn btn-outline" onclick="copyLegalDoc()"><i class="fas fa-copy"></i> Copiar</button>
+                    <button class="btn btn-outline" onclick="printLegalDoc()"><i class="fas fa-print"></i> Imprimir</button>
+                </div>
+
+                <div style="background: rgba(10, 25, 47, 0.95); border: 1px solid var(--border-gold); border-radius: 8px; padding: 22px; font-family: 'JetBrains Mono', monospace; font-size: 0.83rem; line-height: 1.6; color: #e2e8f0; white-space: pre-wrap; max-height: 520px; overflow-y: auto;" id="legal-doc-preview"></div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // =========================================================================
+        // ESTADO GLOBAL Y SANITIZACIÓN ANTI-XSS (ESTÁNDAR OWASP)
+        // =========================================================================
+        const FIRM_PROFILE = {
+            razonSocial: "Vega y Sánchez Consultores SAC",
+            ruc: "20536779320",
+            liderSistemas: "Especialista de Sistemas y Procesamiento SGAF",
+            peritoPrincipal: "Ingeniero / Perito Valuador Acreditado [POR CONSIGNAR CIP / REPEV SBS]"
+        };
+
+        let accountingAssets = [];
+        let fieldAssets = [];
+        let currentMatches = [];
+        let activeFilter = "ALL";
+        let currentPage = 1;
+        const PAGE_SIZE = 100;
+
+        function escapeHtml(val) {
+            return String(val ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        async function computeSha256Hex(arrayBuffer) {
+            if (!window.crypto || !window.crypto.subtle) return "SHA256-LOCAL-MODE";
+            const hashBuf = await crypto.subtle.digest("SHA-256", arrayBuffer);
+            return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll(".tab-module").forEach(m => m.classList.remove("active"));
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add("active");
+            const navBtn = Array.from(document.querySelectorAll(".nav-btn")).find(b => (b.getAttribute("onclick") || "").includes(tabId));
+            if (navBtn) navBtn.classList.add("active");
+        }
+
+        // =========================================================================
+        // WEB WORKER EN LÍNEA (5 CASCADAS + NORMALIZACIÓN DE DEPRECIACIÓN SAP)
+        // =========================================================================
+        const WORKER_SOURCE = `
+            function normText(s) {
+                if (!s) return "";
+                return String(s).toUpperCase()
+                    .normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")
+                    .replace(/\\b(LAP|NOTEBOOK|PORTATIL)\\b/g, "LAPTOP")
+                    .replace(/\\b(PC|COMP|CPU|ORDENADOR)\\b/g, "COMPUTADORA")
+                    .replace(/\\b(IMPR|MULTIFUNCIONAL)\\b/g, "IMPRESORA")
+                    .replace(/\\b(TV|TELEVISOR|PANTALLA)\\b/g, "MONITOR")
+                    .replace(/\\b(VEH|CAMIONETA|AUTO)\\b/g, "VEHICULO")
+                    .replace(/[^A-Z0-9\\s]/g, " ")
+                    .replace(/\\s+/g, " ").trim();
+            }
+            function normSerial(s) {
+                if (!s) return "";
+                const v = String(s).toUpperCase().replace(/[^A-Z0-9]/g, "");
+                return ["SN","SINSERIE","0","NA","NULL","SM",""].includes(v) ? "" : v;
+            }
+            function extractSerialFromDesc(desc) {
+                const parts = String(desc || "").split(",");
+                for (const raw of parts) {
+                    const p = raw.trim().toUpperCase().replace(/[^A-Z0-9-]/g, "");
+                    if (p.length >= 7 && /[A-Z]/.test(p) && /\\d{3,}/.test(p)) return p.replace(/-/g, "");
+                    if (/^\\d{9,12}$/.test(p)) return p;
+                }
+                return "";
+            }
+            function similarity(a, b) {
+                const na = normText(a), nb = normText(b);
+                if (!na || !nb) return 0;
+                if (na === nb) return 1.0;
+                const ta = new Set(na.split(" ").filter(x => x.length >= 2));
+                const tb = new Set(nb.split(" ").filter(x => x.length >= 2));
+                if (!ta.size || !tb.size) return 0;
+                let inter = 0;
+                ta.forEach(t => { if (tb.has(t)) inter++; });
+                const union = ta.size + tb.size - inter;
+                return union ? (inter / union) : 0;
+            }
+            self.onmessage = function(ev) {
+                const { accounting, field } = ev.data;
+                const results = [];
+                const usedCont = new Set();
+                const usedField = new Set();
+
+                // Cascada 1: Segregación Inmuebles 331, 332, 339
+                accounting.forEach((ca, cIdx) => {
+                    const pref = String(ca.cuenta || "").substring(0, 3);
+                    if (["331", "332", "339"].includes(pref)) {
+                        usedCont.add(cIdx);
+                        results.push({
+                            id: "M-" + results.length,
+                            estado: "AUDITORIA_DOCUMENTAL_INMUEBLE",
+                            campoCode: "---",
+                            contableCode: ca.codigo,
+                            cuenta: ca.cuenta,
+                            campoDesc: "---",
+                            contableDesc: ca.desc,
+                            serie: ca.serie || "SUNARP",
+                            costo: ca.valor,
+                            dep: ca.dep,
+                            neto: Math.max(ca.valor - ca.dep, 0),
+                            estadoFisico: "BUENO",
+                            score: 1.0,
+                            dictamen: "Inmueble / Obra segregado para Auditoría Documental-Registral SUNARP."
+                        });
+                    }
+                });
+
+                // Cascada 2 y 3: Código exacto o Serie exacta (incluyendo serie minada en descripción SAP)
+                field.forEach((fa, fIdx) => {
+                    const fCod = normSerial(fa.plaqueta);
+                    const fOld = normSerial(fa.codigoAnterior);
+                    const fSer = normSerial(fa.serie);
+                    let hitIdx = -1;
+                    let hitMethod = "";
+
+                    for (let cIdx = 0; cIdx < accounting.length; cIdx++) {
+                        if (usedCont.has(cIdx)) continue;
+                        const ca = accounting[cIdx];
+                        const cCod = normSerial(ca.codigo);
+                        const cSer = normSerial(ca.serie) || extractSerialFromDesc(ca.desc);
+                        if ((fCod && fCod === cCod) || (fOld && fOld === cCod)) {
+                            hitIdx = cIdx; hitMethod = "Plaqueta Exacta"; break;
+                        }
+                        if (fSer && fSer.length >= 5 && cSer && (fSer === cSer || cSer.startsWith(fSer))) {
+                            hitIdx = cIdx; hitMethod = "Serie Técnica Exacta"; break;
+                        }
+                    }
+
+                    if (hitIdx !== -1) {
+                        usedField.add(fIdx);
+                        usedCont.add(hitIdx);
+                        const ca = accounting[hitIdx];
+                        const reloc = fa.ubicacion && ca.ubicacion && normText(fa.ubicacion) !== normText(ca.ubicacion);
+                        results.push({
+                            id: "M-" + results.length,
+                            estado: reloc ? "REUBICADO" : "CONCORDANTE",
+                            campoCode: fa.plaqueta,
+                            contableCode: ca.codigo,
+                            cuenta: ca.cuenta,
+                            campoDesc: fa.desc,
+                            contableDesc: ca.desc,
+                            serie: fa.serie || ca.serie || extractSerialFromDesc(ca.desc) || "S/N",
+                            costo: ca.valor,
+                            dep: ca.dep,
+                            neto: Math.max(ca.valor - ca.dep, 0),
+                            estadoFisico: fa.estadoFisico || "BUENO",
+                            score: 1.0,
+                            dictamen: reloc ? "Conciliado (" + hitMethod + ") — Traslado de sede detectado." : "Conciliación determinista (" + hitMethod + ")."
+                        });
+                    }
+                });
+
+                // Cascada 4 y 5: Asignación de Similitud Ponderada Global + Zona Gris (55%-70%)
+                const candidates = [];
+                field.forEach((fa, fIdx) => {
+                    if (usedField.has(fIdx)) return;
+                    accounting.forEach((ca, cIdx) => {
+                        if (usedCont.has(cIdx)) return;
+                        let sc = similarity(fa.desc, ca.desc);
+                        if (fa.marca && ca.desc && String(ca.desc).toUpperCase().includes(String(fa.marca).toUpperCase()) && fa.marca !== "S/M") {
+                            sc = Math.min(sc + 0.18, 1.0);
+                        }
+                        if (sc >= 0.55) candidates.push({ fIdx, cIdx, sc });
+                    });
+                });
+                candidates.sort((a, b) => b.sc - a.sc);
+
+                for (const cand of candidates) {
+                    if (usedField.has(cand.fIdx) || usedCont.has(cand.cIdx)) continue;
+                    usedField.add(cand.fIdx);
+                    usedCont.add(cand.cIdx);
+                    const fa = field[cand.fIdx];
+                    const ca = accounting[cand.cIdx];
+                    const isGray = cand.sc < 0.70;
+                    const reloc = !isGray && fa.ubicacion && ca.ubicacion && normText(fa.ubicacion) !== normText(ca.ubicacion);
+                    results.push({
+                        id: "M-" + results.length,
+                        estado: isGray ? "CONCILIACION_DUDOSA" : (reloc ? "REUBICADO" : "CONCORDANTE"),
+                        campoCode: fa.plaqueta,
+                        contableCode: ca.codigo,
+                        cuenta: ca.cuenta,
+                        campoDesc: fa.desc,
+                        contableDesc: ca.desc,
+                        serie: fa.serie || ca.serie || "S/N",
+                        costo: ca.valor,
+                        dep: ca.dep,
+                        neto: Math.max(ca.valor - ca.dep, 0),
+                        estadoFisico: fa.estadoFisico || "BUENO",
+                        score: cand.sc,
+                        dictamen: isGray
+                            ? "Zona Gris (" + (cand.sc * 100).toFixed(1) + "%) — Requiere visto bueno del Perito."
+                            : "Asignación óptima (" + (cand.sc * 100).toFixed(1) + "% similitud técnica)."
+                    });
+                }
+
+                // Sobrantes Físicos
+                field.forEach((fa, fIdx) => {
+                    if (!usedField.has(fIdx)) {
+                        results.push({
+                            id: "M-" + results.length,
+                            estado: "SOBRANTE",
+                            campoCode: fa.plaqueta,
+                            contableCode: "---",
+                            cuenta: "33311",
+                            campoDesc: fa.desc,
+                            contableDesc: "---",
+                            serie: fa.serie || "S/N",
+                            costo: 0, dep: 0, neto: 0,
+                            estadoFisico: fa.estadoFisico || "BUENO",
+                            score: 0,
+                            dictamen: "Sobrante físico en planta sin vínculo contable (tasar para alta NIC 16)."
+                        });
+                    }
+                });
+
+                // Faltantes Contables Muebles
+                accounting.forEach((ca, cIdx) => {
+                    if (!usedCont.has(cIdx)) {
+                        results.push({
+                            id: "M-" + results.length,
+                            estado: "FALTANTE",
+                            campoCode: "---",
+                            contableCode: ca.codigo,
+                            cuenta: ca.cuenta || "33311",
+                            campoDesc: "---",
+                            contableDesc: ca.desc,
+                            serie: ca.serie || "S/N",
+                            costo: ca.valor,
+                            dep: ca.dep,
+                            neto: Math.max(ca.valor - ca.dep, 0),
+                            estadoFisico: ca.estadoFisico || "REGULAR",
+                            score: 0,
+                            dictamen: "Faltante mueble en libros (evaluar baja Art. 43° LIR o re-etiquetado)."
+                        });
+                    }
+                });
+
+                self.postMessage(results);
+            };
+        `;
+
+        function executeReconciliation() {
+            if (!accountingAssets.length || !fieldAssets.length) {
+                alert("Cargue primero ambos archivos o seleccione un escenario de demostración.");
+                return;
+            }
+            const btn = document.getElementById("btn-run-worker");
+            if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+            try {
+                const blob = new Blob([WORKER_SOURCE], { type: "application/javascript" });
+                const worker = new Worker(URL.createObjectURL(blob));
+                worker.onmessage = function(ev) {
+                    currentMatches = ev.data;
+                    finishReconciliationUI();
+                    worker.terminate();
+                };
+                worker.onerror = function() {
+                    worker.terminate();
+                    runSyncFallback();
+                };
+                worker.postMessage({ accounting: accountingAssets, field: fieldAssets });
+            } catch (_) {
+                runSyncFallback();
+            }
+        }
+
+        function runSyncFallback() {
+            const fn = new Function("accounting", "field", WORKER_SOURCE + "; let out=null; self.postMessage=(r)=>{out=r;}; self.onmessage({data:{accounting,field}}); return out;");
+            currentMatches = fn(accountingAssets, fieldAssets) || [];
+            finishReconciliationUI();
+        }
+
+        function finishReconciliationUI() {
+            const btn = document.getElementById("btn-run-worker");
+            if (btn) btn.innerHTML = '<i class="fas fa-bolt"></i> Ejecutar Cruce Óptimo';
+            currentPage = 1;
+            renderReconciliationTable();
+            renderSunatTable();
+            updateKPIs();
+            refreshTaxEngineFromData();
+        }
+
+        // =========================================================================
+        // ARBITRAJE HUMANO EN ZONA GRIS (APROBAR / RECHAZAR VÍNCULO)
+        // =========================================================================
+        function resolveGrayZone(matchId, approve) {
+            const item = currentMatches.find(m => m.id === matchId);
+            if (!item) return;
+            if (approve) {
+                item.estado = "CONCORDANTE";
+                item.dictamen = "Vínculo ratificado manualmente por Perito Auditor (" + new Date().toLocaleTimeString("es-PE") + ").";
+            } else {
+                const oldContCode = item.contableCode;
+                const oldContDesc = item.contableDesc;
+                const oldCuenta = item.cuenta;
+                const oldCosto = item.costo;
+                const oldDep = item.dep;
+                const oldNeto = item.neto;
+
+                item.estado = "SOBRANTE";
+                item.contableCode = "---";
+                item.contableDesc = "---";
+                item.costo = 0; item.dep = 0; item.neto = 0; item.score = 0;
+                item.dictamen = "Vínculo descartado por Perito -> Reclasificado como Sobrante Físico.";
+
+                if (oldContCode && oldContCode !== "---") {
+                    currentMatches.push({
+                        id: "M-" + currentMatches.length,
+                        estado: "FALTANTE",
+                        campoCode: "---",
+                        contableCode: oldContCode,
+                        cuenta: oldCuenta,
+                        campoDesc: "---",
+                        contableDesc: oldContDesc,
+                        serie: "S/N",
+                        costo: oldCosto,
+                        dep: oldDep,
+                        neto: oldNeto,
+                        estadoFisico: "REGULAR",
+                        score: 0,
+                        dictamen: "Desvinculado en arbitraje pericial -> Faltante Contable."
+                    });
+                }
+            }
+            renderReconciliationTable();
+            updateKPIs();
+            refreshTaxEngineFromData();
+        }
+
+        // =========================================================================
+        // LECTOR UNIVERSAL (.XLSX, .XLS, .CSV, .JSON PWA) + HASH SHA-256
+        // =========================================================================
+        function cleanAccountStr(v) {
+            return String(v ?? "").trim().replace(/\.0+$/, "") || "33311";
+        }
+
+        async function handleFileSelect(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const arrayBuf = await file.arrayBuffer();
+            const shaHex = await computeSha256Hex(arrayBuf);
+            document.getElementById(type === "accounting" ? "sha-accounting" : "sha-field").textContent = "SHA-256: " + shaHex.substring(0, 32) + "...";
+
+            if (file.name.toLowerCase().endsWith(".json")) {
+                const jsonText = new TextDecoder("utf-8").decode(arrayBuf);
+                const parsed = JSON.parse(jsonText);
+                const arr = Array.isArray(parsed) ? parsed : (parsed.items || []);
+                fieldAssets = arr.map((it, idx) => ({
+                    plaqueta: String(it.codigo_plaqueta || it.plaqueta || idx + 1).trim(),
+                    codigoAnterior: String(it.codigo_anterior || "").trim(),
+                    desc: String(it.descripcion || it.desc || "ACTIVO CAMPO").trim(),
+                    marca: String(it.marca || "S/M").trim(),
+                    serie: String(it.serie || "S/N").trim(),
+                    ubicacion: String(it.ubicacion || "PLANTA").trim(),
+                    estadoFisico: String(it.estado_conservacion || it.estado || "BUENO").toUpperCase()
+                }));
+                document.getElementById("label-field").textContent = file.name + " — " + fieldAssets.length + " capturas PWA cargadas";
+                if (accountingAssets.length && fieldAssets.length) executeReconciliation();
+                return;
+            }
+
+            try {
+                const wb = XLSX.read(new Uint8Array(arrayBuf), { type: "array" });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+                if (!rows.length) return;
+
+                let hIdx = 0;
+                let bestScore = -1;
+                for (let i = 0; i < Math.min(rows.length, 16); i++) {
+                    const up = rows[i].map(c => String(c).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")).join(" | ");
+                    let sc = 0;
+                    ["CODIGO", "ACTIVO", "DESCRIPCION", "DENOMINACION", "SERIE", "CUENTA", "COSTO", "ESTADO"].forEach(k => { if (up.includes(k)) sc++; });
+                    if (sc > bestScore) { bestScore = sc; hIdx = i; }
+                }
+
+                const headers = rows[hIdx].map(h => String(h).toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim());
+                const findCol = (kws, preferRecent = false) => {
+                    let best = -1, bestYear = -1;
+                    headers.forEach((h, idx) => {
+                        if (kws.some(kw => h.includes(kw))) {
+                            const ym = h.match(/20\d{2}/);
+                            const yr = ym ? parseInt(ym[0], 10) : 0;
+                            if (!preferRecent) { if (best === -1) best = idx; }
+                            else if (yr >= bestYear) { bestYear = yr; best = idx; }
+                        }
+                    });
+                    return best;
+                };
+
+                const dataRows = rows.slice(hIdx + 1).filter(r => {
+                    const joined = r.map(c => String(c).trim()).join(" ").toUpperCase();
+                    if (!joined || /^(TOTAL|SUBTOTAL|SUMA|GRAN TOTAL)\b/.test(joined)) return false;
+                    return true;
+                });
+
+                if (type === "accounting") {
+                    const cCod = findCol(["ACTIVO FIJO", "CODIGO"], true);
+                    const cDesc = findCol(["DENOMINACION", "DESCRIPCION", "DETALLE"]);
+                    const cMarca = findCol(["MARCA"]);
+                    const cMod = findCol(["MODELO"]);
+                    const cSer = findCol(["SERIE", "CHASIS"]);
+                    const cUbic = findCol(["UBICACION", "NOMBRE CECO", "SEDE"]);
+                    const cCta = findCol(["CUENTA BALANCE", "CUENTA"]);
+                    const cVal = findCol(["COSTO ACTIVO FIJO", "VALOR ADQ", "COSTO"], true);
+                    const cDep = findCol(["AMORTIZACION ACUMULADA", "DEPREC"], true);
+                    const cTasa = findCol(["TASA DEPRECIACION", "TASA"]);
+
+                    accountingAssets = dataRows.filter(r => cDesc === -1 || String(r[cDesc]).trim() !== "").map((r, i) => ({
+                        codigo: cCod !== -1 && r[cCod] ? cleanAccountStr(r[cCod]) : `ACF-${String(i + 1).padStart(5, "0")}`,
+                        desc: cDesc !== -1 && r[cDesc] ? String(r[cDesc]).trim() : "ACTIVO CONTABLE",
+                        marca: cMarca !== -1 && r[cMarca] ? String(r[cMarca]).trim() : "-",
+                        modelo: cMod !== -1 && r[cMod] ? String(r[cMod]).trim() : "-",
+                        serie: cSer !== -1 && r[cSer] ? cleanAccountStr(r[cSer]) : "-",
+                        ubicacion: cUbic !== -1 && r[cUbic] ? String(r[cUbic]).trim() : "PLANTA",
+                        cuenta: cCta !== -1 && r[cCta] ? cleanAccountStr(r[cCta]) : "33311",
+                        valor: cVal !== -1 ? Math.abs(parseFloat(String(r[cVal]).replace(/[^0-9.-]/g, "")) || 0) : 0,
+                        dep: cDep !== -1 ? Math.abs(parseFloat(String(r[cDep]).replace(/[^0-9.-]/g, "")) || 0) : 0,
+                        tasa: cTasa !== -1 ? Math.abs(parseFloat(String(r[cTasa]).replace(/[^0-9.-]/g, "")) || 10) : 10
+                    }));
+                    document.getElementById("label-accounting").textContent = `${file.name} — ✓ ${accountingAssets.length} registros contables normalizados`;
+                } else {
+                    const cPlaq = findCol(["CODIGO", "PLAQUETA"], true);
+                    const cOld = findCol(["ZZ", "ANTERIOR"]);
+                    const cDesc = findCol(["DESCRIPCION", "DENOMINACION"]);
+                    const cMarca = findCol(["MARCA"]);
+                    const cSer = findCol(["SERIE"]);
+                    const cUbic = findCol(["UBICACION", "AREA", "SEDE"]);
+                    const cEst = findCol(["ESTADO", "CONDICION"]);
+
+                    fieldAssets = dataRows.filter(r => cDesc === -1 || String(r[cDesc]).trim() !== "").map((r, i) => ({
+                        plaqueta: cPlaq !== -1 && r[cPlaq] ? cleanAccountStr(r[cPlaq]) : String(i + 1).padStart(5, "0"),
+                        codigoAnterior: cOld !== -1 && r[cOld] ? cleanAccountStr(r[cOld]) : "",
+                        desc: cDesc !== -1 && r[cDesc] ? String(r[cDesc]).trim() : "ACTIVO EN CAMPO",
+                        marca: cMarca !== -1 && r[cMarca] ? String(r[cMarca]).trim() : "S/M",
+                        serie: cSer !== -1 && r[cSer] ? cleanAccountStr(r[cSer]) : "S/N",
+                        ubicacion: cUbic !== -1 && r[cUbic] ? String(r[cUbic]).trim() : "PLANTA",
+                        estadoFisico: cEst !== -1 && r[cEst] ? String(r[cEst]).trim().toUpperCase() : "BUENO"
+                    }));
+                    document.getElementById("label-field").textContent = `${file.name} — ✓ ${fieldAssets.length} bienes físicos levantados`;
+                }
+
+                if (accountingAssets.length && fieldAssets.length) executeReconciliation();
+            } catch (err) {
+                alert("Error procesando el archivo: " + err.message);
+            }
+        }
+
+        // =========================================================================
+        // ESCENARIOS DEMO PÚBLICOS 100% ANONIMIZADOS (CERO FUGA DE CLIENTES REALES)
+        // =========================================================================
+        function loadSampleDemoData() {
+            accountingAssets = [
+                { codigo: "ACT-00101", desc: "COMPUTADORA PORTATIL DELL LATITUDE CORE I7 16GB", marca: "DELL", modelo: "3420", serie: "CN0F8912A00", ubicacion: "SEDE CENTRAL - PISO 3", cuenta: "33611", valor: 5200.0, dep: 1800.0, tasa: 25.0 },
+                { codigo: "ACT-00102", desc: "IMPRESORA MULTIFUNCIONAL HP LASERJET ENTERPRISE", marca: "HP", modelo: "M528DN", serie: "VNB3K88121", ubicacion: "SEDE CENTRAL - ARCHIVO", cuenta: "33611", valor: 3400.0, dep: 1200.0, tasa: 25.0 },
+                { codigo: "ACT-00103", desc: "CAMIONETA PICK-UP 4X4 DOBLE CABINA", marca: "TOYOTA", modelo: "HILUX", serie: "8AJBA3CD7M99001", ubicacion: "PATIO OPERACIONES", cuenta: "33411", valor: 128000.0, dep: 51200.0, tasa: 20.0 },
+                { codigo: "ACT-00104", desc: "SERVIDOR RACK POWEREDGE (OBSOLETO PARA BAJA ART 43)", marca: "DELL", modelo: "R730", serie: "SRV9928110", ubicacion: "DATA CENTER", cuenta: "33611", valor: 24500.0, dep: 18100.0, tasa: 25.0 }
+            ];
+            fieldAssets = [
+                { plaqueta: "VS-2026-001", codigoAnterior: "", desc: "Laptop Dell Latitude i7 16GB", marca: "DELL", serie: "CN-0F8912-A00", ubicacion: "SEDE CENTRAL - PISO 3", estadoFisico: "BUENO" },
+                { plaqueta: "VS-2026-002", codigoAnterior: "", desc: "Impresora HP LaserJet M528dn", marca: "HP", serie: "VNB3K88121", ubicacion: "ALMACEN LURIN", estadoFisico: "BUENO" },
+                { plaqueta: "VS-2026-003", codigoAnterior: "", desc: "Camioneta Toyota Hilux 4x4", marca: "TOYOTA", serie: "8AJBA3CD7M99001", ubicacion: "PATIO OPERACIONES", estadoFisico: "REGULAR" },
+                { plaqueta: "VS-2026-004", codigoAnterior: "", desc: "Servidor Rack Dell R730 (Tarjeta Quemada)", marca: "DELL", serie: "SRV9928110", ubicacion: "DATA CENTER", estadoFisico: "MALO" },
+                { plaqueta: "VS-2026-005", codigoAnterior: "", desc: "Grupo Electrógeno 65 KVA encapsulado", marca: "CUMMINS", serie: "CUM881122", ubicacion: "CASA FUERZA", estadoFisico: "BUENO" }
+            ];
+            document.getElementById("sunat-ruc").value = "20550099114";
+            document.getElementById("sunat-razon").value = "CORPORACIÓN INDUSTRIAL DEMO S.A.C.";
+            updatePleBanner();
+            executeReconciliation();
+        }
+
+        function loadIndustrialPlantPreset() {
+            accountingAssets = [
+                { codigo: "ACF000043", desc: "TERRENO PARCELA INDUSTRIAL ZONA ESTE 12,884 M2", marca: "-", modelo: "-", serie: "-", ubicacion: "PLANTA CONCENTRADOS", cuenta: "33111000", valor: 17626057.88, dep: 0.0, tasa: 0.0 },
+                { codigo: "ACF000105", desc: "NAVE INDUSTRIAL ALMACEN CONCENTRADOS CON COBERTURA AUTOSOPORTADA", marca: "-", modelo: "-", serie: "-", ubicacion: "PLANTA CONCENTRADOS", cuenta: "33211000", valor: 6042874.43, dep: 2457602.19, tasa: 5.0 },
+                { codigo: "ACF000901", desc: "SISTEMA ANALIZADOR ESPECTROMETRICO ,PERKINELMER ,F1MS100 ,101S99887701 ,2018", marca: "-", modelo: "-", serie: "-", ubicacion: "LABORATORIO QUIMICO", cuenta: "33611000", valor: 64200.00, dep: 52076.70, tasa: 10.0 },
+                { codigo: "ACF000902", desc: "MONITOR CENTRO DE CONTROL ,LG ,WEBOS3.5 ,708MXDEMO5242 ,2019", marca: "-", modelo: "-", serie: "-", ubicacion: "SALA SCADA", cuenta: "33611000", valor: 3800.00, dep: 3800.00, tasa: 25.0 },
+                { codigo: "ACF000752", desc: "MOLINO DE MARTILLO INDUSTRIAL 18 X 8", marca: "TYLER", modelo: "MM-18", serie: "-", ubicacion: "CIRCUITO MOLIENDA", cuenta: "33311000", valor: 48500.00, dep: 31200.00, tasa: 10.0 },
+                { codigo: "ACF000883", desc: "BOMBA PERISTALTICA SPX65 BREDEL", marca: "BREDEL", modelo: "SPX65", serie: "-", ubicacion: "CIRCUITO PULPA", cuenta: "33311000", valor: 36400.00, dep: 21400.00, tasa: 10.0 },
+                { codigo: "ACF000610", desc: "MEDIDOR DE FLUJO ELECTROMAGNETICO TIPO CAPACITIVO DE 2 PULGADAS", marca: "AOMAC", modelo: "CA105", serie: "-", ubicacion: "DOSIFICACION", cuenta: "33311000", valor: 14200.00, dep: 14200.00, tasa: 10.0 },
+                { codigo: "ACF000990", desc: "FILTRO PRENSA HIDRAULICO DE PLACAS 800MM (NO UBICADO)", marca: "CIDELCO", modelo: "FPC-800", serie: "-", ubicacion: "FILTRADO", cuenta: "33311000", valor: 185000.00, dep: 140000.00, tasa: 10.0 }
+            ];
+            fieldAssets = [
+                { plaqueta: "00001", codigoAnterior: "ZTC0101", desc: "SISTEMA ANALIZADOR ESPECTROMETRICO", marca: "PERKINELMER", serie: "101S99887701", ubicacion: "LABORATORIO QUIMICO", estadoFisico: "BUENO" },
+                { plaqueta: "00014", codigoAnterior: "C00078", desc: "TELEVISOR LED", marca: "LG", serie: "708MXDEMO5242", ubicacion: "SALA SCADA", estadoFisico: "REGULAR" },
+                { plaqueta: "00045", codigoAnterior: "ZTC0410", desc: "MOLINO DE MARTILLO", marca: "S/M", serie: "S/N", ubicacion: "CIRCUITO MOLIENDA", estadoFisico: "MALO" },
+                { plaqueta: "00088", codigoAnterior: "ZTC0512", desc: "BOMBA PERISTALTICA", marca: "BREDEL", serie: "S/N", ubicacion: "CIRCUITO PULPA", estadoFisico: "MALO" },
+                { plaqueta: "00102", codigoAnterior: "", desc: "MEDIDOR DE FLUJO ELECTROMAGNETICO", marca: "S/M", serie: "S/N", ubicacion: "DOSIFICACION", estadoFisico: "REGULAR" },
+                { plaqueta: "00150", codigoAnterior: "", desc: "COMPRESOR DE TORNILLO ATLAS COPCO GA37", marca: "ATLAS COPCO", serie: "API099881", ubicacion: "CASA DE FUERZA", estadoFisico: "BUENO" }
+            ];
+            document.getElementById("sunat-ruc").value = "20550099114";
+            document.getElementById("sunat-razon").value = "CONCENTRADORA INDUSTRIAL RIMAC S.A.";
+            document.getElementById("label-accounting").textContent = "Demo Anonimizado: Libro Mayor SAP (Concentradora Industrial Rimac S.A.)";
+            document.getElementById("label-field").textContent = "Demo Anonimizado: Barrido Físico de Planta";
+            updatePleBanner();
+            executeReconciliation();
+        }
+
+        function loadMiningVehiclePreset() {
+            document.getElementById("val-code").value = "BKM-842";
+            document.getElementById("val-desc").value = "Camioneta SUV 4x4 2015 — Unidad Operativa Minera BKM-842";
+            document.getElementById("val-vrn").value = "28000";
+            document.getElementById("val-age").value = "9";
+            document.getElementById("val-life").value = "11";
+            document.getElementById("val-state").value = "0.0814";
+            document.getElementById("val-residual").value = "10";
+            document.getElementById("val-currency").value = "USD";
+            calculateRossHeidecke();
+        }
+
+        // =========================================================================
+        // TABLA VIRTUALIZADA CON FILTROS REPARADOS Y BOTONES DE ARBITRAJE
+        // =========================================================================
+        function getFilteredMatches() {
+            const q = (document.getElementById("search-reconciliation").value || "").trim().toUpperCase();
+            return currentMatches.filter(m => {
+                if (activeFilter === "MUEBLES") {
+                    const c = String(m.cuenta || "").substring(0, 3);
+                    if (["331", "332", "339"].includes(c)) return false;
+                } else if (activeFilter === "INMUEBLES") {
+                    const c = String(m.cuenta || "").substring(0, 3);
+                    if (!["331", "332", "339"].includes(c)) return false;
+                } else if (activeFilter === "BAJA") {
+                    const ef = String(m.estadoFisico || "").toUpperCase();
+                    if (!["MALO", "MUY_MALO", "CHATARRA", "INSERVIBLE"].includes(ef)) return false;
+                } else if (activeFilter !== "ALL") {
+                    if (m.estado !== activeFilter) return false;
+                }
+                if (q) {
+                    const hay = `${m.campoCode} ${m.contableCode} ${m.cuenta} ${m.campoDesc} ${m.contableDesc} ${m.serie}`.toUpperCase();
+                    if (!hay.includes(q)) return false;
+                }
+                return true;
+            });
+        }
+
+        function setFilter(f) { activeFilter = f; currentPage = 1; renderReconciliationTable(); }
+        function resetPageAndRender() { currentPage = 1; renderReconciliationTable(); }
+        function changePage(delta) {
+            const filtered = getFilteredMatches();
+            const maxPage = Math.max(Math.ceil(filtered.length / PAGE_SIZE), 1);
+            currentPage = Math.min(Math.max(currentPage + delta, 1), maxPage);
+            renderReconciliationTable();
+        }
+
+        function renderReconciliationTable() {
+            const tbody = document.getElementById("tbody-reconciliation");
+            const filtered = getFilteredMatches();
+            const total = filtered.length;
+            const maxPage = Math.max(Math.ceil(total / PAGE_SIZE), 1);
+            if (currentPage > maxPage) currentPage = maxPage;
+
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const slice = filtered.slice(start, start + PAGE_SIZE);
+
+            const badgeMap = {
+                "CONCORDANTE": "badge-concordante",
+                "REUBICADO": "badge-reubicado",
+                "CONCILIACION_DUDOSA": "badge-dudosa",
+                "AUDITORIA_DOCUMENTAL_INMUEBLE": "badge-inmueble",
+                "CONCILIADO_DOCUMENTAL": "badge-inmueble",
+                "SOBRANTE": "badge-sobrante",
+                "FALTANTE": "badge-faltante"
+            };
+
+            tbody.innerHTML = slice.map(m => {
+                const bCls = badgeMap[m.estado] || "badge-faltante";
+                const actions = m.estado === "CONCILIACION_DUDOSA"
+                    ? `<div style="margin-top:5px;display:flex;gap:6px;">
+                         <button class="btn btn-green btn-xs" onclick="resolveGrayZone('${escapeHtml(m.id)}', true)">✓ Aprobar</button>
+                         <button class="btn btn-outline btn-xs" onclick="resolveGrayZone('${escapeHtml(m.id)}', false)">✕ Descartar</button>
+                       </div>`
+                    : "";
+                return `<tr>
+                    <td><span class="badge-status ${bCls}">${escapeHtml(m.estado)}</span></td>
+                    <td style="font-weight:700;">${escapeHtml(m.campoCode)}</td>
+                    <td style="font-weight:700;">${escapeHtml(m.contableCode)}</td>
+                    <td style="font-family:'JetBrains Mono',monospace;">${escapeHtml(m.cuenta || "-")}</td>
+                    <td>${escapeHtml(m.campoDesc)}</td>
+                    <td>${escapeHtml(m.contableDesc)}</td>
+                    <td style="font-family:'JetBrains Mono',monospace;">${escapeHtml(m.serie)}</td>
+                    <td style="text-align:right;font-weight:600;">S/ ${(m.neto || 0).toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}</td>
+                    <td style="font-weight:700;">${(m.score * 100).toFixed(0)}%</td>
+                    <td style="font-size:0.79rem;color:var(--text-muted);">${escapeHtml(m.dictamen)}${actions}</td>
+                </tr>`;
+            }).join("");
+
+            document.getElementById("pagination-info").textContent =
+                `Mostrando ${total ? start + 1 : 0}–${Math.min(start + PAGE_SIZE, total)} de ${total} registros (Página ${currentPage}/${maxPage})`;
+        }
+
+        function updateKPIs() {
+            const tot = currentMatches.length;
+            const conc = currentMatches.filter(m => m.estado === "CONCORDANTE" || m.estado === "REUBICADO").length;
+            const dud = currentMatches.filter(m => m.estado === "CONCILIACION_DUDOSA").length;
+            const inm = currentMatches.filter(m => m.estado === "AUDITORIA_DOCUMENTAL_INMUEBLE" || m.estado === "CONCILIADO_DOCUMENTAL").length;
+            const sob = currentMatches.filter(m => m.estado === "SOBRANTE").length;
+            const fal = currentMatches.filter(m => m.estado === "FALTANTE").length;
+
+            document.getElementById("kpi-total-items").textContent = tot.toLocaleString("es-PE");
+            document.getElementById("kpi-concordantes").textContent = conc.toLocaleString("es-PE");
+            document.getElementById("kpi-dudosos").textContent = dud.toLocaleString("es-PE");
+            document.getElementById("kpi-inmuebles").textContent = inm.toLocaleString("es-PE");
+            document.getElementById("kpi-discrepancias").textContent = `${sob} / ${fal}`;
+        }
+
+        // =========================================================================
+        // PLE 5.2 ANEXO 2 EXACTO (36 CAMPOS) + VOUCHER ASIENTOS PCGE
+        // =========================================================================
+        function sanitizePleStr(s, maxLen, fallback = "-") {
+            const clean = String(s || "").replace(/[|\r\n\t]/g, " ").replace(/\s+/g, " ").trim();
+            return (clean || fallback).substring(0, maxLen);
+        }
+
+        function updatePleBanner() {
+            const ruc = (document.getElementById("sunat-ruc").value || "20550099114").replace(/\D/g, "").padEnd(11, "0").substring(0, 11);
+            const anio = (document.getElementById("sunat-periodo").value || "2026").replace(/\D/g, "").substring(0, 4) || "2026";
+            document.getElementById("ple-filename-preview").textContent = `LE${ruc}${anio}0000070100001111.TXT`;
+        }
+
+        function renderSunatTable() {
+            const tbody = document.getElementById("tbody-sunat");
+            const anio = (document.getElementById("sunat-periodo").value || "2026").substring(0, 4);
+            tbody.innerHTML = accountingAssets.slice(0, 150).map((a, idx) => {
+                const neto = Math.max(a.valor - a.dep, 0);
+                return `<tr>
+                    <td>${escapeHtml(anio)}0000</td>
+                    <td>CUO${String(idx + 1).padStart(6, "0")}</td>
+                    <td style="font-weight:700;">${escapeHtml(a.codigo)}</td>
+                    <td>${escapeHtml(a.cuenta)}</td>
+                    <td>${escapeHtml(sanitizePleStr(a.desc, 40))}</td>
+                    <td>${escapeHtml(sanitizePleStr(a.marca, 20))} / ${escapeHtml(sanitizePleStr(a.modelo, 20))}</td>
+                    <td style="font-family:'JetBrains Mono',monospace;">${escapeHtml(sanitizePleStr(a.serie, 20))}</td>
+                    <td>S/ ${a.valor.toLocaleString("es-PE", {minimumFractionDigits:2})}</td>
+                    <td>S/ ${a.dep.toLocaleString("es-PE", {minimumFractionDigits:2})}</td>
+                    <td style="color:var(--emerald);font-weight:700;">S/ ${neto.toLocaleString("es-PE", {minimumFractionDigits:2})}</td>
+                </tr>`;
+            }).join("");
+        }
+
+        function downloadPleFile() {
+            if (!accountingAssets.length) return alert("Cargue primero un libro contable.");
+            const ruc = (document.getElementById("sunat-ruc").value || "20550099114").replace(/\D/g, "").padEnd(11, "0").substring(0, 11);
+            const anio = (document.getElementById("sunat-periodo").value || "2026").replace(/\D/g, "").substring(0, 4) || "2026";
+            const fileName = `LE${ruc}${anio}0000070100001111.TXT`;
+
+            const lines = accountingAssets.map((a, idx) => {
+                const fields36 = [
+                    `${anio}0000`,
+                    `CUO${String(idx + 1).padStart(6, "0")}`,
+                    `M${String(idx + 1).padStart(5, "0")}`,
+                    "9",
+                    sanitizePleStr(a.codigo, 24, `ACT${idx + 1}`),
+                    "",
+                    "",
+                    String(a.cuenta || "").startsWith("322") ? "1" : "9",
+                    cleanAccountStr(a.cuenta),
+                    "9",
+                    sanitizePleStr(a.desc, 40, "ACTIVO FIJO"),
+                    sanitizePleStr(a.marca, 20, "-"),
+                    sanitizePleStr(a.modelo, 20, "-"),
+                    sanitizePleStr(a.serie, 20, "-"),
+                    a.valor.toFixed(2),
+                    "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00",
+                    `01/01/${anio}`,
+                    `01/01/${anio}`,
+                    "1",
+                    "-",
+                    (a.tasa || 10).toFixed(2),
+                    a.dep.toFixed(2),
+                    "0.00", "0.00", "0.00", "0.00", "0.00", "0.00",
+                    "1"
+                ];
+                return fields36.join("|") + "|";
+            });
+
+            const blob = new Blob([lines.join("\r\n") + "\r\n"], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        }
+
+        function buildPcgeJournalRows() {
+            const rows = [];
+            const bajas = currentMatches.filter(m =>
+                m.contableCode !== "---" &&
+                (["MALO", "MUY_MALO", "CHATARRA"].includes(String(m.estadoFisico || "").toUpperCase()) || m.estado === "FALTANTE")
+            );
+            bajas.slice(0, 200).forEach((m, idx) => {
+                if ((m.costo || 0) <= 0) return;
+                const nro = `AJ-BAJA-${String(idx + 1).padStart(4, "0")}`;
+                const dep = Math.min(m.dep || 0, m.costo);
+                const neto = Math.max(Number((m.costo - dep).toFixed(2)), 0);
+                if (dep > 0) rows.push({ ASIENTO: nro, FECHA: "31/12/2026", CUENTA_PCGE: "39524", DENOMINACION: "Depreciación acumulada PPyE", REF: m.contableCode, GLOSA: `Extinción dep. acum. ${m.contableCode}`, DEBE_PEN: Number(dep.toFixed(2)), HABER_PEN: 0 });
+                if (neto > 0) rows.push({ ASIENTO: nro, FECHA: "31/12/2026", CUENTA_PCGE: "65513", DENOMINACION: "Costo neto retiro PPyE (Art. 43° LIR)", REF: m.contableCode, GLOSA: `Baja sustentada Informe Técnico ${m.contableCode}`, DEBE_PEN: neto, HABER_PEN: 0 });
+                rows.push({ ASIENTO: nro, FECHA: "31/12/2026", CUENTA_PCGE: (m.cuenta || "33311").substring(0, 5), DENOMINACION: "Propiedad, planta y equipo", REF: m.contableCode, GLOSA: `Retiro costo histórico ${m.contableCode}`, DEBE_PEN: 0, HABER_PEN: Number(m.costo.toFixed(2)) });
+            });
+            return rows;
+        }
+
+        function downloadPcgeCsv() {
+            const rows = buildPcgeJournalRows();
+            if (!rows.length) return alert("No hay partidas de ajuste/baja para contabilizar en el lote actual.");
+            const hdr = ["ASIENTO,FECHA,CUENTA_PCGE,DENOMINACION,REF,GLOSA,DEBE_PEN,HABER_PEN"];
+            rows.forEach(r => hdr.push(`${r.ASIENTO},${r.FECHA},${r.CUENTA_PCGE},"${r.DENOMINACION}",${r.REF},"${r.GLOSA}",${r.DEBE_PEN.toFixed(2)},${r.HABER_PEN.toFixed(2)}`));
+            const blob = new Blob([hdr.join("\r\n")], { type: "text/csv;charset=utf-8" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "Voucher_Asientos_PCGE_VegaSanchez.csv";
+            a.click();
+        }
+
+        function exportResultsToExcel() {
+            if (!currentMatches.length) return alert("Ejecute primero una conciliación.");
+            const wb = XLSX.utils.book_new();
+            const wsConc = XLSX.utils.json_to_sheet(currentMatches.map(m => ({
+                ESTADO_AUDITORIA: m.estado,
+                CODIGO_CAMPO: m.campoCode,
+                CODIGO_CONTABLE: m.contableCode,
+                CUENTA_PCGE: m.cuenta || "-",
+                DESCRIPCION_CAMPO: m.campoDesc,
+                DESCRIPCION_CONTABLE: m.contableDesc,
+                SERIE: m.serie,
+                COSTO_PEN: m.costo || 0,
+                DEPREC_ACUM_PEN: m.dep || 0,
+                VALOR_NETO_PEN: m.neto || 0,
+                SIMILITUD_PCT: Number((m.score * 100).toFixed(1)),
+                DICTAMEN: m.dictamen
+            })));
+            XLSX.utils.book_append_sheet(wb, wsConc, "Sabana Conciliacion");
+
+            const pcgeRows = buildPcgeJournalRows();
+            if (pcgeRows.length) {
+                XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(pcgeRows), "Asientos PCGE");
+            }
+            XLSX.writeFile(wb, "SGAF_Expediente_Conciliacion_VegaSanchez.xlsx");
+        }
+
+        // =========================================================================
+        // CODIFICADOR VECTORIAL CODE 128B EN NAVEGADOR (PLANCHA ETIQUETAS IMPRIMIBLE)
+        // =========================================================================
+        const CODE128_PATTERNS = [
+            "212222","222122","222221","121223","121322","131222","122213","122312","132212","221213","221312","231212",
+            "112232","122132","122231","113222","123122","123221","223211","221132","221231","213212","223112","312131",
+            "311222","321122","321221","312212","322112","322211","212123","212321","232121","111323","131123","131321",
+            "112313","132113","132311","211313","231113","231311","112133","112331","132131","113123","113321","133121",
+            "313121","211331","231131","213113","213311","213131","311123","311321","331121","312113","312311","332111",
+            "314111","221411","431111","111224","111422","121124","121421","141122","141221","112214","112412","122114",
+            "122411","142112","142211","241211","221114","413111","241112","134111","111242","121142","121241","114212",
+            "124112","124211","411212","421112","421211","212141","214121","412121","111143","111341","131141","114113",
+            "114311","411113","411311","113141","114131","311141","411131","211412","211214","211232","2331112"
+        ];
+
+        function encodeCode128B(raw) {
+            const clean = String(raw || "ACTIVO").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\x20-\x7E]/g, "-").substring(0, 20);
+            const vals = [104];
+            let chk = 104;
+            for (let i = 0; i < clean.length; i++) {
+                const v = clean.charCodeAt(i) - 32;
+                vals.push(v);
+                chk += (i + 1) * v;
+            }
+            vals.push(chk % 103);
+            vals.push(106);
+            let bits = "00000000";
+            for (const v of vals) {
+                const pat = CODE128_PATTERNS[v];
+                let bar = true;
+                for (const ch of pat) { bits += (bar ? "1" : "0").repeat(Number(ch)); bar = !bar; }
+            }
+            return bits + "00000000";
+        }
+
+        function printCode128Labels() {
+            const items = fieldAssets.length ? fieldAssets.slice(0, 24) : accountingAssets.slice(0, 24).map(a => ({ plaqueta: a.codigo, desc: a.desc, ubicacion: a.ubicacion }));
+            if (!items.length) return alert("Cargue activos primero.");
+            const cliente = document.getElementById("sunat-razon").value || FIRM_PROFILE.razonSocial;
+            const cards = items.map(it => {
+                const code = String(it.plaqueta || "SIN-COD").substring(0, 18);
+                const bits = encodeCode128B(code);
+                let rects = "";
+                for (let i = 0; i < bits.length; i++) {
+                    if (bits[i] === "1") rects += `<rect x="${i * 1.35}" y="0" width="1.35" height="38" fill="#000"/>`;
+                }
+                const svgW = (bits.length * 1.35).toFixed(1);
+                return `<div style="border:1px dashed #64748b;border-radius:6px;overflow:hidden;text-align:center;padding-bottom:6px;">
+                    <div style="background:#002b5c;color:#fff;font-size:9px;font-weight:700;padding:4px;">${escapeHtml(cliente.substring(0, 30))}</div>
+                    <svg width="92%" height="42" viewBox="0 0 ${svgW} 38" style="margin-top:6px;">${rects}</svg>
+                    <div style="font-family:monospace;font-weight:700;font-size:11px;">${escapeHtml(code)}</div>
+                    <div style="font-size:9px;color:#334155;padding:0 6px;">${escapeHtml(String(it.desc || "").substring(0, 32))}</div>
+                    <div style="font-size:8px;color:#64748b;">${escapeHtml(FIRM_PROFILE.razonSocial)}</div>
+                </div>`;
+            }).join("");
+
+            const w = window.open("", "_blank");
+            w.document.write(`<!DOCTYPE html><html><head><title>Plancha Etiquetas Code 128B — ${escapeHtml(FIRM_PROFILE.razonSocial)}</title>
+                <style>body{font-family:Arial,sans-serif;margin:12mm;}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}</style></head>
+                <body><div class="grid">${cards}</div><script>window.onload=()=>window.print();<\/script></body></html>`);
+            w.document.close();
+        }
+
+        // =========================================================================
+        // MOTOR DE TASACIONES RNT ART. 129 + ROSS-HEIDECKE + SEGUROS
+        // =========================================================================
+        function calculateRossHeidecke() {
+            const vrn = Math.abs(parseFloat(document.getElementById("val-vrn").value) || 0);
+            const age = Math.max(parseFloat(document.getElementById("val-age").value) || 0, 0);
+            const life = Math.max(parseFloat(document.getElementById("val-life").value) || 1, 1);
+            const C = parseFloat(document.getElementById("val-state").value) || 0;
+            const residualPct = Math.min(Math.max((parseFloat(document.getElementById("val-residual").value) || 10) / 100, 0), 0.5);
+            const isUsd = document.getElementById("val-currency").value === "USD";
+            const curr = isUsd ? "US$ " : "S/ ";
+
+            const x = Math.min(age / life, 1.0);
+            const factorRoss = 0.5 * (x + x * x);
+            const P = factorRoss + C * (1.0 - factorRoss);
+            const valorResidual = vrn * residualPct;
+            const depMonto = P * Math.max(vrn - valorResidual, 0);
+            const vnr = Math.max(vrn - depMonto, valorResidual);
+
+            document.getElementById("res-factor-ross").textContent = `${(factorRoss * 100).toFixed(2)}%`;
+            document.getElementById("res-dep-pct").textContent = `${(P * 100).toFixed(2)}%`;
+            document.getElementById("res-vnr").textContent = `${curr}${vnr.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            document.getElementById("res-seguro").textContent = `${curr}${vrn.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+
+            const vehBox = document.getElementById("vehicular-model-box");
+            if (isUsd) {
+                vehBox.style.display = "block";
+                const ot = Number((1.0 - 0.01 * age).toFixed(4));
+                const resRnt = Number((vrn * ot * residualPct).toFixed(2));
+                const depBase = ((vrn * ot) - resRnt) * (age / life);
+                const go = C <= 0.03 ? 0.95 : (C <= 0.10 ? 0.90 : 0.70);
+                const vrRaw = ((vrn * ot) - depBase) * go;
+                const vcUsd = vrRaw * 0.90;
+                const vcPen = vcUsd * 3.781;
+                document.getElementById("veh-vr-usd").textContent = `US$ ${vrRaw.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+                document.getElementById("veh-vc-usd").textContent = `US$ ${vcUsd.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+                document.getElementById("veh-vc-pen").textContent = `S/ ${vcPen.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+                document.getElementById("veh-ins-usd").textContent = `US$ ${vrn.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            } else {
+                vehBox.style.display = "none";
+            }
+        }
+
+        function generatePericialDictamen() {
+            const code = escapeHtml(document.getElementById("val-code").value);
+            const desc = escapeHtml(document.getElementById("val-desc").value);
+            const vnrTxt = escapeHtml(document.getElementById("res-vnr").textContent);
+            const segTxt = escapeHtml(document.getElementById("res-seguro").textContent);
+            const perito = escapeHtml(document.getElementById("val-perito").value);
+            const cliente = escapeHtml(document.getElementById("sunat-razon").value || "EMPRESA SOLICITANTE");
+            const fecha = new Date().toLocaleDateString("es-PE", { year: "numeric", month: "long", day: "numeric" });
+
+            const w = window.open("", "_blank");
+            w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Dictamen Pericial ${code}</title>
+                <style>body{font-family:'Segoe UI',Arial,sans-serif;margin:35px;color:#0f172a;}table{width:100%;border-collapse:collapse;margin:16px 0;}th,td{border:1px solid #cbd5e1;padding:9px 12px;text-align:left;}th{background:#f1f5f9;}.hl{background:#fef3c7;font-weight:700;}</style></head>
+                <body>
+                    <div style="border-bottom:2px solid #b45309;padding-bottom:10px;display:flex;justify-content:space-between;">
+                        <div><strong style="font-size:1.25rem;color:#003366;">${escapeHtml(FIRM_PROFILE.razonSocial)}</strong><br><small>RUC ${FIRM_PROFILE.ruc} &bull; Ingeniería Valuatoria RNT / SBS</small></div>
+                        <div style="text-align:right;font-size:0.85rem;">Código: VYS-TAS-${code}<br>Fecha: ${escapeHtml(fecha)}</div>
+                    </div>
+                    <h2 style="text-align:center;color:#003366;margin-top:20px;">DICTAMEN PERICIAL DE TASACIÓN OFICIAL (VALORES SIN IGV)</h2>
+                    <table>
+                        <tr><th>Solicitante:</th><td>${cliente}</td><th>Identificador / Placa:</th><td><strong>${code}</strong></td></tr>
+                        <tr><th>Descripción del Bien:</th><td colspan="3">${desc}</td></tr>
+                        <tr class="hl"><th>Valor Tasado Dictaminado:</th><td>${vnrTxt}</td><th>Suma Asegurable Póliza VRN:</th><td>${segTxt}</td></tr>
+                    </table>
+                    <div style="display:flex;justify-content:space-between;margin-top:65px;text-align:center;font-size:0.85rem;">
+                        <div style="border-top:1px solid #334155;width:240px;padding-top:6px;">${escapeHtml(FIRM_PROFILE.liderSistemas)}<br>${escapeHtml(FIRM_PROFILE.razonSocial)}</div>
+                        <div style="border-top:1px solid #334155;width:240px;padding-top:6px;">${perito}<br>${escapeHtml(FIRM_PROFILE.razonSocial)}</div>
+                    </div>
+                </body></html>`);
+            w.document.close();
+        }
+
+        // =========================================================================
+        // MOTOR TRIBUTARIO DINÁMICO: FERIADOS PERÚ (BUTCHER-MEEUS) + ART. 43° / 37-f
+        // =========================================================================
+        function getPeruHolidays(year) {
+            const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+            const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+            const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4;
+            const l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+            const month = Math.floor((h + l - 7 * m + 114) / 31) - 1;
+            const day = ((h + l - 7 * m + 114) % 31) + 1;
+            const easter = new Date(year, month, day);
+            const thu = new Date(easter); thu.setDate(easter.getDate() - 3);
+            const fri = new Date(easter); fri.setDate(easter.getDate() - 2);
+            const fmt = dt => `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
+            return new Set([
+                `${year}-01-01`, fmt(thu), fmt(fri), `${year}-05-01`, `${year}-06-07`, `${year}-06-29`,
+                `${year}-07-23`, `${year}-07-28`, `${year}-07-29`, `${year}-08-06`, `${year}-08-30`,
+                `${year}-10-08`, `${year}-11-01`, `${year}-12-08`, `${year}-12-09`, `${year}-12-25`
+            ]);
+        }
+
+        function isPeruBusinessDay(dt) {
+            if (dt.getDay() === 0 || dt.getDay() === 6) return false;
+            const key = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
+            return !getPeruHolidays(dt.getFullYear()).has(key);
+        }
+
+        function calculateMinSunatDate(businessDays) {
+            const d = new Date();
+            let added = 0;
+            while (added < businessDays) {
+                d.setDate(d.getDate() + 1);
+                if (isPeruBusinessDay(d)) added++;
+            }
+            d.setDate(d.getDate() + 1);
+            while (!isPeruBusinessDay(d)) d.setDate(d.getDate() + 1);
+            return d.toLocaleDateString("es-PE", { year: "numeric", month: "long", day: "numeric" });
+        }
+
+        function computeTaxSummary() {
+            const candidates = currentMatches.filter(m =>
+                m.contableCode !== "---" &&
+                m.estado !== "AUDITORIA_DOCUMENTAL_INMUEBLE" &&
+                m.estado !== "CONCILIADO_DOCUMENTAL" &&
+                (["MALO", "MUY_MALO", "CHATARRA"].includes(String(m.estadoFisico || "").toUpperCase()) || m.estado === "FALTANTE")
+            );
+            const withNeto = candidates.filter(m => (m.neto || 0) > 0.01);
+            const zeroNeto = accountingAssets.filter(a => !["331","332","339"].includes(String(a.cuenta||"").substring(0,3)) && Math.max(a.valor - a.dep, 0) <= 0.01);
+            const costoSum = withNeto.reduce((s, m) => s + (m.costo || 0), 0);
+            const depSum = withNeto.reduce((s, m) => s + (m.dep || 0), 0);
+            const netoSum = withNeto.reduce((s, m) => s + (m.neto || 0), 0);
+            const escudo = netoSum * 0.295;
+            return { withNeto, zeroNetoCount: zeroNeto.length, costoSum, depSum, netoSum, escudo };
+        }
+
+        function refreshTaxEngineFromData() {
+            const s = computeTaxSummary();
+            document.getElementById("kpi-desmedros-count").textContent = s.withNeto.length.toLocaleString("es-PE");
+            document.getElementById("kpi-desmedros-vneto").textContent = `S/ ${s.netoSum.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            document.getElementById("kpi-escudo-fiscal").textContent = `S/ ${s.escudo.toLocaleString("es-PE", {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            document.getElementById("kpi-castigo-cero").textContent = `${s.zeroNetoCount} bienes`;
+            renderInformeArt43();
+        }
+
+        function renderInformeArt43() {
+            const ruc = document.getElementById("sunat-ruc").value || "20550099114";
+            const razon = document.getElementById("sunat-razon").value || "EMPRESA AUDITADA S.A.";
+            const s = computeTaxSummary();
+            const list = s.withNeto.slice(0, 15).map((m, i) =>
+                `   ${String(i + 1).padStart(2, "0")}. [${m.contableCode}] ${m.contableDesc.substring(0, 44)} | Costo S/ ${m.costo.toFixed(2)} | V.Neto S/ ${m.neto.toFixed(2)}`
+            ).join("\n") || "   (Sin bienes con saldo neto pendiente en el filtro actual)";
+
+            document.getElementById("legal-doc-preview").textContent =
+`INFORME TÉCNICO PERICIAL DE BAJA DE ACTIVOS FIJOS POR OBSOLESCENCIA O DESUSO
+(Sustento Tributario Art. 43° TUO LIR D.S. 179-2004-EF y Art. 22° inc. i Reglamento LIR)
+
+1. CONTRIBUYENTE AUDITADO: ${razon} (RUC ${ruc})
+2. EMPRESA CONSULTORA:     ${FIRM_PROFILE.razonSocial} (RUC ${FIRM_PROFILE.ruc})
+
+3. LIQUIDACIÓN DEL COSTO COMPUTABLE DEDUCIBLE EN RENTA:
+   - Bienes Muebles con Saldo por Depreciar: ${s.withNeto.length} unidades
+   - Costo Histórico Asociado:               S/ ${s.costoSum.toLocaleString("es-PE", {minimumFractionDigits:2})}
+   - Depreciación Acumulada:                 S/ ${s.depSum.toLocaleString("es-PE", {minimumFractionDigits:2})}
+   - VALOR NETO DEDUCIBLE (GASTO ART. 43°):  S/ ${s.netoSum.toLocaleString("es-PE", {minimumFractionDigits:2})}
+   - ESCUDO FISCAL DIRECTO (29.5% I.R.):     S/ ${s.escudo.toLocaleString("es-PE", {minimumFractionDigits:2})}
+
+4. DETALLE ANALÍTICO DE ACTIVOS DICTAMINADOS:
+${list}
+
+5. PROTOCOLO DUAL-SIGNOFF:
+   ${FIRM_PROFILE.liderSistemas}  |  ${FIRM_PROFILE.peritoPrincipal}`;
+        }
+
+        function renderCartaSunat() {
+            const ruc = document.getElementById("sunat-ruc").value || "20550099114";
+            const razon = document.getElementById("sunat-razon").value || "EMPRESA AUDITADA S.A.";
+            const days = parseInt(document.getElementById("sunat-days-mode").value || "2", 10);
+            const fechaActo = calculateMinSunatDate(days);
+            const s = computeTaxSummary();
+            const exoneradoNotario = s.costoSum <= 53500;
+
+            document.getElementById("legal-doc-preview").textContent =
+`CARTA DE COMUNICACIÓN PREVIA DE DESTRUCCIÓN ANTE SUNAT
+(Art. 37° inc. f TUO LIR y Art. 21° inc. c Reglamento modificado por D.S. N° 086-2020-EF)
+
+Contribuyente: ${razon} (RUC N° ${ruc})
+Plazo Aplicado: Preaviso no menor a ${days} días hábiles (excluyendo sábados, domingos y 16 feriados nacionales)
+Fecha Hábil Mínima Programada de Destrucción: ${fechaActo} a las 10:00 horas
+Régimen Probatorio D.S. 086-2020-EF: ${exoneradoNotario ? "Informe Técnico Colegiado (<= 10 UIT, exonerado de Notario)" : "Constatación ante Notario Público (> 10 UIT)"}
+Empresa Consultora: ${FIRM_PROFILE.razonSocial} (RUC ${FIRM_PROFILE.ruc})
+
+Resumen Económico del Lote:
+- Unidades con Saldo Deducible: ${s.withNeto.length} bienes
+- Costo Histórico del Lote:     S/ ${s.costoSum.toLocaleString("es-PE", {minimumFractionDigits:2})}
+- Valor Neto Deducible:         S/ ${s.netoSum.toLocaleString("es-PE", {minimumFractionDigits:2})}
+- Escudo Fiscal (29.5% I.R.):   S/ ${s.escudo.toLocaleString("es-PE", {minimumFractionDigits:2})}`;
+        }
+
+        function renderActaNotarial() {
+            const ruc = document.getElementById("sunat-ruc").value || "20550099114";
+            const razon = document.getElementById("sunat-razon").value || "EMPRESA AUDITADA S.A.";
+            const days = parseInt(document.getElementById("sunat-days-mode").value || "2", 10);
+            const fechaActo = calculateMinSunatDate(days);
+            const s = computeTaxSummary();
+
+            document.getElementById("legal-doc-preview").textContent =
+`ACTA NOTARIAL DE CONSTATACIÓN Y DESTRUCCIÓN FÍSICA IRREVERSIBLE
+${FIRM_PROFILE.razonSocial} (RUC ${FIRM_PROFILE.ruc})
+
+En Lima, el ${fechaActo}, constituidos en la planta operativa de ${razon} (RUC ${ruc}), habiéndose verificado el cargo de comunicación previa a SUNAT conforme al D.S. N° 086-2020-EF, se constató la inutilización definitiva de ${s.withNeto.length} bienes inservibles auditados, certificándose un Valor Neto Deducible de S/ ${s.netoSum.toLocaleString("es-PE", {minimumFractionDigits:2})} y un Escudo Fiscal en Renta (29.5%) de S/ ${s.escudo.toLocaleString("es-PE", {minimumFractionDigits:2})}. Doy fe.-`;
+        }
+
+        function copyLegalDoc() {
+            const text = document.getElementById("legal-doc-preview").textContent;
+            navigator.clipboard?.writeText(text).then(() => alert("Documento copiado al portapapeles."));
+        }
+
+        function printLegalDoc() {
+            const text = escapeHtml(document.getElementById("legal-doc-preview").textContent);
+            const w = window.open("", "_blank");
+            w.document.write(`<html><head><title>Documento Tributario — ${escapeHtml(FIRM_PROFILE.razonSocial)}</title><style>body{font-family:monospace;white-space:pre-wrap;padding:30px;line-height:1.55;}</style></head><body>${text}</body></html>`);
+            w.document.close();
+            w.print();
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            loadSampleDemoData();
+            calculateRossHeidecke();
+        });
+    </script>
+</body>
+</html>

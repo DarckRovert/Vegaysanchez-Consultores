@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Contáctenos - Vega y Sánchez Consultores SAC Solicite una cotización para inventarios, valuaciones o saneamiento contable.">
+    <meta name="keywords" content="contacto, cotización, servicios contables, activos fijos, lima, peru">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vegaysanchez.com/contacto.html">
+    <meta property="og:title" content="Contacto | Vega y Sánchez Consultores SAC">
+    <meta property="og:description" content="Estamos listos para atender sus requerimientos. Contáctenos hoy mismo.">
+    <meta property="og:image" content="img/logo.png">
+
+    <title>Contacto | Vega y Sánchez Consultores SAC</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .contact-info-item i {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-right: 20px;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius-sm);
+            font-family: inherit;
+            background-color: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 51, 102, 0.1);
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Checkboxes Multi-Servicio Corporativos */
+        .services-checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 650px) {
+            .services-checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .service-checkbox-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: var(--border-radius-sm);
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .service-checkbox-card:hover {
+            border-color: var(--secondary-color);
+            background: #f1f5f9;
+        }
+
+        .service-checkbox-card input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .service-checkbox-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 51, 102, 0.06);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+
+        .service-checkbox-card .service-label-text {
+            font-size: 0.88rem;
+            line-height: 1.35;
+            color: #0f172a;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbarbox" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Vega y Sánchez Consultores SAC" class="nav-logo-img">
+            </a>
+
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="quienes-somos.html" class="nav-link">Quiénes Somos</a>
+                <div class="dropdown">
+                    <a href="index.html#servicios" class="nav-link">Servicios <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="inventarios.html">Inventario físico y conciliación contable del activo fijo</a>
+                        <a href="inventarios.html#existencias">Inventario físico y conciliación de existencias</a>
+                        <a href="valuaciones.html">Tasación de activos fijos y existencias</a>
+                        <a href="saneamiento.html">Digitación y escaneo de documentos del activo fijo</a>
+                    </div>
+                </div>
+                <a href="experiencia.html" class="nav-link">Experiencia</a>
+                <a href="oportunidad-laboral.html" class="nav-link">Oportunidad Laboral</a>
+                <a href="contacto.html" class="nav-link active btn-nav">Contáctenos</a>
+            </div>
+
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header"
+        style="background-image: linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 51, 102, 0.85)), url('img/two-businessman-shake-hand-in-coffee-shop_optimized.jpg');">
+        <div class="container header-content" data-aos="fade-up">
+            <h1>Contáctenos</h1>
+            <p>Estamos listos para atender sus requerimientos y brindarle la mejor solución.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section">
+        <div class="container">
+            <div class="contact-grid">
+                <div data-aos="fade-right">
+                    <h2 style="margin-bottom: 30px; color: var(--primary-color);">Información de Contacto</h2>
+                    <p style="margin-bottom: 40px; color: var(--text-light);">
+                        Póngase en contacto con nosotros para solicitar una cotización o resolver cualquier duda sobre
+                        nuestros servicios. Nuestro equipo le responderá a la brevedad.
+                    </p>
+
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <strong>Teléfono / Celular:</strong><br>
+                            <a href="tel:+51997754542" style="color: var(--text-main);">997754542</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Correo Electrónico:</strong><br>
+                            <a href="mailto:gvega@vegaysanchez.com"
+                                style="color: var(--text-main);">gvega@vegaysanchez.com</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>Ubicación:</strong><br>
+                            Calle Central Mz. B Lt.17 Of. 301 Los Girasoles La Molina Lima
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px;">
+                        <h4 style="margin-bottom: 15px;">Síguenos en redes sociales:</h4>
+                        <div style="display: flex; gap: 20px; font-size: 1.8rem;">
+                            <a href="https://facebook.com/vegaysanchez" target="_blank" style="color: #3b5998;"><i
+                                    class="fab fa-facebook"></i></a>
+                            <a href="https://linkedin.com/company/vegaysanchez" target="_blank"
+                                style="color: #0077b5;"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-left"
+                    style="background: white; padding: 40px; border-radius: var(--border-radius-md); box-shadow: var(--shadow-md); border-top: 5px solid var(--secondary-color);">
+                    <h3 style="margin-bottom: 25px; color: var(--primary-color);">Envíenos un mensaje</h3>
+                    <form id="contact-form">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="nombre">Nombre Completo *</label>
+                                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Ing. Carlos Mendoza">
+                            </div>
+                            <div class="form-group">
+                                <label for="empresa">Empresa / RUC *</label>
+                                <input type="text" id="empresa" name="empresa" required placeholder="Ej. Minera del Sur S.A.C. / 20...">
+                            </div>
+                        </div>
+
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico Corporativo *</label>
+                                <input type="email" id="email" name="email" required placeholder="cmendoza@empresa.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono">Teléfono / Celular *</label>
+                                <input type="tel" id="telefono" name="telefono" required placeholder="Ej. 998 765 432">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 22px;">
+                            <label style="font-weight: 600; display: block; margin-bottom: 8px; color: var(--primary-color);">
+                                Servicios de Interés (Puede marcar uno o varios) *
+                            </label>
+                            <div class="services-checkbox-grid">
+                                <label class="service-checkbox-card">
+                                    <input type="checkbox" name="servicios" value="Inventario físico y conciliación contable del activo fijo">
+                                    <span class="service-label-text">Inventario físico y conciliación contable del activo fijo</span>
+                                </label>
+                                <label class="service-checkbox-card">
+                                    <input type="checkbox" name="servicios" value="Inventario físico y conciliación de existencias">
+                                    <span class="service-label-text">Inventario físico y conciliación de existencias</span>
+                                </label>
+                                <label class="service-checkbox-card">
+                                    <input type="checkbox" name="servicios" value="Tasación de activos fijos y existencias">
+                                    <span class="service-label-text">Tasación de activos fijos y existencias</span>
+                                </label>
+                                <label class="service-checkbox-card">
+                                    <input type="checkbox" name="servicios" value="Digitación y escaneo de documentos del activo fijo">
+                                    <span class="service-label-text">Digitación y escaneo de documentos del activo fijo</span>
+                                </label>
+                            </div>
+                            <div id="servicio-error" style="display: none; color: #dc2626; font-size: 0.85rem; margin-top: 8px; font-weight: 600;">
+                                <i class="fas fa-exclamation-circle"></i> Por favor seleccione al menos un servicio de interés para cotizar.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="volumen">Volumen Estimado de Bienes</label>
+                            <select id="volumen" name="volumen">
+                                <option value="Hasta 1,000 ítems">Hasta 1,000 ítems</option>
+                                <option value="1,000 a 5,000 ítems">1,000 a 5,000 ítems</option>
+                                <option value="5,000 a 20,000 ítems">5,000 a 20,000 ítems</option>
+                                <option value="Más de 20,000 ítems (Planta / Multi-sede)">Más de 20,000 ítems (Planta / Multi-sede)</option>
+                                <option value="Por determinar / Asesoría previa">Por determinar / Asesoría previa</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mensaje">Detalles del Requerimiento *</label>
+                            <textarea id="mensaje" name="mensaje" rows="4" required style="resize: vertical;"
+                                placeholder="Indique la ubicación de las instalaciones, objetivos del servicio o fechas estimadas para la ejecución..."></textarea>
+                        </div>
+
+                        <div id="form-feedback" style="display: none; padding: 14px; margin-bottom: 20px; border-radius: var(--border-radius-sm); font-size: 0.95rem; line-height: 1.5;"></div>
+
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <button type="submit" id="btn-submit-quote" class="btn" style="flex: 1; min-width: 220px; justify-content: center;">
+                                <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Solicitar Cotización Formal
+                            </button>
+                            <button type="button" id="btn-whatsapp-quote" class="btn" style="background: #25D366; color: white; border: none; flex: 1; min-width: 220px; justify-content: center;">
+                                <i class="fab fa-whatsapp" style="margin-right: 8px;"></i> Cotizar por WhatsApp
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section style="height: 400px; width: 100%;">
+        <iframe
+            src="https://maps.google.com/maps?q=Calle%20Central%20Mz.%20B%20Lt.17%20Of.%20301%20Los%20Girasoles%20La%20Molina%20Lima&t=&z=17&ie=UTF8&iwloc=&output=embed"
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="Vega y Sánchez">
+                        <span>Vega y Sánchez Consultores SAC</span>
+                    </div>
+                    <p>Consultoría de Gestión Integral del Activo Fijo y Existencias. Comprometidos con la excelencia y
+                        la
+                        satisfacción de nuestros clientes.</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://linkedin.com/company/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/51997754542" class="social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+                        <li><a href="index.html#servicios">Servicios</a></li>
+                        <li><a href="experiencia.html">Experiencia</a></li>
+                        <li><a href="oportunidad-laboral.html">Oportunidad Laboral</a></li>
+                        <li><a href="contacto.html">Contáctenos</a></li>
+                        <li><a href="dashboard.html" style="color: var(--secondary-color); font-weight: 600;"><i class="fas fa-th-large"></i> Plataforma SGAF</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Central Mz. B Lt.17 Of. 301 Los Girasoles La Molina
+                        Lima</p>
+                    <p><i class="fas fa-phone"></i> 997754542</p>
+                    <p><i class="fas fa-envelope"></i> gvega@vegaysanchez.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2026</span> Vega y Sánchez Consultores SAC — Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <a href="https://wa.me/51997754542" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+
+</html>

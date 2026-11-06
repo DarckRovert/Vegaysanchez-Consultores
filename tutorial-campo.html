@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Visual de Campo — Vega y Sánchez Consultores SAC</title>
+    <style>
+        :root {
+            --navy: #002244;
+            --navy-dark: #00152b;
+            --navy-light: #003366;
+            --gold: #c59b27;
+            --gold-light: #f7e7b4;
+            --emerald: #059669;
+            --emerald-light: #d1fae5;
+            --ruby: #e11d48;
+            --slate: #0f172a;
+            --slate-light: #f8fafc;
+            --card-border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background: #f1f5f9; color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+
+        header {
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+            color: #fff;
+            padding: 30px 20px;
+            border-bottom: 4px solid var(--gold);
+            text-align: center;
+        }
+        .header-wrap { max-width: 900px; margin: 0 auto; }
+        .badge {
+            display: inline-block;
+            background: rgba(197, 155, 39, 0.2);
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
+        p.subtitle { font-size: 1rem; color: #cbd5e1; max-width: 700px; margin: 0 auto; }
+
+        .container { max-width: 960px; margin: -20px auto 0; padding: 0 15px; }
+
+        /* Banner Resumen Visual */
+        .summary-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            border: 1px solid var(--card-border);
+            margin-bottom: 30px;
+        }
+        .summary-card h2 {
+            font-size: 1.2rem;
+            color: var(--navy);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            position: relative;
+        }
+        .flow-item {
+            background: var(--slate-light);
+            border-radius: 12px;
+            padding: 18px 14px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+        .flow-step-num {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--navy);
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--gold);
+        }
+        .flow-icon { font-size: 2rem; margin: 8px 0 6px; }
+        .flow-item h3 { font-size: 0.95rem; color: var(--navy); margin-bottom: 4px; font-weight: 700; }
+        .flow-item p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.3; }
+
+        /* Reglas de Oro */
+        .golden-rules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .rule-card {
+            background: #fff;
+            border-left: 5px solid var(--gold);
+            padding: 16px 18px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border-top: 1px solid #f1f5f9;
+            border-right: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .rule-card h4 { font-size: 0.95rem; color: var(--navy); margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .rule-card p { font-size: 0.85rem; color: #475569; }
+
+        /* Secciones Paso a Paso */
+        .step-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 26px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid var(--card-border);
+            margin-bottom: 25px;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 14px;
+        }
+        .step-badge {
+            background: var(--navy);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .step-badge span { color: var(--gold); }
+        .step-title h3 { font-size: 1.25rem; color: var(--navy); font-weight: 800; }
+        .step-title p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        .instructions-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .instructions-list li {
+            position: relative;
+            padding-left: 36px;
+            font-size: 0.92rem;
+            color: #334155;
+        }
+        .instructions-list li .num-bullet {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: #e2e8f0;
+            color: var(--navy);
+            font-weight: 800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        .instructions-list li strong { color: var(--navy); }
+
+        /* Simulación de Pantallas (Mockups) */
+        .mockup-phone {
+            background: #0a0f1d;
+            border: 8px solid #1e293b;
+            border-radius: 28px;
+            padding: 16px;
+            color: #fff;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+            max-width: 320px;
+            margin: 0 auto;
+        }
+        .phone-notch {
+            width: 90px;
+            height: 12px;
+            background: #1e293b;
+            border-radius: 0 0 10px 10px;
+            margin: -16px auto 12px;
+        }
+        .phone-header {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--gold);
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        .mockup-input {
+            background: #131c31;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+        }
+        .mockup-input label { display: block; font-size: 0.65rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+        .mockup-input .val { color: #fff; font-weight: 600; }
+        .mockup-input.highlight { border-color: var(--gold); background: rgba(197, 155, 39, 0.1); }
+        .mockup-btn {
+            background: var(--emerald);
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+        }
+        .mockup-btn-gold { background: var(--gold); color: #000; }
+        .mockup-camera {
+            background: #000;
+            border: 1px dashed #475569;
+            height: 120px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .watermark-strip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            font-size: 0.55rem;
+            color: #48bb78;
+            font-family: monospace;
+            padding: 3px 6px;
+            text-align: left;
+        }
+
+        /* Mockup Laptop */
+        .mockup-laptop {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 12px;
+            color: #f8fafc;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .laptop-topbar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+        .qr-box {
+            background: #fff;
+            color: #000;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin: 10px auto;
+            max-width: 220px;
+            border: 2px solid var(--gold);
+        }
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 10px;
+            background: repeating-linear-gradient(45deg, #000, #000 10px, #fff 10px, #fff 20px);
+            border-radius: 6px;
+        }
+
+        /* Diagrama Activo vs Serie */
+        .machine-diagram {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .tag-callout {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #7dd3fc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin: 6px;
+        }
+        .serial-callout {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin: 6px;
+        }
+
+        /* Tabla de Preguntas Frecuentes */
+        .faq-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .faq-table th, .faq-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.88rem; }
+        .faq-table th { background: #f8fafc; color: var(--navy); font-weight: 700; }
+        .faq-table tr:hover { background: #f8fafc; }
+
+        .btn-print {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--navy-dark);
+            font-weight: 800;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            margin-top: 15px;
+        }
+        .btn-print:hover { opacity: 0.9; }
+
+        @media print {
+            body { background: #fff; }
+            .btn-print, header { display: none; }
+            .summary-card, .step-section { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-wrap">
+        <div class="badge">MANUAL DE OPERACIONES EN TERRENO • VERSIÓN 5.3</div>
+        <h1>Cómo Levantar un Inventario Físico en Campo</h1>
+        <p class="subtitle">Guía visual a prueba de errores para directores, jefes de proyecto y brigadistas. Desde la llegada a planta hasta la entrega del informe.</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- INFOGRAFÍA ISOMÉTRICA DE ARQUITECTURA EN CAMPO -->
+    <div class="summary-card" style="text-align:center; padding: 16px; margin-bottom: 20px;">
+        <picture>
+            <source srcset="img/tutorial_flujo_campo.webp" type="image/webp">
+            <img src="img/tutorial_flujo_campo.jpg" alt="Flujo Operativo de Inventario en Campo Vega y Sánchez" style="width:100%; max-height:480px; object-fit:cover; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.12);">
+        </picture>
+        <p style="font-size:0.8rem; color:#64748b; margin-top:10px;">
+            <strong>Ecosistema Soberano SGAF-V&S v5.3:</strong> Laptop Supervisor (Hub QR Offline) ➔ Celular Brigadista (Captura PWA + Serie Fabril DNI) ➔ Paquete Cifrado (.vyspack) ➔ 7 Entregables Periciales en 1 Clic.
+        </p>
+    </div>
+
+    <!-- RESUMEN VISUAL EN 4 PASOS -->
+    <div class="summary-card">
+        <h2>🧭 El Ciclo de Campo en 4 Pasos Simples</h2>
+        <div class="flow-grid">
+            <div class="flow-item">
+                <div class="flow-step-num">1</div>
+                <div class="flow-icon">💻</div>
+                <h3>Supervisor Prepara</h3>
+                <p>Abre la laptop, crea el operativo y genera el Código QR de la brigada.</p>
+            </div>
+            <div class="flow-item">
+                <div class="flow-step-num">2</div>
+                <div class="flow-icon">📱</div>
+                <h3>Celular se Activa</h3>
+                <p>El brigadista escanea el QR con su teléfono, pone su DNI y crea su PIN.</p>
+            </div>
+            <div class="flow-item">
+                <div class="flow-step-num">3</div>
+                <div class="flow-icon">🏷️</div>
+                <h3>Toma de Datos</h3>
+                <p>Pega etiqueta física, copia la Serie Fabril y toma foto con GPS (100% offline).</p>
+            </div>
+            <div class="flow-item">
+                <div class="flow-step-num">4</div>
+                <div class="flow-icon">🚀</div>
+                <h3>Cierre a 1 Clic</h3>
+                <p>A las 17:00 presiona "Enviar por WhatsApp" o sincroniza por Wi-Fi. Listo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAS 3 REGLAS DE ORO -->
+    <div class="golden-rules">
+        <div class="rule-card">
+            <h4>💡 REGLA 1: La Serie es el DNI</h4>
+            <p>Las descripciones cambian, pero la <strong>Serie de Fábrica</strong> nunca. Búscala siempre en la placa de metal del motor o chasis. Si es vehículo, usa la <strong>Placa</strong>.</p>
+        </div>
+        <div class="rule-card">
+            <h4>📡 REGLA 2: No necesitas Internet</h4>
+            <p>El teléfono guarda todo en su memoria interna. Puedes estar dentro de un socavón minero o galpón cerrado y funcionará sin interrupciones.</p>
+        </div>
+        <div class="rule-card">
+            <h4>🔒 REGLA 3: Conteo Ciego Seguro</h4>
+            <p>El brigadista no ve precios ni listas contables del cliente. Al terminar el día, el celular se limpia y no queda ningún dato comprometido.</p>
+        </div>
+    </div>
+
+    <!-- PASO 1 DETALLADO -->
+    <div class="step-section">
+        <div class="step-header">
+            <div class="step-badge">PASO <span>01</span></div>
+            <div class="step-title">
+                <h3>En la Laptop del Supervisor (Antes de entrar a planta)</h3>
+                <p>Configuración del operativo y emisión de carnets QR para el equipo.</p>
+            </div>
+        </div>
+        <div class="two-col">
+            <div>
+                <ul class="instructions-list">
+                    <li>
+                        <div class="num-bullet">1</div>
+                        <strong>Encender el Hub:</strong> En la laptop, ve a la carpeta del proyecto y haz doble clic sobre <code>iniciar_hub_brigada.bat</code>.
+                    </li>
+                    <li>
+                        <div class="num-bullet">2</div>
+                        <strong>Ingresar al Panel:</strong> Se abrirá el navegador en <code>http://localhost:8765/supervisor</code>. Escribe la clave de 8 caracteres que sale en la consola negra.
+                    </li>
+                    <li>
+                        <div class="num-bullet">3</div>
+                        <strong>Crear el Operativo:</strong> Clic en "Crear Operativo", pon el nombre del cliente (ej. <em>Minera Volcan</em>) y la sede.
+                    </li>
+                    <li>
+                        <div class="num-bullet">4</div>
+                        <strong>Entregar Rollo y QR:</strong> Clic en "Nueva Credencial". Pon el nombre de la brigada (ej. <code>BRIG-01</code>) y el rango de etiquetas físicas que le vas a entregar (ej. del <code>AF-0001</code> al <code>AF-0500</code>).
+                    </li>
+                    <li>
+                        <div class="num-bullet">5</div>
+                        <strong>Mostrar pantalla:</strong> Aparecerá un Código QR grande en la pantalla de la laptop. ¡Llama al brigadista para que lo escanee!
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="mockup-laptop">
+                    <div class="laptop-topbar">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                        <span style="font-size:0.7rem; color:#94a3b8; margin-left:6px;">SGAF Hub v5.3 • Panel Supervisor</span>
+                    </div>
+                    <div style="font-size:0.8rem; font-weight:700; color:#38bdf8; margin-bottom:8px;">OPERATIVO: Minera Volcan 2026</div>
+                    <div class="qr-box">
+                        <div style="font-size:0.75rem; color:#64748b; margin-bottom:4px;">CREDENCIAL EFÍMERA</div>
+                        <div class="qr-placeholder"></div>
+                        <div>BRIGADA 01</div>
+                        <div style="font-size:0.7rem; color:#059669;">Rango: AF-0001 a AF-0500</div>
+                    </div>
+                    <div style="text-align:center; font-size:0.7rem; color:#94a3b8;">El brigadista apunta su celular a este recuadro</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 2 DETALLADO -->
+    <div class="step-section">
+        <div class="step-header">
+            <div class="step-badge">PASO <span>02</span></div>
+            <div class="step-title">
+                <h3>En el Celular del Brigadista (Enrolamiento en 30 segundos)</h3>
+                <p>No se instala nada de Google Play ni App Store. Solo se abre en el navegador.</p>
+            </div>
+        </div>
+        <div class="two-col">
+            <div>
+                <ul class="instructions-list">
+                    <li>
+                        <div class="num-bullet">1</div>
+                        <strong>Abrir en el Navegador:</strong> Abre Chrome o Safari e ingresa a:  
+                        <a href="https://darckrovert.github.io/Vegaysanchez-Consultores/campo.html" target="_blank" style="color:#0284c7; font-weight:700;">https://darckrovert.github.io/Vegaysanchez-Consultores/campo.html</a>
+                    </li>
+                    <li>
+                        <div class="num-bullet">2</div>
+                        <strong>Escanear Credencial:</strong> Toca el botón <strong>"Escanear QR de Enrolamiento"</strong> y apunta la cámara a la laptop del supervisor.
+                    </li>
+                    <li>
+                        <div class="num-bullet">3</div>
+                        <strong>Ingresar DNI y PIN:</strong> Escribe tu número de DNI y crea un PIN de 6 dígitos que recordarás para desbloquear el celular.
+                    </li>
+                    <li>
+                        <div class="num-bullet">4</div>
+                        <strong>Aceptar Casillas Legales:</strong> Marca las dos casillas obligatorias de Confidencialidad (Ley 29733) y Seguridad en el Trabajo (Ley 29783).
+                    </li>
+                    <li>
+                        <div class="num-bullet">5</div>
+                        <strong>Tocar "Comenzar Inventario":</strong> ¡Listo! El celular queda bloqueado en tu rango asignado de etiquetas.
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="mockup-phone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-header">SGAF CAMPO v5.3 • ENROLAMIENTO</div>
+                    <div class="mockup-input">
+                        <label>Operativo Detectado</label>
+                        <div class="val" style="color:#38bdf8;">Minera Volcan 2026</div>
+                    </div>
+                    <div class="mockup-input">
+                        <label>DNI del Trabajador</label>
+                        <div class="val">47895612</div>
+                    </div>
+                    <div class="mockup-input">
+                        <label>Crear PIN de 6 Dígitos</label>
+                        <div class="val">••••••</div>
+                    </div>
+                    <div style="font-size:0.65rem; color:#94a3b8; margin:8px 0;">
+                        ☑ Acepto Confidencialidad NDA Ley 29733<br>
+                        ☑ Acepto Normas SST/EPP Ley 29783
+                    </div>
+                    <div class="mockup-btn mockup-btn-gold">COMENZAR INVENTARIO ➔</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 3 DETALLADO: DÓNDE PEGAR Y DÓNDE BUSCAR -->
+    <div class="step-section">
+        <div class="step-header">
+            <div class="step-badge">PASO <span>03</span></div>
+            <div class="step-title">
+                <h3>El Trabajo Frente a la Máquina (Toma de Datos)</h3>
+                <p>Cómo pegar la etiqueta y dónde encontrar el DNI del activo.</p>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <div class="machine-diagram">
+                <h4 style="color:var(--navy); margin-bottom:10px;">ANATOMÍA DEL REGISTRO DE UN ACTIVO EN PLANTA</h4>
+                <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:15px 0;">
+                    <div style="background:#fff; border:2px solid #0284c7; border-radius:10px; padding:15px; width:280px; text-align:left;">
+                        <span class="tag-callout">1. ETIQUETA NUEVA V&S</span>
+                        <div style="font-size:0.8rem; color:#334155; margin-top:8px;">
+                            • Se pega en superficie lisa y limpia.<br>
+                            • Tiene código de barras Code 128B.<br>
+                            • Se escanea con la cámara del celular.
+                        </div>
+                    </div>
+                    <div style="background:#fff; border:2px solid #d97706; border-radius:10px; padding:15px; width:280px; text-align:left;">
+                        <span class="serial-callout">2. PLACA DE FÁBRICA ORIGINAL</span>
+                        <div style="font-size:0.8rem; color:#334155; margin-top:8px;">
+                            • Placa de metal remachada al motor/chasis.<br>
+                            • Contiene: Marca, Modelo y <strong>SERIE</strong>.<br>
+                            • <em>¡ESTA SERIE ES EL DNI DEL ACTIVO!</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <ul class="instructions-list">
+                    <li>
+                        <div class="num-bullet">1</div>
+                        <strong>Pegar y Escanear:</strong> Pega la etiqueta patrimonial (ej. <code>AF-0001</code>) y presiona "Escanear Plaqueta". El celular pitará al leerla.
+                    </li>
+                    <li>
+                        <div class="num-bullet">2</div>
+                        <strong>Copiar la Serie Fabril:</strong> Busca la placa metálica de la máquina y copia la serie exacta (ej. <code>SN-481029-X</code>). Si es vehículo, escribe la <strong>Placa</strong> (ej. <code>ABC-123</code>).
+                    </li>
+                    <li>
+                        <div class="num-bullet">3</div>
+                        <strong>Marca y Modelo:</strong> Escribe la marca (ej. <em>Caterpillar</em>) y el modelo (ej. <em>320D</em>).
+                    </li>
+                    <li>
+                        <div class="num-bullet">4</div>
+                        <strong>Estado Físico:</strong> Marca <strong>Bueno [B]</strong>, <strong>Regular [R]</strong>, <strong>Malo [M]</strong> o <strong>Chatarra [C]</strong>.
+                    </li>
+                    <li>
+                        <div class="num-bullet">5</div>
+                        <strong>Tomar Foto con Cintillo:</strong> Presiona la cámara. El celular estampará en la foto: Fecha, Hora, Plaqueta y Coordenadas GPS satelitales.
+                    </li>
+                    <li>
+                        <div class="num-bullet">6</div>
+                        <strong>Tocar "Guardar Registro":</strong> El celular vibra, guarda el registro offline y pasa al siguiente código (<code>AF-0002</code>).
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="mockup-phone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-header" style="color:#10b981;">● OFFLINE • CAPTURA ACTIVA</div>
+                    <div class="mockup-input">
+                        <label>Plaqueta Escaneada</label>
+                        <div class="val" style="color:#38bdf8;">AF-0001</div>
+                    </div>
+                    <div class="mockup-input highlight">
+                        <label>⭐ SERIE FABRIL (DNI DEL ACTIVO)</label>
+                        <div class="val" style="color:#fcd34d;">CAT-320D-998241</div>
+                    </div>
+                    <div class="mockup-input">
+                        <label>Descripción / Denominación</label>
+                        <div class="val">Excavadora Hidráulica 20 Tn</div>
+                    </div>
+                    <div class="mockup-camera">
+                        <span>📷 FOTO REGISTRADA</span>
+                        <div class="watermark-strip">
+                            2026-11-05 14:32 UTC | AF-0001 | GPS: -12.074, -76.924 | BRIG-01
+                        </div>
+                    </div>
+                    <div class="mockup-btn">GUARDAR REGISTRO (BEEP 🔔)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 4 DETALLADO -->
+    <div class="step-section">
+        <div class="step-header">
+            <div class="step-badge">PASO <span>04</span></div>
+            <div class="step-title">
+                <h3>Cierre de Turno y Despacho (17:00 hrs)</h3>
+                <p>Cómo enviar los datos al supervisor y limpiar el teléfono de forma segura.</p>
+            </div>
+        </div>
+        <div class="two-col">
+            <div>
+                <ul class="instructions-list">
+                    <li>
+                        <div class="num-bullet">1</div>
+                        <strong>Alerta de Cierre:</strong> A las 17:00 salta en la pantalla del celular un aviso dorado: <em>"Fin de Turno Pericial"</em>.
+                    </li>
+                    <li>
+                        <div class="num-bullet">2</div>
+                        <strong>Opción A (Wi-Fi cerca de la laptop):</strong> Te acercas a la laptop del supervisor y tocas <strong>"Sincronizar Lote"</strong>. Los datos pasan en 3 segundos.
+                    </li>
+                    <li>
+                        <div class="num-bullet">3</div>
+                        <strong>Opción B (Por WhatsApp):</strong> Si estás lejos, tocas <strong>"Despachar por WhatsApp"</strong>. Se genera un archivo blindado <code>.vyspack</code> y se envía al chat de gerencia. Nadie en el camino puede abrirlo porque tiene cifrado militar.
+                    </li>
+                    <li>
+                        <div class="num-bullet">4</div>
+                        <strong>Limpieza (Crypto-Wipe):</strong> Una vez que el supervisor confirmó que recibió todo, tocas <strong>"Limpiar Teléfono"</strong>. Tu celular queda 100% limpio sin fotos ni datos del cliente.
+                    </li>
+                    <li>
+                        <div class="num-bullet">5</div>
+                        <strong>En la Laptop del Supervisor:</strong> El supervisor abre <em>SGAF Studio Desktop</em>, presiona un botón y en 10 segundos el sistema cruza lo físico contra el ERP contable y emite el archivo ZIP con los 7 informes listos.
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <div class="mockup-phone" style="border-color:#d97706;">
+                    <div class="phone-notch"></div>
+                    <div class="phone-header" style="color:#fcd34d;">🏁 FIN DE TURNO PERICIAL</div>
+                    <div style="background:rgba(217, 119, 6, 0.15); border:1px solid #d97706; border-radius:8px; padding:10px; margin-bottom:12px; font-size:0.75rem; text-align:center;">
+                        142 activos capturados hoy con éxito.
+                    </div>
+                    <div class="mockup-btn" style="background:#0284c7; margin-bottom:8px;">
+                        📶 Sincronizar por Wi-Fi Local
+                    </div>
+                    <div class="mockup-btn" style="background:#25d366; color:#000; margin-bottom:12px;">
+                        💬 Despachar por WhatsApp (.vyspack)
+                    </div>
+                    <div style="border-top:1px solid #334155; padding-top:10px;">
+                        <div class="mockup-btn" style="background:rgba(239, 68, 68, 0.2); border:1px solid #ef4444; color:#fca5a5; font-size:0.75rem;">
+                            🗑️ Limpiar Teléfono (Crypto-Wipe)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREGUNTAS FRECUENTES Y CASOS REALES -->
+    <div class="step-section">
+        <div class="step-header">
+            <div class="step-badge">FAQ</div>
+            <div class="step-title">
+                <h3>Preguntas Frecuentes y Situaciones en Planta</h3>
+                <p>Respuestas rápidas para resolver cualquier duda en el momento.</p>
+            </div>
+        </div>
+        <table class="faq-table">
+            <thead>
+                <tr>
+                    <th style="width:35%;">¿Qué pasa si...?</th>
+                    <th>¿Qué debes hacer?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>¿Se va la señal de internet o no hay datos?</strong></td>
+                    <td>Absolutamente nada. El sistema funciona 100% desconectado. Sigue escaneando y guardando normalmente; todo se guarda en la memoria del teléfono.</td>
+                </tr>
+                <tr>
+                    <td><strong>¿La máquina está sucia o con grasa?</strong></td>
+                    <td>Limpia siempre la superficie con un trapo antes de pegar la etiqueta para que no se caiga.</td>
+                </tr>
+                <tr>
+                    <td><strong>¿La serie de la máquina está raspada o ilegible?</strong></td>
+                    <td>Marca la casilla <strong>"Serie Ilegible"</strong> y toma una foto de cerca a la placa dañada para sustento pericial.</td>
+                </tr>
+                <tr>
+                    <td><strong>¿La pantalla se apaga o la cámara se suspende?</strong></td>
+                    <td>Es el <strong>Modo Eco-Batería</strong> para que no se gaste la batería de tu teléfono. Toca la pantalla y se vuelve a encender al instante.</td>
+                </tr>
+                <tr>
+                    <td><strong>¿Cierro la pestaña del navegador por error?</strong></td>
+                    <td>El <strong>Guardián Anti-Pérdida</strong> no te dejará cerrar si tienes inventarios pendientes. Vuelve a abrir la página y tus datos seguirán intactos.</td>
+                </tr>
+                <tr>
+                    <td><strong>¿El cliente pide un informe preliminar urgente?</strong></td>
+                    <td>En la laptop del supervisor, doble clic en <code>GENERAR_ENTREGABLES_Y_ZIP.bat</code> y en 10 segundos tienen el archivo ZIP con los informes.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

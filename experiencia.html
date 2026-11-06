@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Experiencia de Vega y Sánchez Consultores SAC Asesoramos empresas en todas las etapas de su desarrollo.">
+    <meta name="keywords" content="experiencia, clientes, proyectos, consultoria, activos fijos, peru">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vegaysanchez.com/experiencia.html">
+    <meta property="og:title" content="Experiencia | Vega y Sánchez Consultores SAC">
+    <meta property="og:description" content="Vea nuestra galería de proyectos y clientes satisfechos.">
+    <meta property="og:image" content="img/logo.png">
+
+    <title>Experiencia | Vega y Sánchez Consultores SAC</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            height: 150px;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item picture {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbarbox" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Vega y Sánchez Consultores SAC" class="nav-logo-img">
+            </a>
+
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="quienes-somos.html" class="nav-link">Quiénes Somos</a>
+                <div class="dropdown">
+                    <a href="index.html#servicios" class="nav-link">Servicios <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="inventarios.html">Inventario físico y conciliación contable del activo fijo</a>
+                        <a href="inventarios.html#existencias">Inventario físico y conciliación de existencias</a>
+                        <a href="valuaciones.html">Tasación de activos fijos y existencias</a>
+                        <a href="saneamiento.html">Digitación y escaneo de documentos del activo fijo</a>
+                    </div>
+                </div>
+                <a href="experiencia.html" class="nav-link active">Experiencia</a>
+                <a href="oportunidad-laboral.html" class="nav-link">Oportunidad Laboral</a>
+                <a href="contacto.html" class="nav-link btn-nav">Contáctenos</a>
+            </div>
+
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header">
+        <div class="overlay"></div>
+        <div class="container header-content" data-aos="fade-up">
+            <h1>Experiencia</h1>
+            <p>Nuestro personal asesora y aconseja a las empresas en todas las etapas de su desarrollo.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Nuestros Clientes</h2>
+                <p class="section-subtitle">Empresas que confían en nuestra excelencia.</p>
+            </div>
+
+            <!-- Client Logos / Experience Gallery -->
+            <div class="gallery-grid">
+                <!-- Socio Estratégico -->
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/rdde.webp" type="image/webp">
+                        <img src="img/rdde.png" alt="Socio Estratégico RDDE" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <!-- Luz del Sur -->
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/luz-del-sur.webp" type="image/webp">
+                        <img src="img/luz-del-sur.png" alt="Luz del Sur" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_01.webp" type="image/webp">
+                        <img src="img/b6_01.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_02.webp" type="image/webp">
+                        <img src="img/b6_02.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_03.webp" type="image/webp">
+                        <img src="img/b6_03.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_04.webp" type="image/webp">
+                        <img src="img/b6_04.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_05.webp" type="image/webp">
+                        <img src="img/b6_05.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_06.webp" type="image/webp">
+                        <img src="img/b6_06.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_07.webp" type="image/webp">
+                        <img src="img/b6_07.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_08.webp" type="image/webp">
+                        <img src="img/b6_08.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_09.webp" type="image/webp">
+                        <img src="img/b6_09.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_10.webp" type="image/webp">
+                        <img src="img/b6_10.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_11.webp" type="image/webp">
+                        <img src="img/b6_11.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_12.webp" type="image/webp">
+                        <img src="img/b6_12.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_13.webp" type="image/webp">
+                        <img src="img/b6_13.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_14.webp" type="image/webp">
+                        <img src="img/b6_14.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_15.webp" type="image/webp">
+                        <img src="img/b6_15.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_16.webp" type="image/webp">
+                        <img src="img/b6_16.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_17.webp" type="image/webp">
+                        <img src="img/b6_17.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b6_18.webp" type="image/webp">
+                        <img src="img/b6_18.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_01.webp" type="image/webp">
+                        <img src="img/b7_01.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_02.webp" type="image/webp">
+                        <img src="img/b7_02.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_03.webp" type="image/webp">
+                        <img src="img/b7_03.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_04.webp" type="image/webp">
+                        <img src="img/b7_04.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_05.webp" type="image/webp">
+                        <img src="img/b7_05.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_06.webp" type="image/webp">
+                        <img src="img/b7_06.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_07.webp" type="image/webp">
+                        <img src="img/b7_07.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_08.webp" type="image/webp">
+                        <img src="img/b7_08.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_09.webp" type="image/webp">
+                        <img src="img/b7_09.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_10.webp" type="image/webp">
+                        <img src="img/b7_10.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_11.webp" type="image/webp">
+                        <img src="img/b7_11.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_12.webp" type="image/webp">
+                        <img src="img/b7_12.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_13.webp" type="image/webp">
+                        <img src="img/b7_13.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_14.webp" type="image/webp">
+                        <img src="img/b7_14.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_15.webp" type="image/webp">
+                        <img src="img/b7_15.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_16.webp" type="image/webp">
+                        <img src="img/b7_16.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_17.webp" type="image/webp">
+                        <img src="img/b7_17.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b7_18.webp" type="image/webp">
+                        <img src="img/b7_18.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_01.webp" type="image/webp">
+                        <img src="img/b8_01.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_02.webp" type="image/webp">
+                        <img src="img/b8_02.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_03.webp" type="image/webp">
+                        <img src="img/b8_03.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_04.webp" type="image/webp">
+                        <img src="img/b8_04.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_05.webp" type="image/webp">
+                        <img src="img/b8_05.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_06.webp" type="image/webp">
+                        <img src="img/b8_06.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_07.webp" type="image/webp">
+                        <img src="img/b8_07.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_08.webp" type="image/webp">
+                        <img src="img/b8_08.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_09.webp" type="image/webp">
+                        <img src="img/b8_09.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_10.webp" type="image/webp">
+                        <img src="img/b8_10.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_11.webp" type="image/webp">
+                        <img src="img/b8_11.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_12.webp" type="image/webp">
+                        <img src="img/b8_12.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_13.webp" type="image/webp">
+                        <img src="img/b8_13.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_14.webp" type="image/webp">
+                        <img src="img/b8_14.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+                <div class="gallery-item" data-aos="fade-up">
+                    <picture>
+                        <source srcset="img/b8_15.webp" type="image/webp">
+                        <img src="img/b8_15.png" alt="Cliente Vega y Sánchez Consultores SAC" loading="lazy" decoding="async">
+                    </picture>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="Vega y Sánchez">
+                        <span>Vega y Sánchez Consultores SAC</span>
+                    </div>
+                    <p>Consultoría de Gestión Integral del Activo Fijo y Existencias. Comprometidos con la excelencia y
+                        la
+                        satisfacción de nuestros clientes.</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://linkedin.com/company/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/51997754542" class="social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+                        <li><a href="index.html#servicios">Servicios</a></li>
+                        <li><a href="experiencia.html">Experiencia</a></li>
+                        <li><a href="oportunidad-laboral.html">Oportunidad Laboral</a></li>
+                        <li><a href="contacto.html">Contáctenos</a></li>
+                        <li><a href="dashboard.html" style="color: var(--secondary-color); font-weight: 600;"><i class="fas fa-th-large"></i> Plataforma SGAF</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Central Mz. B Lt.17 Of. 301 Los Girasoles La Molina
+                        Lima</p>
+                    <p><i class="fas fa-phone"></i> 997754542</p>
+                    <p><i class="fas fa-envelope"></i> gvega@vegaysanchez.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2026</span> Vega y Sánchez Consultores SAC — Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <a href="https://wa.me/51997754542" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Vega y Sánchez Consultores SAC (RUC 20536779320) - Consultoría de Gestión Integral del Activo Fijo, Existencias (NIC 16 / NIC 2), Tasaciones RNT/SBS y Saneamiento Tributario en Perú.">
+    <meta name="keywords" content="inventarios, activos fijos, valuaciones, tasaciones, saneamiento contable, ple 7.1 sunat, nic 16, nic 2, sbn, peru">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vegaysanchez.com/">
+    <meta property="og:title"
+        content="Vega y Sánchez Consultores SAC | Gestión Integral del Activo Fijo y Existencias">
+    <meta property="og:description"
+        content="Inventario físico con tecnología láser/PWA, conciliación algorítmica, tasaciones RNT/SBS y escudo fiscal Art. 43° LIR. 16 años de experiencia en el Perú.">
+    <meta property="og:image" content="img/logo.png">
+
+    <title>Vega y Sánchez Consultores SAC | Gestión Integral del Activo Fijo y Existencias</title>
+
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <!-- Schema.org JSON-LD B2B -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AccountingService",
+      "name": "Vega y Sánchez Consultores SAC",
+      "taxID": "20536779320",
+      "url": "https://vegaysanchez.com/",
+      "logo": "https://vegaysanchez.com/img/logo.png",
+      "telephone": "+51997754542",
+      "email": "gvega@vegaysanchez.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Calle Central Mz. B Lt. 17 Of. 301 Urb. Los Girasoles",
+        "addressLocality": "La Molina, Lima",
+        "addressCountry": "PE"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "-12.0747",
+        "longitude": "-76.9242"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:30",
+        "closes": "18:00"
+      },
+      "areaServed": "PE",
+      "description": "Empresa peruana especializada en inventario físico y conciliación contable de activos fijos (NIC 16 / SBN) y existencias (NIC 2), valuaciones periciales RNT y saneamiento tributario SUNAT."
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        .home-hero {
+            background-image: url('img/img-servicios_optimized.jpg');
+        }
+
+        .service-card-link {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s var(--ease-premium);
+        }
+
+        .service-card-link:hover {
+            color: var(--primary-color);
+            gap: 12px;
+        }
+
+        /* Calculadora Ejecutiva B2B */
+        .roi-section {
+            background: linear-gradient(135deg, #0b192c 0%, #002b5c 100%);
+            color: #ffffff;
+            padding: 75px 0;
+        }
+        .roi-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 32px;
+            align-items: stretch;
+        }
+        .roi-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 16px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+        }
+        .roi-field { margin-bottom: 20px; }
+        .roi-field label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 0.92rem;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+        }
+        .roi-field input[type="range"] {
+            width: 100%;
+            accent-color: #d4af37;
+            cursor: pointer;
+        }
+        .roi-result-panel {
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.14) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .roi-kpi-big {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.15rem;
+            font-weight: 800;
+            color: #fae29c;
+            margin: 6px 0 16px 0;
+        }
+        .roi-sub-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 900px) {
+            .roi-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbarbox" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Vega y Sánchez Consultores SAC" class="nav-logo-img">
+            </a>
+
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link active">Inicio</a>
+                <a href="quienes-somos.html" class="nav-link">Quiénes Somos</a>
+                <div class="dropdown">
+                    <a href="index.html#servicios" class="nav-link">Servicios <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="inventarios.html">Inventario físico y conciliación contable del activo fijo</a>
+                        <a href="inventarios.html#existencias">Inventario físico y conciliación de existencias</a>
+                        <a href="valuaciones.html">Tasación de activos fijos y existencias</a>
+                        <a href="saneamiento.html">Digitación y escaneo de documentos del activo fijo</a>
+                    </div>
+                </div>
+                <a href="experiencia.html" class="nav-link">Experiencia</a>
+                <a href="oportunidad-laboral.html" class="nav-link">Oportunidad Laboral</a>
+                <a href="contacto.html" class="nav-link btn-nav">Contáctenos</a>
+            </div>
+
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="home-hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <h1 class="hero-title">Consultoría de Gestión Integral del Activo Fijo y Existencias</h1>
+                <p class="hero-subtitle">Optimizamos el control de su patrimonio con soluciones integrales, tecnología
+                    avanzada y 16 años de experiencia en el mercado peruano.</p>
+                <div class="hero-buttons">
+                    <a href="contacto.html" class="btn">Solicitar Cotización</a>
+                    <a href="#simulador-roi" class="btn btn-outline">Simular Escudo Fiscal</a>
+                    <a href="Brochure_Corporativo_Vega_y_Sanchez_2026.pdf" download class="btn btn-outline" style="border-color: #d4af37; color: #fae29c;"><i class="fas fa-file-pdf" style="margin-right: 6px; color: #fae29c;"></i> Descargar Brochure 2026 (PDF)</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Summary -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Líderes en Consultoría de Activos Fijos y Existencias</h2>
+                <p class="section-subtitle">Brindamos seguridad y confianza en la información de sus activos fijos y existencias.</p>
+            </div>
+            <div style="text-align: center; max-width: 900px; margin: 0 auto; color: var(--text-light);"
+                data-aos="fade-up" data-aos-delay="100">
+                <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                    En <strong>Vega y Sánchez Consultores SAC</strong>, nos especializamos en la gestión física y
+                    contable
+                    de activos fijos, existencias y conciliaciones.
+                    Somos una empresa <strong>netamente peruana</strong>, lo que nos permite ofrecer honorarios
+                    competitivos
+                    libres de derechos de marca o regalías internacionales.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-check-circle" style="color: var(--secondary-color); font-size: 1.2rem;"></i>
+                        <span style="font-weight: 600;">Personal Calificado</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-check-circle" style="color: var(--secondary-color); font-size: 1.2rem;"></i>
+                        <span style="font-weight: 600;">Cobertura Nacional</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-check-circle" style="color: var(--secondary-color); font-size: 1.2rem;"></i>
+                        <span style="font-weight: 600;">Cumplimiento Normativo SUNAT / NIIF / SBN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted Clients Preview -->
+    <section style="padding: 36px 0; background: #ffffff; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 22px;" data-aos="fade-up">
+                <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--secondary-color); font-weight: 700;">Confianza Corporativa</span>
+                <h3 style="font-size: 1.35rem; color: var(--primary-color); margin-top: 4px;">Empresas e instituciones líderes confían en Vega y Sánchez Consultores SAC</h3>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 24px 32px; flex-wrap: wrap; max-width: 1100px; margin: 0 auto;" data-aos="fade-up" data-aos-delay="100">
+                <picture><source srcset="img/luz-del-sur.webp" type="image/webp"><img src="img/luz-del-sur.png" alt="Luz del Sur" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b6_01.webp" type="image/webp"><img src="img/b6_01.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b6_02.webp" type="image/webp"><img src="img/b6_02.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b6_03.webp" type="image/webp"><img src="img/b6_03.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b6_04.webp" type="image/webp"><img src="img/b6_04.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b6_05.webp" type="image/webp"><img src="img/b6_05.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b7_01.webp" type="image/webp"><img src="img/b7_01.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b7_02.webp" type="image/webp"><img src="img/b7_02.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b7_03.webp" type="image/webp"><img src="img/b7_03.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b7_04.webp" type="image/webp"><img src="img/b7_04.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b8_01.webp" type="image/webp"><img src="img/b8_01.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b8_02.webp" type="image/webp"><img src="img/b8_02.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b8_03.webp" type="image/webp"><img src="img/b8_03.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b8_04.webp" type="image/webp"><img src="img/b8_04.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b8_05.webp" type="image/webp"><img src="img/b8_05.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+                <picture><source srcset="img/b8_06.webp" type="image/webp"><img src="img/b8_06.png" alt="Cliente Vega y Sánchez" style="height: 40px; max-width: 140px; object-fit: contain;" loading="lazy"></picture>
+            </div>
+            <div style="text-align: center; margin-top: 22px;">
+                <a href="experiencia.html" style="color: var(--primary-color); font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">
+                    Ver los 50+ clientes en Experiencia <i class="fas fa-arrow-right" style="font-size: 0.8rem; color: var(--secondary-color);"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section bg-light" id="servicios">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Nuestros Servicios</h2>
+                <p class="section-subtitle">Soluciones diseñadas para cada necesidad empresarial.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon"><i class="fas fa-boxes"></i></div>
+                    <h3>Inventario Físico y Conciliación Contable del Activo Fijo</h3>
+                    <p>Levantamiento al 100%, etiquetado con código de barras Code 128B o RFID y conciliación pericial algorítmica contra libros contables ERP.</p>
+                    <a href="inventarios.html" class="service-card-link">Ver más <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon"><i class="fas fa-warehouse"></i></div>
+                    <h3>Inventario Físico y Conciliación de Existencias</h3>
+                    <p>Toma de inventarios en almacenes, plantas industriales y centros de distribución bajo normativa internacional NIC 2.</p>
+                    <a href="inventarios.html#existencias" class="service-card-link">Ver más <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>Tasación de Activos Fijos y Existencias</h3>
+                    <p>Valuaciones comerciales y reglamentarias de bienes muebles, maquinaria y existencias bajo el RNT y SBS REPEV.</p>
+                    <a href="valuaciones.html" class="service-card-link">Ver más <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon"><i class="fas fa-file-invoice"></i></div>
+                    <h3>Digitación y Escaneo de Documentos del Activo Fijo</h3>
+                    <p>Digitalización, indexación y reconstrucción documental de expedientes técnicos, facturas históricas y libros tributarios.</p>
+                    <a href="saneamiento.html" class="service-card-link">Ver más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 36px;" data-aos="fade-up">
+                <a href="Brochure_Corporativo_Vega_y_Sanchez_2026.pdf" download class="btn" style="background: var(--primary-color); border: 2px solid var(--secondary-color); color: #fff;">
+                    <i class="fas fa-file-pdf" style="margin-right: 8px; color: var(--secondary-color);"></i> Descargar Brochure de Servicios 2026 (PDF)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive B2B Tax Shield & ROI Simulator -->
+    <section class="roi-section" id="simulador-roi">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="margin-bottom: 40px;">
+                <h2 class="section-title" style="color: #ffffff;">Simulador Ejecutivo de Escudo Fiscal &amp; Eficiencia Patrimonial</h2>
+                <p class="section-subtitle" style="color: #cbd5e1;">Estime en segundos el ahorro potencial en Impuesto a la Renta (29.5% — Art. 43° LIR / D.S. N° 086-2020-EF) al sanear activos en desuso u obsoletos.</p>
+            </div>
+
+            <div class="roi-grid" data-aos="fade-up" data-aos-delay="100">
+                <div class="roi-card">
+                    <div class="roi-field">
+                        <label>
+                            <span>1. Volumen Estimado de Activos Fijos / Ítems</span>
+                            <strong id="lbl-roi-items" style="color: #fae29c;">1,200 bienes</strong>
+                        </label>
+                        <input type="range" id="rng-roi-items" min="100" max="20000" step="100" value="1200" oninput="updateRoiSimulator()">
+                    </div>
+
+                    <div class="roi-field">
+                        <label>
+                            <span>2. Valor Neto Contable Mueble / Maquinaria (S/)</span>
+                            <strong id="lbl-roi-vneto" style="color: #fae29c;">S/ 2,500,000</strong>
+                        </label>
+                        <input type="range" id="rng-roi-vneto" min="100000" max="30000000" step="100000" value="2500000" oninput="updateRoiSimulator()">
+                    </div>
+
+                    <div class="roi-field" style="margin-bottom: 8px;">
+                        <label>
+                            <span>3. % Estimado de Bienes Obsoletos / Fuera de Uso</span>
+                            <strong id="lbl-roi-obs" style="color: #fae29c;">10%</strong>
+                        </label>
+                        <input type="range" id="rng-roi-obs" min="2" max="35" step="1" value="10" oninput="updateRoiSimulator()">
+                    </div>
+                    <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 12px;">
+                        * Simulación referencial basada en la deducción del valor neto no depreciado sustentada con Informe Técnico Colegiado (Art. 43° TUO LIR y Art. 22° inc. i RIR).
+                    </p>
+                </div>
+
+                <div class="roi-result-panel">
+                    <div>
+                        <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: #cbd5e1;">Ahorro Tributario Potencial Estimado (29.5% I.R.)</span>
+                        <div class="roi-kpi-big" id="out-roi-shield">S/ 73,750.00</div>
+
+                        <div class="roi-sub-row">
+                            <span style="color: #cbd5e1;">Base Contable Deducible Estimada:</span>
+                            <strong id="out-roi-base">S/ 250,000.00</strong>
+                        </div>
+                        <div class="roi-sub-row">
+                            <span style="color: #cbd5e1;">Jornadas Estimadas de Brigada V&amp;S:</span>
+                            <strong id="out-roi-days" style="color: #6ee7b7;">6 días hábiles</strong>
+                        </div>
+                        <div class="roi-sub-row">
+                            <span style="color: #cbd5e1;">Entregables Incluidos:</span>
+                            <strong>PLE 7.1 + PCGE + Informe CIP/CTP</strong>
+                        </div>
+                    </div>
+
+                    <a id="btn-roi-wa" href="https://wa.me/51997754542" target="_blank" rel="noopener" class="btn" style="text-align: center; margin-top: 18px; width: 100%; display: block;">
+                        <i class="fab fa-whatsapp"></i> Solicitar Propuesta Técnica con esta Simulación
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Contact -->
+    <section class="section cta-home">
+        <div class="container" data-aos="zoom-in">
+            <h2 style="color: var(--primary-color); margin-bottom: 20px;">¿Listo para trabajar con expertos?</h2>
+            <p style="margin-bottom: 30px; font-size: 1.1rem;">Contáctenos hoy para recibir una propuesta personalizada.
+            </p>
+            <a href="contacto.html" class="btn">Contáctenos Ahora</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="Vega y Sánchez">
+                        <span>Vega y Sánchez Consultores SAC</span>
+                    </div>
+                    <p>Consultoría de Gestión Integral del Activo Fijo y Existencias (RUC 20536779320). Comprometidos con la excelencia y
+                        la satisfacción de nuestros clientes.</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://linkedin.com/company/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/51997754542" class="social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+                        <li><a href="index.html#servicios">Servicios</a></li>
+                        <li><a href="experiencia.html">Experiencia</a></li>
+                        <li><a href="oportunidad-laboral.html">Oportunidad Laboral</a></li>
+                        <li><a href="contacto.html">Contáctenos</a></li>
+                        <li><a href="dashboard.html" style="color: var(--secondary-color); font-weight: 600;"><i class="fas fa-th-large"></i> Plataforma SGAF</a></li>
+                        <li><a href="tutorial-campo.html" style="color: #6ee7b7; font-weight: 600;"><i class="fas fa-book-reader"></i> Tutorial de Campo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Central Mz. B Lt.17 Of. 301 Los Girasoles La Molina
+                        Lima</p>
+                    <p><i class="fas fa-phone"></i> 997754542</p>
+                    <p><i class="fas fa-envelope"></i> gvega@vegaysanchez.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2026</span> Vega y Sánchez Consultores SAC — Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function updateRoiSimulator() {
+            const items = parseInt(document.getElementById("rng-roi-items").value, 10) || 1200;
+            const vneto = parseFloat(document.getElementById("rng-roi-vneto").value) || 2500000;
+            const obsPct = parseFloat(document.getElementById("rng-roi-obs").value) || 10;
+
+            const baseDeducible = vneto * (obsPct / 100);
+            const shield = baseDeducible * 0.295;
+            const estDays = Math.max(Math.ceil(items / 220), 2);
+
+            document.getElementById("lbl-roi-items").textContent = items.toLocaleString("es-PE") + " bienes";
+            document.getElementById("lbl-roi-vneto").textContent = "S/ " + vneto.toLocaleString("es-PE");
+            document.getElementById("lbl-roi-obs").textContent = obsPct + "%";
+
+            document.getElementById("out-roi-base").textContent = "S/ " + baseDeducible.toLocaleString("es-PE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById("out-roi-shield").textContent = "S/ " + shield.toLocaleString("es-PE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById("out-roi-days").textContent = estDays + " días hábiles aprox.";
+
+            const msg = encodeURIComponent(
+                `Hola Vega y Sánchez Consultores SAC, deseo cotizar un servicio de Inventario, Conciliación y Saneamiento Patrimonial para aprox. ${items.toLocaleString("es-PE")} activos (Valor Neto ref. S/ ${vneto.toLocaleString("es-PE")}, Escudo Fiscal estimado S/ ${Math.round(shield).toLocaleString("es-PE")}).`
+            );
+            document.getElementById("btn-roi-wa").href = `https://wa.me/51997754542?text=${msg}`;
+        }
+        document.addEventListener("DOMContentLoaded", updateRoiSimulator);
+    </script>
+    <a href="https://wa.me/51997754542" class="whatsapp-float" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+
+</html>

@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#003366">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="robots" content="noindex, nofollow">
+    <title>SGAF Campo v5.3 Zero-Trust — Vega y Sánchez Consultores SAC</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <style>
+        :root {
+            --bg: #060b16;
+            --card: #0f192d;
+            --card-alt: #132038;
+            --border: rgba(255, 255, 255, 0.12);
+            --gold: #d4af37;
+            --gold-light: #fae29c;
+            --navy: #003366;
+            --emerald: #10b981;
+            --amber: #f59e0b;
+            --ruby: #f43f5e;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 48px; }
+
+        header {
+            background: linear-gradient(90deg, #001c3d, #0b1324);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 11px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 60;
+        }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand img { height: 26px; background: #fff; padding: 2px 6px; border-radius: 5px; }
+        .brand h1 { font-size: 0.9rem; font-weight: 800; letter-spacing: 0.02em; color: var(--gold-light); }
+        .brand .sub { font-size: 0.67rem; color: var(--muted); }
+
+        .pill {
+            font-size: 0.7rem; font-weight: 700; padding: 4px 9px; border-radius: 999px;
+            background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid var(--emerald);
+        }
+        .pill.offline { background: rgba(245, 158, 11, 0.18); color: #fcd34d; border-color: var(--amber); }
+        .pill.danger { background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid var(--ruby); }
+
+        .wrap { max-width: 650px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+        .card-gold { border-color: rgba(212, 175, 55, 0.45); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); }
+        .card h2 { font-size: 0.88rem; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+        label { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+        input, select, textarea {
+            background: #070e1b; border: 1px solid var(--border); border-radius: 9px;
+            padding: 10px 12px; color: #fff; font-size: 0.94rem; width: 100%;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
+
+        .check-box {
+            display: flex; align-items: flex-start; gap: 10px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 9px;
+            font-size: 0.8rem; color: #cbd5e1; line-height: 1.35;
+        }
+        .check-box input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--gold); }
+
+        .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        button {
+            border: none; border-radius: 9px; padding: 11px 14px; font-weight: 700;
+            font-size: 0.87rem; cursor: pointer; display: inline-flex; align-items: center;
+            justify-content: center; gap: 6px; transition: opacity 0.15s;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-gold { background: linear-gradient(135deg, #fae29c, #d4af37); color: #070d18; width: 100%; font-size: 0.95rem; }
+        .btn-sec { background: rgba(255, 255, 255, 0.07); color: #fff; border: 1px solid var(--border); flex: 1; }
+        .btn-green { background: var(--emerald); color: #04130d; font-weight: 800; flex: 1; }
+        .btn-amber { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid var(--amber); flex: 1; }
+        .btn-danger { background: rgba(244, 63, 94, 0.16); color: #fda4af; border: 1px solid var(--ruby); }
+
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; text-align: center; }
+        .stat-box { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 10px; padding: 8px 5px; }
+        .stat-box strong { display: block; font-size: 1.12rem; color: #fff; }
+        .stat-box span { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+
+        .badge-banner {
+            background: var(--card-alt); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 11px;
+            padding: 10px 12px; font-size: 0.78rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;
+        }
+        .alert-nudge {
+            background: rgba(245, 158, 11, 0.16); border: 1px solid var(--amber); color: #fde68a;
+            border-radius: 10px; padding: 10px 12px; font-size: 0.8rem; display: none;
+        }
+        .error-msg {
+            background: rgba(244, 63, 94, 0.18); border: 1px solid var(--ruby); color: #fecdd3;
+            border-radius: 9px; padding: 9px 12px; font-size: 0.8rem; margin-bottom: 10px; display: none;
+        }
+
+        video.cam-view { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; display: none; margin-bottom: 8px; border: 1px solid var(--gold); background: #000; }
+        img#photo-thumb { width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px; display: none; margin-top: 6px; border: 1px solid var(--emerald); }
+
+        .item-list { display: flex; flex-direction: column; gap: 8px; max-height: 290px; overflow-y: auto; }
+        .item-row {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+            border-radius: 9px; padding: 9px 11px; display: flex; justify-content: space-between; align-items: center; gap: 8px;
+        }
+        .item-row small { color: var(--muted); display: block; font-size: 0.72rem; }
+        .workspace-stack { display: flex; flex-direction: column; gap: 14px; }
+        .hidden { display: none !important; }
+        @media (max-width: 480px) {
+            .row-2 { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <img src="img/logo.png" alt="Vega y Sánchez Consultores SAC">
+            <div>
+                <h1>SGAF CAMPO v5.3 ZERO-TRUST</h1>
+                <div class="sub">Vega y Sánchez Consultores SAC · RUC 20536779320</div>
+            </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <a href="tutorial-campo.html" target="_blank" style="text-decoration:none; font-size:0.72rem; font-weight:700; color:var(--gold); border:1px solid rgba(212,175,55,0.4); padding:4px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:4px; background:rgba(0,0,0,0.3);">📖 Tutorial</a>
+            <span id="net-status" class="pill">VERIFICANDO</span>
+        </div>
+    </header>
+
+    <div class="wrap">
+
+        <!-- =====================================================================
+             VISTA 1: COMPUERTA DE ENROLAMIENTO ZERO-TRUST (SIN SESIÓN ACTIVA)
+        ====================================================================== -->
+        <section id="view-enroll" class="card card-gold">
+            <h2><span>1. Acceso Restringido de Brigada</span> <span class="pill danger">BLOQUEADO</span></h2>
+            <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4;">
+                Terminal corporativa de conteo físico ciego (<strong>Blind Count</strong>). Para desbloquear la captura, escanee el código QR personal emitido por su Supervisor de Planta o pegue su credencial firmada <code>VYS1</code>.
+            </p>
+
+            <div style="background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); border-radius:8px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.78rem; color:var(--gold-light);">¿Primera vez en planta? Revisa la guía con pasos y fotos.</span>
+                <a href="tutorial-campo.html" target="_blank" style="color:var(--gold); font-size:0.78rem; font-weight:700; text-decoration:underline;">Ver Tutorial ➔</a>
+            </div>
+
+            <div id="enroll-error" class="error-msg"></div>
+
+            <video id="qr-video" class="cam-view" playsinline muted></video>
+            <div class="btn-row" style="margin-bottom: 10px;">
+                <button type="button" class="btn-sec" onclick="iniciarEscaneoQrEnrolamiento()">Escanear QR del Supervisor</button>
+            </div>
+
+            <div class="field">
+                <label>Credencial Criptográfica Temporal (Token VYS1)</label>
+                <textarea id="inp-token" rows="2" placeholder="VYS1.eyJ..."></textarea>
+            </div>
+
+            <div class="row-2">
+                <div class="field" style="margin:0;">
+                    <label>DNI del Brigadista *</label>
+                    <input type="text" id="inp-dni" maxlength="12" inputmode="numeric" placeholder="Ej. 45892104">
+                </div>
+                <div class="field" style="margin:0;">
+                    <label>Crear PIN de Cifrado (6 dígitos) *</label>
+                    <input type="password" id="inp-new-pin" maxlength="6" inputmode="numeric" placeholder="••••••">
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <label class="check-box">
+                    <input type="checkbox" id="chk-nda">
+                    <span><strong>Acuerdo de Confidencialidad (Ley N° 29733):</strong> Declaro bajo juramento que toda información, ubicación, serie y fotografía capturada es propiedad industrial confidencial del cliente y de <strong>Vega y Sánchez Consultores SAC</strong>, quedando prohibida su copia, captura de pantalla o divulgación a terceros.</span>
+                </label>
+                <label class="check-box">
+                    <input type="checkbox" id="chk-sst">
+                    <span><strong>Declaración SST y EPP (Ley N° 29783):</strong> Confirmo contar con SCTR vigente y portar mi Equipo de Protección Personal completo (casco, botas dieléctricas/punta de acero, chaleco y lentes) antes de iniciar el conteo en planta.</span>
+                </label>
+            </div>
+
+            <button type="button" class="btn-gold" id="btn-enroll" onclick="procesarEnrolamiento()">
+                Firmar Digitalmente y Activar Bóveda AES-256-GCM
+            </button>
+        </section>
+
+        <!-- =====================================================================
+             VISTA 2: PANTALLA DE DESBLOQUEO CON PIN O RECUPERACIÓN ESCROW
+        ====================================================================== -->
+        <section id="view-unlock" class="card card-gold hidden">
+            <h2><span>Bóveda Local Cifrada</span> <span id="unlock-badge" class="pill offline">SESIÓN PROTEGIDA</span></h2>
+            <p id="unlock-meta" style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px;"></p>
+
+            <div id="unlock-error" class="error-msg"></div>
+
+            <div id="pin-unlock-box">
+                <div class="field">
+                    <label>Ingrese su PIN Personal de 6 Dígitos</label>
+                    <input type="password" id="inp-unlock-pin" maxlength="6" inputmode="numeric" placeholder="••••••">
+                </div>
+                <button type="button" class="btn-gold" onclick="desbloquearConPin()">Desbloquear Terminal de Conteo</button>
+            </div>
+
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);">
+                <p style="font-size: 0.76rem; color: var(--muted); margin-bottom: 8px;">
+                    ¿Olvidó su PIN o expiró su turno? Exporte el paquete cifrado de emergencia (custodiado con la Clave Pública Maestra RSA-2048 de Vega y Sánchez Consultores SAC) para que su Supervisor lo descifre en el Hub:
+                </p>
+                <div class="btn-row">
+                    <button type="button" class="btn-amber" onclick="exportarVyspackEmergencia()">Exportar .vyspack (Escrow RSA-2048)</button>
+                    <button type="button" class="btn-danger" onclick="ejecutarCryptoWipe()">Crypto-Wipe (Borrar Todo)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             VISTA 3: TERMINAL OPERATIVA DE CONTEO CIEGO EN PLANTA (DESBLOQUEADA)
+        ====================================================================== -->
+        <main id="view-workspace" class="workspace-stack hidden">
+
+            <!-- Credencial Activa y Geocerca -->
+            <div class="badge-banner">
+                <div>
+                    <strong id="lbl-worker" style="color: var(--gold-light);">BRIGADISTA</strong>
+                    <div id="lbl-project" style="color: var(--muted); font-size: 0.73rem;">PROYECTO / SEDE</div>
+                </div>
+                <div style="text-align: right;">
+                    <span id="lbl-range" class="pill" style="display:inline-block; margin-bottom:3px;">RANGO LIBRE</span>
+                    <div id="lbl-exp" style="font-size: 0.69rem; color: var(--muted);">Expira: --</div>
+                </div>
+            </div>
+
+            <!-- Recordatorio proactivo cada 50 activos -->
+            <div id="backup-nudge" class="alert-nudge">
+                <strong>Respaldo Preventivo Recomendado:</strong> Ha acumulado <span id="nudge-count">50</span> capturas sin respaldar. Descargue un paquete cifrado <code>.vyspack</code> o sincronice con el Hub del Supervisor.
+            </div>
+
+            <!-- Recordatorio de Cierre de Turno Pericial -->
+            <div id="shift-end-nudge" class="alert-nudge" style="background: rgba(16, 185, 129, 0.16); border-color: var(--emerald); color: #6ee7b7;">
+                <strong>🔔 Cierre de Turno / Fin de Jornada:</strong> Se recomienda empaquetar el lote de activos y despachar el <code>.vyspack</code> por WhatsApp corporativo o sincronizar al Hub Central.
+            </div>
+
+            <!-- Aviso de Modo Eco-Batería -->
+            <div id="eco-battery-notice" class="alert-nudge" style="background: rgba(56, 189, 248, 0.16); border-color: #38bdf8; color: #bae6fd;">
+                <strong>🌿 Modo Eco-Batería Activo:</strong> Sensor de cámara pausado por inactividad (25s) para maximizar la autonomía del dispositivo. Toque para reactivar.
+            </div>
+
+            <!-- KPIs de Brigadista -->
+            <div class="stats-bar">
+                <div class="stat-box"><strong id="st-total">0</strong><span>Cifrados</span></div>
+                <div class="stat-box"><strong id="st-fotos" style="color: #6ee7b7;">0</strong><span>Fotos Viva</span></div>
+                <div class="stat-box"><strong id="st-geo" style="color: #93c5fd;">--</strong><span>Geocerca</span></div>
+                <div class="stat-box"><strong id="st-chain" style="color: var(--gold-light);">OK</strong><span>Hash-Chain</span></div>
+            </div>
+
+            <!-- Formulario de Captura Ciega -->
+            <div class="card">
+                <h2>
+                    <span>Captura Física en Campo (Blind Count)</span>
+                    <button type="button" class="btn-sec" style="flex:0; padding:5px 10px; font-size:0.73rem;" onclick="bloquearPantalla()">Bloquear PIN</button>
+                </h2>
+
+                <div id="capture-warn" class="error-msg"></div>
+
+                <video id="scan-video" class="cam-view" playsinline muted></video>
+                <div class="field">
+                    <label>Código de Plaqueta / Marbete *</label>
+                    <div class="btn-row">
+                        <input type="text" id="f-codigo" placeholder="Ej. AF-00105" style="flex: 2; font-family: monospace; font-weight: 700;">
+                        <button type="button" class="btn-sec" onclick="escanearCodigoPlaqueta()">Lector Plaqueta</button>
+                    </div>
+                </div>
+
+                <div class="row-2">
+                    <div class="field" style="margin:0;">
+                        <label>Código Anterior / Histórico</label>
+                        <input type="text" id="f-cod-ant" placeholder="Opcional">
+                    </div>
+                    <div class="field" style="margin:0;">
+                        <label>Ubicación Específica / Área *</label>
+                        <input type="text" id="f-ubicacion" placeholder="Ej. Nave 2 - Línea B">
+                    </div>
+                </div>
+
+                <div class="field" style="margin-top:10px;">
+                    <label>Denominación / Descripción Técnica Física *</label>
+                    <input type="text" id="f-desc" placeholder="Ej. Compresor de Tornillo 50 HP">
+                </div>
+
+                <div class="row-2">
+                    <div class="field" style="margin:0;">
+                        <label>Marca</label>
+                        <input type="text" id="f-marca" placeholder="Ej. Atlas Copco">
+                    </div>
+                    <div class="field" style="margin:0;">
+                        <label>Modelo</label>
+                        <input type="text" id="f-modelo" placeholder="Ej. GA37+">
+                    </div>
+                </div>
+
+                <div class="row-2">
+                    <div class="field" style="margin:0;">
+                        <label>Número de Serie / Chasis / VIN</label>
+                        <input type="text" id="f-serie" placeholder="S/N">
+                    </div>
+                    <div class="field" style="margin:0;">
+                        <label>Estado Tasación (V&S / SBN)</label>
+                        <select id="f-estado">
+                            <option value="OPTIMO">1 - Nuevo / Óptimo</option>
+                            <option value="BUENO" selected>2 - Bueno (Operativo normal)</option>
+                            <option value="REGULAR">3 - Regular (Desgaste medio)</option>
+                            <option value="MALO">4 - Malo (Inoperativo / Baja)</option>
+                            <option value="CHATARRA">5 - Chatarra / RAEE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Observaciones Periciales</label>
+                    <input type="text" id="f-obs" placeholder="Placa borrosa, sin guarda, fuera de uso...">
+                </div>
+
+                <!-- Cámara Viva WebRTC Anti-Fraude (Sin subida de galería) -->
+                <div class="field">
+                    <label>Evidencia Fotográfica Forense en Vivo (WebRTC + Sello GPS)</label>
+                    <video id="live-cam" class="cam-view" playsinline muted></video>
+                    <div class="btn-row">
+                        <button type="button" class="btn-sec" id="btn-open-cam" onclick="abrirCamaraEvidencia()">Activar Cámara en Vivo</button>
+                        <button type="button" class="btn-amber hidden" id="btn-shot-cam" onclick="dispararFotoForense()">Capturar Placa con Sello</button>
+                        <button type="button" class="btn-sec" onclick="capturarGpsEnVivo()">Fijar GPS</button>
+                    </div>
+                    <div id="gps-readout" style="font-size: 0.74rem; color: var(--muted); margin-top: 5px;">GPS pendiente de lectura...</div>
+                    <img id="photo-thumb" alt="Evidencia con marca de agua">
+                </div>
+
+                <button type="button" class="btn-gold" onclick="guardarActivoCifrado()">
+                    Cifrar y Encadenar Activo (AES-256-GCM + SHA-256)
+                </button>
+            </div>
+
+            <!-- Sincronización LAN / Exportación .vyspack / Crypto-Wipe -->
+            <div class="card">
+                <h2>Consolidación Segura con el Supervisor</h2>
+                <div class="field">
+                    <label>URL del Hub Local / HTTPS del Supervisor</label>
+                    <input type="text" id="inp-hub-url" placeholder="http://192.168.x.x:8765">
+                </div>
+                <div class="btn-row" style="margin-bottom: 8px;">
+                    <button type="button" class="btn-green" onclick="sincronizarConHub()">Sincronizar Lote a Hub</button>
+                    <button type="button" class="btn-amber" onclick="exportarVyspackFirmado()">Exportar .vyspack</button>
+                    <button type="button" class="btn-sec" onclick="compartirVyspackWhatsApp()" style="background:#25D366; color:#04130d; border-color:#25D366; font-weight:800;">📲 Enviar por WhatsApp</button>
+                </div>
+                <div id="sync-msg" style="font-size: 0.78rem; color: var(--muted); margin-bottom: 8px;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:8px; border-top:1px solid var(--border);">
+                    <span style="font-size:0.72rem; color:var(--muted);">Fin de jornada / Devolución de equipo:</span>
+                    <button type="button" class="btn-danger" style="padding:7px 11px; font-size:0.76rem;" onclick="ejecutarCryptoWipe()">Crypto-Wipe Total</button>
+                </div>
+            </div>
+
+            <!-- Cola Cifrada Desbloqueada en RAM -->
+            <div class="card">
+                <h2>Últimas Capturas Desbloqueadas en RAM (<span id="lbl-list-count">0</span>)</h2>
+                <div id="item-list" class="item-list"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        /* =========================================================================
+           SGAF-V&S v4.1 ZERO-TRUST FIELD ENGINE
+           100% Interoperable byte a byte con Python `sgaf_hub/security_crypto.py`
+        ========================================================================= */
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("./sw.js").catch(() => {});
+        }
+
+        const DB_NAME = "sgaf_vys_v41_vault";
+        const DB_VER = 1;
+        const PBKDF2_ITER = 150000;
+
+        // Prefijo/Sufijo ASN.1 DER exacto para SubjectPublicKeyInfo RSA-2048 (e=65537)
+        const RSA2048_SPKI_PREFIX_HEX = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100";
+        const RSA2048_SPKI_SUFFIX_HEX = "0203010001";
+
+        let dbConn = null;
+        let vaultMeta = null;      // { token, claims, nda, pin_envelope, escrow_envelope, latest_vyspack, unsent_ack }
+        let ramDekKey = null;      // CryptoKey AES-256-GCM (SOLO EN RAM VOLÁTIL)
+        let ramDekRaw = null;      // Uint8Array(32) mientras está desbloqueado para regenerar latest_vyspack
+        let plainRecords = [];     // Registros descifrados solo en RAM mientras sesión está activa
+        let lastCapturedMs = 0;
+
+        let currentGps = null;     // { lat, lon, acc }
+        let currentPhotoB64 = null;
+        let currentPhotoSha256 = "";
+        let activeMediaStream = null;
+
+        /* ---------- Utilidades Binarias / Criptográficas ---------- */
+        function hexToBytes(hex) {
+            const out = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16);
+            return out;
+        }
+
+        function bytesToHex(bytes) {
+            return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function b64uEncode(bytes) {
+            let bin = "";
+            const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+            for (let i = 0; i < arr.length; i++) bin += String.fromCharCode(arr[i]);
+            return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        }
+
+        function b64uDecode(str) {
+            const pad = "=".repeat((4 - (str.length % 4)) % 4);
+            const b64 = (str + pad).replace(/-/g, "+").replace(/_/g, "/");
+            const bin = atob(b64);
+            const out = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+            return out;
+        }
+
+        function canonicalSortedJson(obj) {
+            const keys = Object.keys(obj).sort();
+            const parts = keys.map((k) => JSON.stringify(k) + ":" + JSON.stringify(obj[k]));
+            return "{" + parts.join(",") + "}";
+        }
+
+        async function sha256Hex(str) {
+            const data = new TextEncoder().encode(str);
+            const digest = await crypto.subtle.digest("SHA-256", data);
+            return bytesToHex(new Uint8Array(digest));
+        }
+
+        function haversineMeters(lat1, lon1, lat2, lon2) {
+            const R = 6371000.0;
+            const toRad = (d) => (d * Math.PI) / 180.0;
+            const p1 = toRad(lat1), p2 = toRad(lat2);
+            const dp = toRad(lat2 - lat1), dl = toRad(lon2 - lon1);
+            const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+            return Math.round(2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(Math.max(0, 1 - a))) * 100) / 100;
+        }
+
+        function parseUnverifiedVys1Token(tokenStr) {
+            const clean = (tokenStr || "").trim();
+            const parts = clean.split(".");
+            if (parts.length !== 3 || parts[0] !== "VYS1") {
+                throw new Error("Formato de token inválido. Debe comenzar con VYS1.");
+            }
+            const jsonStr = new TextDecoder().decode(b64uDecode(parts[1]));
+            const claims = JSON.parse(jsonStr);
+            if (!claims.p || !claims.w || !claims.k || !claims.exp) {
+                throw new Error("Credencial VYS1 incompleta o corrupta.");
+            }
+            return { token: clean, claims };
+        }
+
+        async function importProjectRsaPublicKey(modulusB64u) {
+            const modBytes = b64uDecode(modulusB64u);
+            if (modBytes.length !== 256) {
+                throw new Error("Módulo RSA-2048 del proyecto inválido.");
+            }
+            const prefix = hexToBytes(RSA2048_SPKI_PREFIX_HEX);
+            const suffix = hexToBytes(RSA2048_SPKI_SUFFIX_HEX);
+            const spki = new Uint8Array(prefix.length + modBytes.length + suffix.length);
+            spki.set(prefix, 0);
+            spki.set(modBytes, prefix.length);
+            spki.set(suffix, prefix.length + modBytes.length);
+
+            return crypto.subtle.importKey(
+                "spki",
+                spki.buffer,
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+        }
+
+        async function derivePinKek(pin, saltBytes) {
+            const baseKey = await crypto.subtle.importKey(
+                "raw",
+                new TextEncoder().encode(pin),
+                "PBKDF2",
+                false,
+                ["deriveKey"]
+            );
+            return crypto.subtle.deriveKey(
+                { name: "PBKDF2", salt: saltBytes, iterations: PBKDF2_ITER, hash: "SHA-256" },
+                baseKey,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        async function buildDualKeyVyspack(payloadObj, dekRawBytes, pinEnvelope, escrowEnvelope, claims) {
+            const header = {
+                format: "SGAF-VYSPACK-V41",
+                project_id: String(claims.p),
+                worker_id: String(claims.w)
+            };
+            const aadBytes = new TextEncoder().encode(canonicalSortedJson(header));
+            const ivData = crypto.getRandomValues(new Uint8Array(12));
+            const dekCryptoKey = await crypto.subtle.importKey("raw", dekRawBytes, { name: "AES-GCM" }, false, ["encrypt"]);
+            const plaintextBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
+            const cipherBuf = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: ivData, additionalData: aadBytes },
+                dekCryptoKey,
+                plaintextBytes
+            );
+
+            return {
+                schema: "SGAF-VYSPACK-V41",
+                header: header,
+                iv_data: b64uEncode(ivData),
+                ciphertext: b64uEncode(new Uint8Array(cipherBuf)),
+                pin_envelope: pinEnvelope,
+                escrow_envelope: escrowEnvelope
+            };
+        }
+
+        /* ---------- Cadena Hash Secuencial Anti-Fraude ---------- */
+        async function computeGenesisHash(projectId, workerId) {
+            return sha256Hex(`GENESIS:${projectId.trim()}:${workerId.trim()}`);
+        }
+
+        async function computeRecordHash(prevHash, codigoPlaqueta, capturedAtMs, lat, lon, photoSha256) {
+            const coordStr = (lat !== null && lat !== undefined && lon !== null && lon !== undefined)
+                ? `${Number(lat).toFixed(6)},${Number(lon).toFixed(6)}`
+                : "NO_GPS";
+            const canon = `${prevHash}|${codigoPlaqueta.trim().toUpperCase()}|${Math.trunc(capturedAtMs)}|${coordStr}|${photoSha256 || "NO_PHOTO"}`;
+            return sha256Hex(canon);
+        }
+
+        /* ---------- Persistencia Cifrada en IndexedDB ---------- */
+        function openVaultDb() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VER);
+                req.onupgradeneeded = (ev) => {
+                    const db = ev.target.result;
+                    if (!db.objectStoreNames.contains("meta")) db.createObjectStore("meta", { keyPath: "id" });
+                    if (!db.objectStoreNames.contains("records")) db.createObjectStore("records", { keyPath: "seq_num" });
+                };
+                req.onsuccess = (ev) => resolve(ev.target.result);
+                req.onerror = (ev) => reject(ev.target.error);
+            });
+        }
+
+        function idbGet(storeName, key) {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(storeName, "readonly");
+                const req = tx.objectStore(storeName).get(key);
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function idbPut(storeName, val) {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(storeName, "readwrite");
+                tx.objectStore(storeName).put(val);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        function idbGetAll(storeName) {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(storeName, "readonly");
+                const req = tx.objectStore(storeName).getAll();
+                req.onsuccess = () => resolve(req.result || []);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function idbClearAll() {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(["meta", "records"], "readwrite");
+                tx.objectStore("meta").clear();
+                tx.objectStore("records").clear();
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        /* ---------- Red y Telemetría ---------- */
+        function refreshNetPill() {
+            const el = document.getElementById("net-status");
+            if (navigator.onLine) {
+                el.textContent = "CON SEÑAL / LAN";
+                el.className = "pill";
+            } else {
+                el.textContent = "OFFLINE BÓVEDA";
+                el.className = "pill offline";
+            }
+        }
+        window.addEventListener("online", refreshNetPill);
+        window.addEventListener("offline", refreshNetPill);
+
+        function stopMediaStreams() {
+            if (activeMediaStream) {
+                activeMediaStream.getTracks().forEach((t) => t.stop());
+                activeMediaStream = null;
+            }
+            document.querySelectorAll("video.cam-view").forEach((v) => { v.style.display = "none"; });
+            document.getElementById("btn-shot-cam").classList.add("hidden");
+        }
+
+        /* ---------- Enrolamiento Inicial Zero-Trust ---------- */
+        async function iniciarEscaneoQrEnrolamiento() {
+            const vid = document.getElementById("qr-video");
+            try {
+                stopMediaStreams();
+                activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                vid.srcObject = activeMediaStream;
+                vid.style.display = "block";
+                await vid.play();
+                resetEcoTimer();
+
+                if ("BarcodeDetector" in window) {
+                    const det = new BarcodeDetector({ formats: ["qr_code"] });
+                    const timer = setInterval(async () => {
+                        if (!activeMediaStream) { clearInterval(timer); return; }
+                        try {
+                            const codes = await det.detect(vid);
+                            if (codes.length > 0) {
+                                clearInterval(timer);
+                                stopMediaStreams();
+                                let raw = codes[0].rawValue || "";
+                                if (raw.includes("#enroll=")) raw = raw.split("#enroll=")[1];
+                                document.getElementById("inp-token").value = decodeURIComponent(raw).trim();
+                            }
+                        } catch (_) {}
+                    }, 300);
+                } else {
+                    alert("Su navegador no soporta BarcodeDetector nativo. Escanee el QR con la cámara normal de su teléfono (abrirá el enlace directo) o pegue el token VYS1.");
+                    stopMediaStreams();
+                }
+            } catch (err) {
+                alert("No se pudo acceder a la cámara: " + err.message);
+            }
+        }
+
+        async function procesarEnrolamiento() {
+            const errBox = document.getElementById("enroll-error");
+            errBox.style.display = "none";
+            try {
+                if (!window.crypto || !window.crypto.subtle) {
+                    throw new Error("WebCrypto exige conexión HTTPS segura. Abra el portal oficial HTTPS de Vega y Sánchez o inicie el Hub local en Modo 2 (--tls).");
+                }
+                const tokenRaw = document.getElementById("inp-token").value.trim();
+                const dni = document.getElementById("inp-dni").value.trim();
+                const pin = document.getElementById("inp-new-pin").value.trim();
+                const ndaOk = document.getElementById("chk-nda").checked;
+                const sstOk = document.getElementById("chk-sst").checked;
+
+                const { token, claims } = parseUnverifiedVys1Token(tokenRaw);
+                if (claims.exp * 1000 <= Date.now()) {
+                    throw new Error("Este código QR / token ya expiró. Solicite uno vigente a su Supervisor.");
+                }
+                if (!/^\d{8,12}$/.test(dni)) {
+                    throw new Error("Ingrese un número de DNI / CE válido (8 a 12 dígitos).");
+                }
+                if (!/^\d{6}$/.test(pin)) {
+                    throw new Error("El PIN de seguridad debe tener exactamente 6 dígitos numéricos.");
+                }
+                if (!ndaOk || !sstOk) {
+                    throw new Error("Es obligatorio aceptar la Declaración Jurada NDA (Ley 29733) y SST/EPP (Ley 29783).");
+                }
+
+                if (navigator.storage && navigator.storage.persist) {
+                    try { await navigator.storage.persist(); } catch (_) {}
+                }
+
+                // 1. Generar DEK aleatoria de 256 bits y envolverla con PIN + Clave Pública Maestra RSA-2048
+                const dekRaw = crypto.getRandomValues(new Uint8Array(32));
+                const saltPin = crypto.getRandomValues(new Uint8Array(16));
+                const ivPin = crypto.getRandomValues(new Uint8Array(12));
+                const kekPin = await derivePinKek(pin, saltPin);
+                const wrappedPinBuf = await crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv: ivPin, additionalData: new TextEncoder().encode("VYS-PIN-WRAP-V41") },
+                    kekPin,
+                    dekRaw
+                );
+
+                const rsaPubKey = await importProjectRsaPublicKey(claims.k);
+                const wrappedEscrowBuf = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaPubKey, dekRaw);
+
+                const signedAtUtc = new Date().toISOString();
+                const ndaHash = await sha256Hex(`VYS-NDA-SST-V41|${token}|${dni}|${signedAtUtc}`);
+
+                const pinEnvelope = {
+                    kdf: "PBKDF2-SHA256",
+                    iter: PBKDF2_ITER,
+                    salt: b64uEncode(saltPin),
+                    iv: b64uEncode(ivPin),
+                    wrapped_dek: b64uEncode(new Uint8Array(wrappedPinBuf))
+                };
+                const escrowEnvelope = {
+                    alg: "RSA-OAEP-2048-SHA256",
+                    wrapped_dek: b64uEncode(new Uint8Array(wrappedEscrowBuf))
+                };
+
+                const initialPack = await buildDualKeyVyspack(
+                    { token, nda: { dni, ndaHash, signedAtUtc }, records: [] },
+                    dekRaw,
+                    pinEnvelope,
+                    escrowEnvelope,
+                    claims
+                );
+
+                vaultMeta = {
+                    id: "active_session",
+                    token,
+                    claims,
+                    nda: { dni, ndaHash, signedAtUtc, sst_epp_ok: true },
+                    pin_envelope: pinEnvelope,
+                    escrow_envelope: escrowEnvelope,
+                    latest_vyspack: initialPack,
+                    backed_up_count: 0,
+                    synced_count: 0,
+                    ack_synced: false
+                };
+
+                // Intentar notificar firma NDA/SST al Hub si hay red local/HTTPS
+                if (claims.hub) {
+                    try {
+                        const r = await fetch(`${claims.hub.replace(/\/$/, "")}/api/v1/enroll-ack`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ token, worker_dni: dni, nda_hash: ndaHash, sst_epp_ok: true })
+                        });
+                        if (r.ok) vaultMeta.ack_synced = true;
+                    } catch (_) {}
+                }
+
+                await idbClearAll();
+                await idbPut("meta", vaultMeta);
+
+                ramDekRaw = dekRaw;
+                ramDekKey = await crypto.subtle.importKey("raw", dekRaw, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+                plainRecords = [];
+                lastCapturedMs = Date.now();
+
+                abrirVistaOperativa();
+            } catch (err) {
+                errBox.textContent = err.message;
+                errBox.style.display = "block";
+            }
+        }
+
+        /* ---------- Desbloqueo con PIN y Bloqueo por Expiración ---------- */
+        function mostrarVistaDesbloqueo() {
+            stopMediaStreams();
+            document.getElementById("view-enroll").classList.add("hidden");
+            document.getElementById("view-workspace").classList.add("hidden");
+            document.getElementById("view-unlock").classList.remove("hidden");
+
+            const c = vaultMeta.claims;
+            const expired = (c.exp * 1000) <= Date.now();
+            const badge = document.getElementById("unlock-badge");
+            const pinBox = document.getElementById("pin-unlock-box");
+
+            document.getElementById("unlock-meta").innerHTML =
+                `Brigadista: <strong>${c.n} (${c.w})</strong> · Sede: <strong>${c.s}</strong> · Proyecto: <code>${c.p}</code>`;
+
+            if (expired) {
+                badge.textContent = "CREDENCIAL EXPIRADA";
+                badge.className = "pill danger";
+                pinBox.classList.add("hidden");
+                const err = document.getElementById("unlock-error");
+                err.textContent = "El plazo autorizado de este proyecto ha concluido. La captura está bloqueada; exporte el paquete .vyspack para su Supervisor o ejecute Crypto-Wipe.";
+                err.style.display = "block";
+            } else {
+                badge.textContent = "BLOQUEADO CON PIN";
+                badge.className = "pill offline";
+                pinBox.classList.remove("hidden");
+                document.getElementById("unlock-error").style.display = "none";
+            }
+        }
+
+        async function desbloquearConPin() {
+            const errBox = document.getElementById("unlock-error");
+            errBox.style.display = "none";
+            try {
+                if ((vaultMeta.claims.exp * 1000) <= Date.now()) {
+                    mostrarVistaDesbloqueo();
+                    return;
+                }
+                const pin = document.getElementById("inp-unlock-pin").value.trim();
+                const env = vaultMeta.pin_envelope;
+                const kek = await derivePinKek(pin, b64uDecode(env.salt));
+                const rawBuf = await crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: b64uDecode(env.iv), additionalData: new TextEncoder().encode("VYS-PIN-WRAP-V41") },
+                    kek,
+                    b64uDecode(env.wrapped_dek)
+                );
+
+                ramDekRaw = new Uint8Array(rawBuf);
+                ramDekKey = await crypto.subtle.importKey("raw", ramDekRaw, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+                document.getElementById("inp-unlock-pin").value = "";
+
+                // Descifrar registros desde IndexedDB hacia RAM volátil
+                const encRows = await idbGetAll("records");
+                encRows.sort((a, b) => a.seq_num - b.seq_num);
+                plainRecords = [];
+                for (const row of encRows) {
+                    const decBuf = await crypto.subtle.decrypt(
+                        { name: "AES-GCM", iv: b64uDecode(row.iv) },
+                        ramDekKey,
+                        b64uDecode(row.ct)
+                    );
+                    const rec = JSON.parse(new TextDecoder().decode(decBuf));
+                    plainRecords.push(rec);
+                    if (rec.captured_at_ms > lastCapturedMs) lastCapturedMs = rec.captured_at_ms;
+                }
+                abrirVistaOperativa();
+            } catch (_) {
+                errBox.textContent = "PIN incorrecto. Si olvidó su PIN, use el botón inferior para exportar el paquete .vyspack custodiado con la llave maestra del Supervisor.";
+                errBox.style.display = "block";
+            }
+        }
+
+        function bloquearPantalla() {
+            ramDekKey = null;
+            ramDekRaw = null;
+            plainRecords = [];
+            mostrarVistaDesbloqueo();
+        }
+
+        /* ---------- Vista Operativa de Campo ---------- */
+        function abrirVistaOperativa() {
+            document.getElementById("view-enroll").classList.add("hidden");
+            document.getElementById("view-unlock").classList.add("hidden");
+            document.getElementById("view-workspace").classList.remove("hidden");
+
+            const c = vaultMeta.claims;
+            document.getElementById("lbl-worker").textContent = `${c.n} (${c.w})`;
+            document.getElementById("lbl-project").textContent = `${c.p} · Sede: ${c.s}`;
+            document.getElementById("lbl-exp").textContent = "Expira: " + new Date(c.exp * 1000).toLocaleString();
+
+            if (c.rng && c.rng.length === 2) {
+                const pfx = c.pfx ? `${c.pfx}` : "";
+                document.getElementById("lbl-range").textContent = `ROLLO: ${pfx}[${c.rng[0]}..${c.rng[1]}]`;
+            } else {
+                document.getElementById("lbl-range").textContent = "RANGO ABIERTO";
+            }
+
+            if (c.hub && !document.getElementById("inp-hub-url").value) {
+                document.getElementById("inp-hub-url").value = c.hub;
+            }
+            if (!document.getElementById("f-ubicacion").value) {
+                document.getElementById("f-ubicacion").value = c.s;
+            }
+
+            capturarGpsEnVivo();
+            renderizarEstadoOperativo();
+        }
+
+        /* ---------- GPS + Geocerca Haversine ---------- */
+        function capturarGpsEnVivo() {
+            const out = document.getElementById("gps-readout");
+            const stGeo = document.getElementById("st-geo");
+            if (!("geolocation" in navigator)) {
+                out.textContent = "GPS no soportado en este dispositivo.";
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    currentGps = {
+                        lat: Number(pos.coords.latitude.toFixed(6)),
+                        lon: Number(pos.coords.longitude.toFixed(6)),
+                        acc: Math.round(pos.coords.accuracy || 0)
+                    };
+                    let txt = `GPS fijado: ${currentGps.lat}, ${currentGps.lon} (±${currentGps.acc}m)`;
+                    if (vaultMeta && vaultMeta.claims.geo) {
+                        const [gLat, gLon, gRad] = vaultMeta.claims.geo;
+                        const dist = haversineMeters(currentGps.lat, currentGps.lon, gLat, gLon);
+                        currentGps.dist_m = dist;
+                        if (dist <= gRad) {
+                            stGeo.textContent = `${Math.round(dist)}m OK`;
+                            stGeo.style.color = "#6ee7b7";
+                            txt += ` · DENTRO DE PLANTA (${Math.round(dist)}m <= ${gRad}m)`;
+                        } else {
+                            stGeo.textContent = `${Math.round(dist)}m ALERTA`;
+                            stGeo.style.color = "#fda4af";
+                            txt += ` · FUERA DE GEOCERCA (${Math.round(dist)}m > ${gRad}m)`;
+                        }
+                    } else {
+                        stGeo.textContent = "FIJADO";
+                        stGeo.style.color = "#6ee7b7";
+                    }
+                    out.textContent = txt;
+                },
+                (err) => {
+                    out.textContent = "Sin lectura GPS (" + err.message + ")";
+                    stGeo.textContent = "SIN GPS";
+                },
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 15000 }
+            );
+        }
+
+        /* ---------- Escáner de Plaqueta y Cámara Viva Forense (Con Feedback Háptico y Sonoro) ---------- */
+        let scanAudioCtx = null;
+        function initAudioFeedback() {
+            try {
+                if (!scanAudioCtx) {
+                    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtxClass) {
+                        scanAudioCtx = new AudioCtxClass();
+                    }
+                }
+                if (scanAudioCtx && scanAudioCtx.state === "suspended") {
+                    scanAudioCtx.resume();
+                }
+            } catch (_) {}
+        }
+
+        function playScanBeep() {
+            try {
+                if ("vibrate" in navigator) {
+                    navigator.vibrate([40, 30, 40]);
+                }
+                if (scanAudioCtx) {
+                    const osc = scanAudioCtx.createOscillator();
+                    const gain = scanAudioCtx.createGain();
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(1200, scanAudioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.3, scanAudioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, scanAudioCtx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(scanAudioCtx.destination);
+                    osc.start();
+                    osc.stop(scanAudioCtx.currentTime + 0.08);
+                }
+            } catch (_) {}
+        }
+
+        async function escanearCodigoPlaqueta() {
+            initAudioFeedback();
+            const vid = document.getElementById("scan-video");
+            try {
+                stopMediaStreams();
+                activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                vid.srcObject = activeMediaStream;
+                vid.style.display = "block";
+                await vid.play();
+                resetEcoTimer();
+                if ("BarcodeDetector" in window) {
+                    const det = new BarcodeDetector({ formats: ["code_128", "code_39", "qr_code", "ean_13"] });
+                    const timer = setInterval(async () => {
+                        if (!activeMediaStream) { clearInterval(timer); return; }
+                        try {
+                            const res = await det.detect(vid);
+                            if (res.length > 0) {
+                                clearInterval(timer);
+                                playScanBeep();
+                                document.getElementById("f-codigo").value = res[0].rawValue.trim().toUpperCase();
+                                stopMediaStreams();
+                            }
+                        } catch (_) {}
+                    }, 250);
+                } else {
+                    alert("BarcodeDetector no disponible en este navegador; digite el código manualmente.");
+                    stopMediaStreams();
+                }
+            } catch (err) {
+                alert("No se pudo abrir el lector: " + err.message);
+            }
+        }
+
+        async function abrirCamaraEvidencia() {
+            const vid = document.getElementById("live-cam");
+            try {
+                stopMediaStreams();
+                activeMediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } }
+                });
+                vid.srcObject = activeMediaStream;
+                vid.style.display = "block";
+                document.getElementById("btn-shot-cam").classList.remove("hidden");
+                await vid.play();
+            } catch (err) {
+                alert("Acceso a cámara en vivo denegado o no disponible: " + err.message);
+            }
+        }
+
+        async function dispararFotoForense() {
+            const vid = document.getElementById("live-cam");
+            if (!activeMediaStream || !vid.videoWidth) return;
+
+            const maxW = 960;
+            const scale = Math.min(1, maxW / vid.videoWidth);
+            const w = Math.round(vid.videoWidth * scale);
+            const h = Math.round(vid.videoHeight * scale);
+
+            const canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(vid, 0, 0, w, h);
+
+            // Sello de agua forense inmutable
+            ctx.fillStyle = "rgba(6, 11, 22, 0.78)";
+            ctx.fillRect(0, h - 42, w, 42);
+            ctx.fillStyle = "#fae29c";
+            ctx.font = "bold 12px monospace";
+            const cod = (document.getElementById("f-codigo").value || "S/COD").trim().toUpperCase();
+            const gpsTxt = currentGps ? `${currentGps.lat},${currentGps.lon}` : "NO_GPS";
+            const stamp = `V&S ZERO-TRUST | ${vaultMeta.claims.p} | ${vaultMeta.claims.w} | ${cod} | ${new Date().toISOString()} | ${gpsTxt}`;
+            ctx.fillText(stamp.slice(0, 108), 8, h - 16);
+
+            currentPhotoB64 = canvas.toDataURL("image/jpeg", 0.74);
+            currentPhotoSha256 = await sha256Hex(currentPhotoB64);
+
+            const thumb = document.getElementById("photo-thumb");
+            thumb.src = currentPhotoB64;
+            thumb.style.display = "block";
+            stopMediaStreams();
+        }
+
+        /* ---------- Guardado Cifrado + Cadena SHA-256 ---------- */
+        async function guardarActivoCifrado() {
+            const warnBox = document.getElementById("capture-warn");
+            warnBox.style.display = "none";
+
+            if (!ramDekKey || !ramDekRaw || !vaultMeta) {
+                bloquearPantalla();
+                return;
+            }
+            if ((vaultMeta.claims.exp * 1000) <= Date.now()) {
+                alert("Su credencial temporal de proyecto ha expirado.");
+                bloquearPantalla();
+                return;
+            }
+
+            const codigo = document.getElementById("f-codigo").value.trim().toUpperCase();
+            const desc = document.getElementById("f-desc").value.trim();
+            const ubic = document.getElementById("f-ubicacion").value.trim() || vaultMeta.claims.s;
+
+            if (!codigo || !desc) {
+                warnBox.textContent = "El Código de Plaqueta y la Descripción Técnica son obligatorios.";
+                warnBox.style.display = "block";
+                return;
+            }
+            if (plainRecords.some((r) => r.codigo_plaqueta === codigo)) {
+                warnBox.textContent = `La plaqueta ${codigo} ya fue registrada en su sesión actual.`;
+                warnBox.style.display = "block";
+                return;
+            }
+
+            // Validar rango de etiquetas asignado al brigadista (advertencia inmediata)
+            const c = vaultMeta.claims;
+            if (c.rng && c.rng.length === 2) {
+                const digits = codigo.replace(/\D/g, "");
+                const num = digits ? parseInt(digits, 10) : -1;
+                if (num < c.rng[0] || num > c.rng[1] || (c.pfx && !codigo.startsWith(c.pfx.toUpperCase()))) {
+                    const okOut = confirm(`ALERTA DE AUDITORÍA: El código ${codigo} está fuera de su rollo asignado (${c.pfx || ""}[${c.rng[0]}..${c.rng[1]}]). ¿Desea registrarlo dejando constancia en la bitácora del Supervisor?`);
+                    if (!okOut) return;
+                }
+            }
+
+            const nowMs = Date.now();
+            if (lastCapturedMs > 0 && nowMs < lastCapturedMs) {
+                warnBox.textContent = "ALERTA ANTI-FRAUDE: Se detectó retroceso en el reloj del teléfono. Ajuste la hora real antes de continuar.";
+                warnBox.style.display = "block";
+                return;
+            }
+            lastCapturedMs = nowMs;
+
+            const seqNum = plainRecords.length + 1;
+            const prevHash = plainRecords.length === 0
+                ? await computeGenesisHash(c.p, c.w)
+                : plainRecords[plainRecords.length - 1].curr_hash;
+
+            const lat = currentGps ? currentGps.lat : null;
+            const lon = currentGps ? currentGps.lon : null;
+            const currHash = await computeRecordHash(prevHash, codigo, nowMs, lat, lon, currentPhotoSha256);
+
+            const rec = {
+                seq_num: seqNum,
+                codigo_plaqueta: codigo,
+                codigo_anterior: document.getElementById("f-cod-ant").value.trim() || null,
+                descripcion: desc,
+                marca: document.getElementById("f-marca").value.trim() || null,
+                modelo: document.getElementById("f-modelo").value.trim() || null,
+                serie: document.getElementById("f-serie").value.trim() || null,
+                ubicacion: ubic,
+                responsable: c.n,
+                estado_conservacion: document.getElementById("f-estado").value,
+                observaciones: document.getElementById("f-obs").value.trim() || null,
+                lat: lat,
+                lon: lon,
+                gps_accuracy_m: currentGps ? currentGps.acc : null,
+                fuente_camara: currentPhotoB64 ? "WEBRTC_LIVE" : "SIN_FOTO",
+                photo_b64: currentPhotoB64,
+                photo_sha256: currentPhotoSha256 || "",
+                captured_at_ms: nowMs,
+                prev_hash: prevHash,
+                curr_hash: currHash
+            };
+
+            // Cifrar registro individual para IndexedDB
+            const ivRec = crypto.getRandomValues(new Uint8Array(12));
+            const ctRec = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: ivRec },
+                ramDekKey,
+                new TextEncoder().encode(JSON.stringify(rec))
+            );
+            await idbPut("records", {
+                seq_num: seqNum,
+                iv: b64uEncode(ivRec),
+                ct: b64uEncode(new Uint8Array(ctRec))
+            });
+
+            plainRecords.push(rec);
+
+            // Actualizar snapshot cifrado de doble sobre `.vyspack` (permite rescate con llave maestra aun con pantalla bloqueada)
+            vaultMeta.latest_vyspack = await buildDualKeyVyspack(
+                { token: vaultMeta.token, nda: vaultMeta.nda, records: plainRecords },
+                ramDekRaw,
+                vaultMeta.pin_envelope,
+                vaultMeta.escrow_envelope,
+                vaultMeta.claims
+            );
+            await idbPut("meta", vaultMeta);
+
+            // Limpiar campos del ítem
+            ["f-codigo", "f-cod-ant", "f-desc", "f-marca", "f-modelo", "f-serie", "f-obs"].forEach((id) => {
+                document.getElementById(id).value = "";
+            });
+            currentPhotoB64 = null;
+            currentPhotoSha256 = "";
+            document.getElementById("photo-thumb").style.display = "none";
+
+            renderizarEstadoOperativo();
+        }
+
+        function renderizarEstadoOperativo() {
+            const total = plainRecords.length;
+            const conFoto = plainRecords.filter((r) => !!r.photo_b64).length;
+            document.getElementById("st-total").textContent = total;
+            document.getElementById("st-fotos").textContent = conFoto;
+            document.getElementById("lbl-list-count").textContent = total;
+
+            const unbacked = total - (vaultMeta.backed_up_count || 0);
+            const nudge = document.getElementById("backup-nudge");
+            if (unbacked >= 50) {
+                document.getElementById("nudge-count").textContent = unbacked;
+                nudge.style.display = "block";
+            } else {
+                nudge.style.display = "none";
+            }
+
+            const currentHour = new Date().getHours();
+            const shiftEnd = document.getElementById("shift-end-nudge");
+            if (shiftEnd) {
+                shiftEnd.style.display = (currentHour >= 17 || total >= 50) ? "block" : "none";
+            }
+
+            const list = document.getElementById("item-list");
+            if (total === 0) {
+                list.innerHTML = `<div style="font-size:0.8rem; color:var(--muted); text-align:center; padding:12px;">Bóveda lista. Ningún activo capturado aún.</div>`;
+                return;
+            }
+            list.innerHTML = plainRecords.slice().reverse().slice(0, 30).map((r) => `
+                <div class="item-row">
+                    <div>
+                        <strong style="color:var(--gold-light); font-family:monospace;">#${r.seq_num} · ${r.codigo_plaqueta}</strong> — ${r.descripcion}
+                        <small>${r.ubicacion} · ${r.estado_conservacion} · SHA256: ${r.curr_hash.slice(0, 12)}...</small>
+                    </div>
+                    <span class="pill" style="font-size:0.65rem;">${r.photo_b64 ? "FOTO OK" : "SIN FOTO"}</span>
+                </div>
+            `).join("");
+        }
+
+        /* ---------- Sincronización Directa a Hub y Exportación .vyspack ---------- */
+        async function sincronizarConHub() {
+            const msg = document.getElementById("sync-msg");
+            const hubUrl = document.getElementById("inp-hub-url").value.trim().replace(/\/$/, "");
+            if (!hubUrl) {
+                msg.style.color = "#fda4af";
+                msg.textContent = "Ingrese la dirección URL del Hub del Supervisor o exporte un paquete .vyspack.";
+                return;
+            }
+            msg.style.color = "#fde68a";
+            msg.textContent = "Sincronizando lote firmado con el Hub del Supervisor...";
+
+            try {
+                if (!vaultMeta.ack_synced) {
+                    await fetch(`${hubUrl}/api/v1/enroll-ack`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            token: vaultMeta.token,
+                            worker_dni: vaultMeta.nda.dni,
+                            nda_hash: vaultMeta.nda.ndaHash,
+                            sst_epp_ok: true
+                        })
+                    });
+                    vaultMeta.ack_synced = true;
+                }
+
+                const batchToSend = plainRecords.slice(vaultMeta.synced_count || 0);
+                if (batchToSend.length === 0) {
+                    msg.style.color = "#6ee7b7";
+                    msg.textContent = "Todos los activos capturados ya se encuentran sincronizados en el Hub.";
+                    return;
+                }
+
+                const resp = await fetch(`${hubUrl}/api/v1/sync`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token: vaultMeta.token, records: batchToSend })
+                });
+                const data = await resp.json();
+                if (!resp.ok) {
+                    if (resp.status === 403 && String(data.detail || "").includes("REVOCADO")) {
+                        await idbClearAll();
+                        alert("ACCESO REVOCADO POR EL SUPERVISOR (Kill-Switch). La bóveda local ha sido cerrada.");
+                        location.reload();
+                        return;
+                    }
+                    throw new Error(data.detail || "Error al sincronizar con el Hub.");
+                }
+
+                vaultMeta.synced_count = plainRecords.length;
+                vaultMeta.backed_up_count = plainRecords.length;
+                await idbPut("meta", vaultMeta);
+                renderizarEstadoOperativo();
+
+                msg.style.color = "#6ee7b7";
+                msg.textContent = `Sincronización incremental exitosa: ${data.inserted} activos nuevos registrados (Total en Hub: ${plainRecords.length}).`;
+            } catch (err) {
+                msg.style.color = "#fda4af";
+                const safeDropUrl = `${hubUrl}/drop`.replace(/"/g, "");
+                msg.innerHTML = `Conexión directa restringida por el navegador (${err.message}).<br><strong>Solución inmediata:</strong> Pulse <em>Exportar Paquete .vyspack</em> y entréguelo en <a href="${safeDropUrl}" target="_blank" rel="noopener" style="color:var(--gold-light); font-weight:700; text-decoration:underline;">${safeDropUrl}</a>.`;
+            }
+        }
+
+        function descargarObjetoVyspack(packObj) {
+            const c = vaultMeta.claims;
+            const blob = new Blob([JSON.stringify(packObj)], { type: "application/octet-stream" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `SGAF_${c.p}_${c.w}_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.vyspack`;
+            a.click();
+        }
+
+        async function exportarVyspackFirmado() {
+            if (!vaultMeta || !vaultMeta.latest_vyspack) return;
+            descargarObjetoVyspack(vaultMeta.latest_vyspack);
+            vaultMeta.backed_up_count = plainRecords.length;
+            await idbPut("meta", vaultMeta);
+            renderizarEstadoOperativo();
+        }
+
+        async function compartirVyspackWhatsApp() {
+            if (!vaultMeta || !vaultMeta.latest_vyspack) {
+                alert("No hay un paquete de inventario activo para compartir.");
+                return;
+            }
+            const c = (vaultMeta && vaultMeta.claims) ? vaultMeta.claims : { p: "PROYECTO", w: "BRIGADA" };
+            const fname = `SGAF_${c.p}_${c.w}_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.vyspack`;
+            const jsonStr = JSON.stringify(vaultMeta.latest_vyspack);
+            const blob = new Blob([jsonStr], { type: "application/octet-stream" });
+            const file = new File([blob], fname, { type: "application/octet-stream" });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        title: `Paquete Cifrado SGAF - ${c.p}`,
+                        text: `Entrega de brigada ${c.w} (${c.p}). Paquete cifrado con llave RSA del supervisor.`,
+                        files: [file],
+                    });
+                    vaultMeta.backed_up_count = plainRecords.length;
+                    await idbPut("meta", vaultMeta);
+                    renderizarEstadoOperativo();
+                    return;
+                } catch (e) {
+                    if (e.name === "AbortError") return;
+                }
+            }
+
+            descargarObjetoVyspack(vaultMeta.latest_vyspack);
+            vaultMeta.backed_up_count = plainRecords.length;
+            await idbPut("meta", vaultMeta);
+            renderizarEstadoOperativo();
+
+            const msg = encodeURIComponent(
+                `*VEGA Y SÁNCHEZ CONSULTORES SAC*\n` +
+                `*Entrega de Inventario en Campo (.vyspack)*\n` +
+                `📁 Archivo descargado: ${fname}\n` +
+                `🏢 Proyecto: ${c.p}\n` +
+                `👷 Brigada: ${c.w}\n` +
+                `Adjunto el archivo cifrado para conciliación en el SGAF Central.`
+            );
+            window.open(`https://api.whatsapp.com/send?phone=51997754542&text=${msg}`, "_blank");
+        }
+
+        function exportarVyspackEmergencia() {
+            if (!vaultMeta || !vaultMeta.latest_vyspack) {
+                alert("No existe paquete cifrado almacenado en este dispositivo.");
+                return;
+            }
+            descargarObjetoVyspack(vaultMeta.latest_vyspack);
+        }
+
+        async function ejecutarCryptoWipe() {
+            if (!confirm("CONFIRMACIÓN CRYPTO-WIPE: Se destruirán irreversiblemente las llaves criptográficas y todos los registros locales de este teléfono. ¿Continuar?")) {
+                return;
+            }
+            stopMediaStreams();
+            ramDekKey = null;
+            ramDekRaw = null;
+            plainRecords = [];
+            vaultMeta = null;
+            await idbClearAll();
+            location.reload();
+        }
+
+        /* ---------- Guardián BeforeUnload Anti-Pérdida en Campo ---------- */
+        window.addEventListener("beforeunload", function (e) {
+            if (plainRecords && plainRecords.length > 0) {
+                const unbacked = plainRecords.length - (vaultMeta ? (vaultMeta.backed_up_count || 0) : 0);
+                if (unbacked > 0) {
+                    const msg = `Atención Pericial: Tiene ${unbacked} activos pendientes de respaldar en .vyspack. ¿Desea salir del navegador de todos modos?`;
+                    e.preventDefault();
+                    e.returnValue = msg;
+                    return msg;
+                }
+            }
+        });
+
+        /* ---------- Modo Eco-Batería (Pausa de Sensor tras 25s de inactividad) ---------- */
+        let ecoInactivityTimer = null;
+        function resetEcoTimer() {
+            const notice = document.getElementById("eco-battery-notice");
+            if (notice) notice.style.display = "none";
+            if (ecoInactivityTimer) clearTimeout(ecoInactivityTimer);
+            if (activeMediaStream) {
+                ecoInactivityTimer = setTimeout(() => {
+                    if (activeMediaStream) {
+                        stopMediaStreams();
+                        if (notice) notice.style.display = "block";
+                    }
+                }, 25000);
+            }
+        }
+        ["touchstart", "mousedown", "keydown", "scroll"].forEach((evt) => {
+            window.addEventListener(evt, resetEcoTimer, { passive: true });
+        });
+
+        /* ---------- Arranque e Inspección de Hash `#enroll=` ---------- */
+        (async function bootstrap() {
+            refreshNetPill();
+            dbConn = await openVaultDb();
+            vaultMeta = await idbGet("meta", "active_session");
+
+            // Capturar token desde URL `#enroll=VYS1...` y limpiar historial inmediatamente
+            if (window.location.hash && window.location.hash.startsWith("#enroll=")) {
+                const enrolledToken = decodeURIComponent(window.location.hash.slice("#enroll=".length)).trim();
+                history.replaceState(null, "", window.location.pathname + window.location.search);
+                if (!vaultMeta) {
+                    document.getElementById("inp-token").value = enrolledToken;
+                }
+            }
+
+            if (vaultMeta) {
+                mostrarVistaDesbloqueo();
+            }
+        })();
+    </script>
+</body>
+</html>

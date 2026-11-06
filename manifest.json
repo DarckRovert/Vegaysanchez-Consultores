@@ -1,0 +1,22 @@
+{
+  "name": "SGAF-V&S Campo v4.1 — Terminal Zero-Trust",
+  "short_name": "SGAF Campo",
+  "description": "Terminal móvil Zero-Trust Offline-First con cifrado AES-256-GCM + Escrow RSA-2048 — Vega y Sánchez Consultores SAC",
+  "start_url": "./campo.html",
+  "display": "standalone",
+  "background_color": "#070d18",
+  "theme_color": "#003366",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

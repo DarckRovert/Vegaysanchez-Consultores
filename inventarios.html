@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Consultoría en Gestión Integral del Activo Fijo y Existencias - Vega y Sánchez Consultores SAC Control exacto de existencias y activos fijos.">
+    <meta name="keywords"
+        content="inventarios, activos fijos, control de existencias, conciliación, contabilidad, peru">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vegaysanchez.com/inventarios.html">
+    <meta property="og:title" content="Inventarios | Vega y Sánchez Consultores SAC">
+    <meta property="og:description"
+        content="Gestión integral de inventarios: General, Selectivo, Permanente y Estratégico.">
+    <meta property="og:image" content="img/logo.png">
+
+    <title>Inventarios | Vega y Sánchez Consultores SAC</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        .service-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-item-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--secondary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .service-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .service-item-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbarbox" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="img/logo.png" alt="Vega y Sánchez Consultores SAC" class="nav-logo-img">
+            </a>
+
+            <div class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="quienes-somos.html" class="nav-link">Quiénes Somos</a>
+                <div class="dropdown">
+                    <a href="index.html#servicios" class="nav-link active">Servicios <i
+                            class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="inventarios.html">Inventario físico y conciliación contable del activo fijo</a>
+                        <a href="inventarios.html#existencias">Inventario físico y conciliación de existencias</a>
+                        <a href="valuaciones.html">Tasación de activos fijos y existencias</a>
+                        <a href="saneamiento.html">Digitación y escaneo de documentos del activo fijo</a>
+                    </div>
+                </div>
+                <a href="experiencia.html" class="nav-link">Experiencia</a>
+                <a href="oportunidad-laboral.html" class="nav-link">Oportunidad Laboral</a>
+                <a href="contacto.html" class="nav-link btn-nav">Contáctenos</a>
+            </div>
+
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header"
+        style="background-image: linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 51, 102, 0.85)), url('img/img-servicios_optimized.jpg');">
+        <div class="container header-content" data-aos="fade-up">
+            <h1>Inventario Físico y Conciliación Contable del Activo Fijo y Existencias</h1>
+            <p>Control exacto, conciliación pericial y auditoría de sus activos fijos y existencias.</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Modalidades de Inventarios</h2>
+                <p class="section-subtitle">Adaptamos nuestros servicios a las necesidades específicas de su empresa
+                    para asegurar la integridad de su información logística y contable.</p>
+            </div>
+
+            <div class="service-list-grid">
+                <div class="service-item-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3><i class="fas fa-clipboard-list" style="color: var(--secondary-color); margin-right: 10px;"></i>
+                        Inventario General</h3>
+                    <p>Considera el total de las existencias (fungibles) y/o activos fijos y de control. Ideal para
+                        cierres contables anuales y reorganizaciones empresariales.</p>
+                </div>
+
+                <div class="service-item-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3><i class="fas fa-search-dollar" style="color: var(--secondary-color); margin-right: 10px;"></i>
+                        Inventario Selectivo</h3>
+                    <p>Enfocado en una muestra general y/o bienes de mayor incidencia logística, contable o estratégica.
+                        Perfecto para auditorías puntuales y verificaciones cíclicas.</p>
+                </div>
+
+                <div class="service-item-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3><i class="fas fa-sync-alt" style="color: var(--secondary-color); margin-right: 10px;"></i>
+                        Inventario Permanente</h3>
+                    <p>Establece un control continuo por razones inherentes al desarrollo, cuantificación y calificación
+                        constante de los bienes de la empresa.</p>
+                </div>
+
+                <div class="service-item-card" data-aos="fade-up" data-aos-delay="400">
+                    <h3><i class="fas fa-chess-knight" style="color: var(--secondary-color); margin-right: 10px;"></i>
+                        Inventario Estratégico</h3>
+                    <p>Modalidad diseñada para alertar sobre mermas persistentes o reforzar controles en áreas críticas
+                        del negocio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section bg-light" style="text-align: center;">
+        <div class="container" data-aos="zoom-in">
+            <h2 style="color: var(--primary-color); margin-bottom: 20px;">¿Necesita realizar un inventario físico?</h2>
+            <p style="margin-bottom: 30px; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Contamos con el equipo humano y la tecnología (lectores de códigos de barras, software propio) para
+                realizar inventarios rápidos y precisos a nivel nacional.
+            </p>
+            <a href="contacto.html" class="btn">Solicitar Cotización</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="Vega y Sánchez">
+                        <span>Vega y Sánchez Consultores SAC</span>
+                    </div>
+                    <p>Consultoría de Gestión Integral del Activo Fijo y Existencias. Comprometidos con la excelencia y
+                        la
+                        satisfacción de nuestros clientes.</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://linkedin.com/company/vegaysanchez" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/51997754542" class="social-link" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+                        <li><a href="index.html#servicios">Servicios</a></li>
+                        <li><a href="experiencia.html">Experiencia</a></li>
+                        <li><a href="oportunidad-laboral.html">Oportunidad Laboral</a></li>
+                        <li><a href="contacto.html">Contáctenos</a></li>
+                        <li><a href="dashboard.html" style="color: var(--secondary-color); font-weight: 600;"><i class="fas fa-th-large"></i> Plataforma SGAF</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Central Mz. B Lt.17 Of. 301 Los Girasoles La Molina
+                        Lima</p>
+                    <p><i class="fas fa-phone"></i> 997754542</p>
+                    <p><i class="fas fa-envelope"></i> gvega@vegaysanchez.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span class="current-year">2026</span> Vega y Sánchez Consultores SAC — Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <a href="https://wa.me/51997754542" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+
+</html>
