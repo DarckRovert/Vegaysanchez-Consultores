@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#003366">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="robots" content="noindex, nofollow">
+    <title>SGAF Campo v5.4.0 Zero-Trust — Vega y Sánchez Consultores SAC</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <style>
+        :root {
+            --bg: #060b16;
+            --card: #0f192d;
+            --card-alt: #132038;
+            --border: rgba(255, 255, 255, 0.12);
+            --gold: #d4af37;
+            --gold-light: #fae29c;
+            --navy: #003366;
+            --emerald: #10b981;
+            --amber: #f59e0b;
+            --ruby: #f43f5e;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 48px; }
+
+        /* Modo Alto Contraste Solar (Visibilidad a pleno sol en mina/patio) */
+        body.solar-theme { background: #ffffff !important; color: #000000 !important; }
+        body.solar-theme header { background: #e2e8f0 !important; border-bottom: 2px solid #000000 !important; }
+        body.solar-theme .brand h1 { color: #000000 !important; }
+        body.solar-theme .brand .sub { color: #334155 !important; }
+        body.solar-theme .card { background: #f8fafc !important; border: 2px solid #000000 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important; }
+        body.solar-theme .card h2 { color: #000000 !important; font-weight: 900 !important; }
+        body.solar-theme label { color: #000000 !important; font-weight: 800 !important; }
+        body.solar-theme input, body.solar-theme select, body.solar-theme textarea { background: #ffffff !important; color: #000000 !important; border: 2px solid #000000 !important; font-weight: 700 !important; }
+        body.solar-theme .btn-sec { background: #cbd5e1 !important; color: #000000 !important; border: 2px solid #000000 !important; }
+        body.solar-theme .btn-gold { background: #f59e0b !important; color: #000000 !important; border: 2px solid #000000 !important; font-weight: 900 !important; }
+        body.solar-theme .stat-box { background: #e2e8f0 !important; border: 2px solid #000000 !important; }
+        body.solar-theme .stat-box strong { color: #000000 !important; }
+        body.solar-theme .stat-box span { color: #334155 !important; font-weight: 700 !important; }
+        body.solar-theme .badge-banner { background: #f1f5f9 !important; border: 2px solid #000000 !important; }
+        body.solar-theme .item-row { background: #ffffff !important; border: 1px solid #000000 !important; color: #000000 !important; }
+        body.solar-theme .item-row small { color: #334155 !important; }
+
+        header {
+            background: linear-gradient(90deg, #001c3d, #0b1324);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 11px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 60;
+        }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand img { height: 26px; background: #fff; padding: 2px 6px; border-radius: 5px; }
+        .brand h1 { font-size: 0.9rem; font-weight: 800; letter-spacing: 0.02em; color: var(--gold-light); }
+        .brand .sub { font-size: 0.67rem; color: var(--muted); }
+
+        .pill {
+            font-size: 0.7rem; font-weight: 700; padding: 4px 9px; border-radius: 999px;
+            background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid var(--emerald);
+        }
+        .pill.offline { background: rgba(245, 158, 11, 0.18); color: #fcd34d; border-color: var(--amber); }
+        .pill.danger { background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid var(--ruby); }
+
+        .wrap { max-width: 650px; margin: 0 auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+        .card-gold { border-color: rgba(212, 175, 55, 0.45); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45); }
+        .card h2 { font-size: 0.88rem; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+        label { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+        input, select, textarea {
+            background: #070e1b; border: 1px solid var(--border); border-radius: 9px;
+            padding: 10px 12px; color: #fff; font-size: 0.94rem; width: 100%;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
+
+        .check-box {
+            display: flex; align-items: flex-start; gap: 10px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 9px;
+            font-size: 0.8rem; color: #cbd5e1; line-height: 1.35;
+        }
+        .check-box input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0; accent-color: var(--gold); }
+
+        .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        button {
+            border: none; border-radius: 9px; padding: 11px 14px; font-weight: 700;
+            font-size: 0.87rem; cursor: pointer; display: inline-flex; align-items: center;
+            justify-content: center; gap: 6px; transition: opacity 0.15s;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-gold { background: linear-gradient(135deg, #fae29c, #d4af37); color: #070d18; width: 100%; font-size: 0.95rem; }
+        .btn-sec { background: rgba(255, 255, 255, 0.07); color: #fff; border: 1px solid var(--border); flex: 1; }
+        .btn-green { background: var(--emerald); color: #04130d; font-weight: 800; flex: 1; }
+        .btn-amber { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid var(--amber); flex: 1; }
+        .btn-danger { background: rgba(244, 63, 94, 0.16); color: #fda4af; border: 1px solid var(--ruby); }
+
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; text-align: center; }
+        .stat-box { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 10px; padding: 8px 5px; }
+        .stat-box strong { display: block; font-size: 1.12rem; color: #fff; }
+        .stat-box span { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; }
+
+        .badge-banner {
+            background: var(--card-alt); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 11px;
+            padding: 10px 12px; font-size: 0.78rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;
+        }
+        .alert-nudge {
+            background: rgba(245, 158, 11, 0.16); border: 1px solid var(--amber); color: #fde68a;
+            border-radius: 10px; padding: 10px 12px; font-size: 0.8rem; display: none;
+        }
+        .error-msg {
+            background: rgba(244, 63, 94, 0.18); border: 1px solid var(--ruby); color: #fecdd3;
+            border-radius: 9px; padding: 9px 12px; font-size: 0.8rem; margin-bottom: 10px; display: none;
+        }
+
+        video.cam-view { width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; display: none; margin-bottom: 8px; border: 1px solid var(--gold); background: #000; }
+        img#photo-thumb { width: 100%; max-height: 180px; object-fit: cover; border-radius: 8px; display: none; margin-top: 6px; border: 1px solid var(--emerald); }
+
+        .item-list { display: flex; flex-direction: column; gap: 8px; max-height: 290px; overflow-y: auto; }
+        .item-row {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+            border-radius: 9px; padding: 9px 11px; display: flex; justify-content: space-between; align-items: center; gap: 8px;
+        }
+        .item-row small { color: var(--muted); display: block; font-size: 0.72rem; }
+        .workspace-stack { display: flex; flex-direction: column; gap: 14px; }
+        .hidden { display: none !important; }
+        @media (max-width: 480px) {
+            .row-2 { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <img src="img/logo.png" alt="Vega y Sánchez Consultores SAC">
+            <div>
+                <h1>SGAF CAMPO v5.4.0 ZERO-TRUST</h1>
+                <div class="sub">Vega y Sánchez Consultores SAC · RUC 20536779320</div>
+            </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <button type="button" id="btn-solar" onclick="toggleSolarTheme()" style="padding:4px 8px; font-size:0.72rem; font-weight:700; background:rgba(212,175,55,0.15); border:1px solid var(--gold); color:var(--gold-light); border-radius:6px; cursor:pointer;">☀️ Sol</button>
+            <a href="tutorial-campo.html" target="_blank" style="text-decoration:none; font-size:0.72rem; font-weight:700; color:var(--gold); border:1px solid rgba(212,175,55,0.4); padding:4px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:4px; background:rgba(0,0,0,0.3);">📖 Tutorial</a>
+            <span id="net-status" class="pill">VERIFICANDO</span>
+        </div>
+    </header>
+
+    <div class="wrap">
+
+        <!-- =====================================================================
+             VISTA 1: COMPUERTA DE ENROLAMIENTO ZERO-TRUST (SIN SESIÓN ACTIVA)
+        ====================================================================== -->
+        <section id="view-enroll" class="card card-gold">
+            <h2><span>1. Acceso Restringido de Brigada</span> <span class="pill danger">BLOQUEADO</span></h2>
+            <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px; line-height: 1.4;">
+                Terminal corporativa de conteo físico ciego (<strong>Blind Count</strong>). Para desbloquear la captura, escanee el código QR personal emitido por su Supervisor de Planta o pegue su credencial firmada <code>VYS1</code>.
+            </p>
+
+            <div style="background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); border-radius:8px; padding:8px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.78rem; color:var(--gold-light);">¿Primera vez en planta? Revisa la guía con pasos y fotos.</span>
+                <a href="tutorial-campo.html" target="_blank" style="color:var(--gold); font-size:0.78rem; font-weight:700; text-decoration:underline;">Ver Tutorial ➔</a>
+            </div>
+
+            <div id="enroll-error" class="error-msg"></div>
+
+            <video id="qr-video" class="cam-view" playsinline muted></video>
+            <div class="btn-row" style="margin-bottom: 10px;">
+                <button type="button" class="btn-sec" onclick="iniciarEscaneoQrEnrolamiento()">Escanear QR del Supervisor</button>
+            </div>
+
+            <div class="field">
+                <label>Credencial Criptográfica Temporal (Token VYS1)</label>
+                <textarea id="inp-token" rows="2" placeholder="VYS1.eyJ..."></textarea>
+            </div>
+
+            <div class="row-2">
+                <div class="field" style="margin:0;">
+                    <label>DNI del Brigadista *</label>
+                    <input type="text" id="inp-dni" maxlength="12" inputmode="numeric" placeholder="Ej. 45892104">
+                </div>
+                <div class="field" style="margin:0;">
+                    <label>Crear PIN de Cifrado (6 dígitos) *</label>
+                    <input type="password" id="inp-new-pin" maxlength="6" inputmode="numeric" placeholder="••••••">
+                </div>
+            </div>
+
+            
+            <!-- Bloque Veedor de Cuadrilla (NIA 501 / Art. 37° inc. f LIR) -->
+            <div style="margin-top: 14px; padding: 12px; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.38); border-radius: 10px;">
+                <div style="font-size: 0.78rem; font-weight: 800; color: var(--gold-light); text-transform: uppercase; margin-bottom: 6px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>Veedor de Cuadrilla (Representante del Cliente)</span>
+                    <span class="pill" style="font-size:0.62rem; padding:2px 6px;">NIA 501 / ART. 37° LIR</span>
+                </div>
+                <p style="font-size:0.73rem; color:var(--muted); margin-bottom:10px; line-height:1.35;">
+                    Conforme a la normativa tributaria y pericial de toma de inventarios, acredite al veedor designado por la empresa para presenciar el conteo físico.
+                </p>
+                <div class="row-2">
+                    <div class="field" style="margin:0;">
+                        <label>Nombre y Apellidos del Veedor *</label>
+                        <input type="text" id="inp-veedor-nombre" placeholder="Ej. Ing. Carlos Salazar">
+                    </div>
+                    <div class="field" style="margin:0;">
+                        <label>DNI / Doc. Identidad *</label>
+                        <input type="text" id="inp-veedor-dni" maxlength="12" inputmode="numeric" placeholder="Ej. 10293847">
+                    </div>
+                </div>
+                <div class="field" style="margin-top: 8px;">
+                    <label>Cargo / Área en la Empresa Auditada *</label>
+                    <input type="text" id="inp-veedor-cargo" placeholder="Ej. Jefe de Almacén / Contador de Activos">
+                </div>
+                <div class="field" style="margin-top: 8px; margin-bottom:0;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
+                        <label style="margin:0;">Firma Digital Táctil del Veedor (En Pantalla) *</label>
+                        <button type="button" class="btn-sec" onclick="limpiarFirmaVeedor()" style="flex:0; padding:2px 8px; font-size:0.68rem; background:rgba(244,63,94,0.15); border-color:var(--ruby); color:#fda4af;">Limpiar Trazo</button>
+                    </div>
+                    <div style="background:#ffffff; border:2px solid var(--gold); border-radius:8px; overflow:hidden; touch-action:none;">
+                        <canvas id="canvas-veedor" width="600" height="130" style="width:100%; height:130px; display:block; cursor:crosshair;"></canvas>
+                    </div>
+                    <small style="color:var(--muted); font-size:0.65rem; margin-top:2px;">Firme directamente con el dedo o stylus sobre el recuadro blanco.</small>
+                </div>
+            </div>
+
+<div style="margin-top: 10px;">
+                <label class="check-box">
+                    <input type="checkbox" id="chk-nda">
+                    <span><strong>Acuerdo de Confidencialidad (Ley N° 29733):</strong> Declaro bajo juramento que toda información, ubicación, serie y fotografía capturada es propiedad industrial confidencial del cliente y de <strong>Vega y Sánchez Consultores SAC</strong>, quedando prohibida su copia, captura de pantalla o divulgación a terceros.</span>
+                </label>
+                <label class="check-box">
+                    <input type="checkbox" id="chk-sst">
+                    <span><strong>Declaración SST y EPP (Ley N° 29783):</strong> Confirmo contar con SCTR vigente y portar mi Equipo de Protección Personal completo (casco, botas dieléctricas/punta de acero, chaleco y lentes) antes de iniciar el conteo en planta.</span>
+                </label>
+            </div>
+
+            <button type="button" class="btn-gold" id="btn-enroll" onclick="procesarEnrolamiento()">
+                Firmar Digitalmente y Activar Bóveda AES-256-GCM
+            </button>
+        </section>
+
+        <!-- =====================================================================
+             VISTA 2: PANTALLA DE DESBLOQUEO CON PIN O RECUPERACIÓN ESCROW
+        ====================================================================== -->
+        <section id="view-unlock" class="card card-gold hidden">
+            <h2><span>Bóveda Local Cifrada</span> <span id="unlock-badge" class="pill offline">SESIÓN PROTEGIDA</span></h2>
+            <p id="unlock-meta" style="font-size: 0.82rem; color: var(--muted); margin-bottom: 12px;"></p>
+
+            <div id="unlock-error" class="error-msg"></div>
+
+            <div id="pin-unlock-box">
+                <div class="field">
+                    <label>Ingrese su PIN Personal de 6 Dígitos</label>
+                    <input type="password" id="inp-unlock-pin" maxlength="6" inputmode="numeric" placeholder="••••••">
+                </div>
+                <button type="button" class="btn-gold" onclick="desbloquearConPin()">Desbloquear Terminal de Conteo</button>
+            </div>
+
+            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);">
+                <p style="font-size: 0.76rem; color: var(--muted); margin-bottom: 8px;">
+                    ¿Olvidó su PIN o expiró su turno? Exporte el paquete cifrado de emergencia (custodiado con la Clave Pública Maestra RSA-2048 de Vega y Sánchez Consultores SAC) para que su Supervisor lo descifre en el Hub:
+                </p>
+                <div class="btn-row">
+                    <button type="button" class="btn-amber" onclick="exportarVyspackEmergencia()">Exportar .vyspack (Escrow RSA-2048)</button>
+                    <button type="button" class="btn-danger" onclick="ejecutarCryptoWipe()">Crypto-Wipe (Borrar Todo)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================================
+             VISTA 3: TERMINAL OPERATIVA DE CONTEO CIEGO EN PLANTA (DESBLOQUEADA)
+        ====================================================================== -->
+        <main id="view-workspace" class="workspace-stack hidden">
+
+            <!-- Credencial Activa y Geocerca -->
+            <div class="badge-banner">
+                <div>
+                    <strong id="lbl-worker" style="color: var(--gold-light);">BRIGADISTA</strong>
+                    <div id="lbl-project" style="color: var(--muted); font-size: 0.73rem;">PROYECTO / SEDE</div>
+                </div>
+                <div style="text-align: right;">
+                    <span id="lbl-range" class="pill" style="display:inline-block; margin-bottom:3px;">RANGO LIBRE</span>
+                    <div id="lbl-exp" style="font-size: 0.69rem; color: var(--muted);">Expira: --</div>
+                </div>
+            </div>
+
+            <!-- Recordatorio proactivo cada 50 activos -->
+            <div id="backup-nudge" class="alert-nudge">
+                <strong>Respaldo Preventivo Recomendado:</strong> Ha acumulado <span id="nudge-count">50</span> capturas sin respaldar. Descargue un paquete cifrado <code>.vyspack</code> o sincronice con el Hub del Supervisor.
+            </div>
+
+            <!-- Recordatorio de Cierre de Turno Pericial -->
+            <div id="shift-end-nudge" class="alert-nudge" style="background: rgba(16, 185, 129, 0.16); border-color: var(--emerald); color: #6ee7b7;">
+                <strong>🔔 Cierre de Turno / Fin de Jornada:</strong> Se recomienda empaquetar el lote de activos y despachar el <code>.vyspack</code> por WhatsApp corporativo o sincronizar al Hub Central.
+            </div>
+
+            <!-- Aviso de Modo Eco-Batería -->
+            <div id="eco-battery-notice" class="alert-nudge" style="background: rgba(56, 189, 248, 0.16); border-color: #38bdf8; color: #bae6fd;">
+                <strong>🌿 Modo Eco-Batería Activo:</strong> Sensor de cámara pausado por inactividad (25s) para maximizar la autonomía del dispositivo. Toque para reactivar.
+            </div>
+
+            <!-- Aviso de Modo Batería Crítica (< 15%) -->
+            <div id="alert-battery-critical" class="alert-nudge" style="background: rgba(244, 63, 94, 0.2); border-color: var(--ruby); color: #fda4af;">
+                <strong>⚠️ BATERÍA CRÍTICA (<span id="lbl-bat-pct">15%</span>):</strong> Modo Ultra-Ahorro activado. Stream continuo pausado; sensor GPS a demanda.
+            </div>
+
+            <!-- KPIs de Brigadista -->
+            <div class="stats-bar">
+                <div class="stat-box"><strong id="st-total">0</strong><span>Cifrados</span></div>
+                <div class="stat-box"><strong id="st-fotos" style="color: #6ee7b7;">0</strong><span>Fotos Viva</span></div>
+                <div class="stat-box"><strong id="st-geo" style="color: #93c5fd;">--</strong><span>Geocerca</span></div>
+                <div class="stat-box"><strong id="st-chain" style="color: var(--gold-light);">OK</strong><span>Hash-Chain</span></div>
+            </div>
+
+            <!-- Formulario de Captura Ciega Dual (Activo Fijo & Existencias) -->
+            <div class="card">
+                <h2>
+                    <span>Captura en Campo (Blind Count)</span>
+                    <button type="button" class="btn-sec" style="flex:0; padding:5px 10px; font-size:0.73rem;" onclick="bloquearPantalla()">Bloquear PIN</button>
+                </h2>
+
+                <!-- Selector de Modo de Encargo -->
+                <div style="display:flex; gap:6px; margin-bottom:12px; background:rgba(0,0,0,0.3); padding:4px; border-radius:10px; border:1px solid var(--border);">
+                    <button type="button" id="tab-mode-af" class="btn-sec" style="flex:1; padding:8px; font-size:0.8rem; background:rgba(212,175,55,0.25); border-color:var(--gold); color:var(--gold-light);" onclick="cambiarModoEncargo('activo_fijo')">🏗️ Activo Fijo</button>
+                    <button type="button" id="tab-mode-ex" class="btn-sec" style="flex:1; padding:8px; font-size:0.8rem; opacity:0.7;" onclick="cambiarModoEncargo('existencias')">📦 Existencias / Almacén</button>
+                </div>
+
+                <div id="capture-warn" class="error-msg"></div>
+
+                <video id="scan-video" class="cam-view" playsinline muted></video>
+                <div class="field">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <label id="lbl-tag-field" style="margin:0;">Código de Plaqueta / Marbete * (Láser o Cámara)</label>
+                        <button type="button" id="btn-clone-last" class="btn-sec" style="flex:0; padding:3px 9px; font-size:0.72rem; color:var(--gold-light); border-color:var(--gold); font-weight:800;" onclick="clonarActivoAnterior()" title="Atajo Alt+C">⚡ Repetir Anterior (Alt+C)</button>
+                    </div>
+                    <div class="btn-row">
+                        <input type="text" id="f-codigo" placeholder="Ej. AF-00105" style="flex: 2; font-family: monospace; font-weight: 700;">
+                        <button type="button" class="btn-sec" onclick="escanearCodigoPlaqueta()">Lector Óptico</button>
+                    </div>
+                    <small style="color:var(--muted); font-size:0.67rem; margin-top:2px;">⚡ Compatible con gatillo láser de terminales industriales (Zebra, Honeywell, Chainway) y Bluetooth.</small>
+                </div>
+
+                <div class="row-2">
+                    <div class="field" style="margin:0;">
+                        <label>Código Anterior / Histórico</label>
+                        <input type="text" id="f-cod-ant" placeholder="Opcional">
+                    </div>
+                    <div class="field" style="margin:0;">
+                        <label>Ubicación Específica / Área *</label>
+                        <input type="text" id="f-ubicacion" placeholder="Ej. Nave 2 - Línea B">
+                    </div>
+                </div>
+
+                <div class="field" style="margin-top:10px;">
+                    <label>Denominación / Descripción Técnica Física *</label>
+                    <input type="text" id="f-desc" placeholder="Ej. Compresor de Tornillo 50 HP" list="dl-familias" autocomplete="off">
+                </div>
+
+                <!-- Campos Exclusivos Activo Fijo -->
+                <div id="af-fields-container">
+                    <div class="row-2">
+                        <div class="field" style="margin:0;">
+                            <label>Marca</label>
+                            <input type="text" id="f-marca" placeholder="Ej. Atlas Copco" list="dl-marcas" autocomplete="off">
+                        </div>
+                        <div class="field" style="margin:0;">
+                            <label>Modelo</label>
+                            <input type="text" id="f-modelo" placeholder="Ej. GA37+">
+                        </div>
+                    </div>
+
+                    <div class="row-2" style="margin-top:10px;">
+                        <div class="field" style="margin:0;">
+                            <label>Número de Serie / Chasis / VIN</label>
+                            <input type="text" id="f-serie" placeholder="S/N">
+                        </div>
+                        <div class="field" style="margin:0;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
+                                <label style="margin:0;">Estado Tasación (V&S / SBN)</label>
+                                <button type="button" class="btn-sec" onclick="abrirModalCriterios()" style="flex:0; padding:2px 7px; font-size:0.67rem; color:var(--gold-light); border-color:rgba(212,175,55,0.4);" title="Ver matriz pericial de depreciación Heidecke">ℹ️ Criterios</button>
+                            </div>
+                            <select id="f-estado">
+                                <option value="OPTIMO">1 - Nuevo / Óptimo</option>
+                                <option value="BUENO" selected>2 - Bueno (Operativo normal)</option>
+                                <option value="REGULAR">3 - Regular (Desgaste medio)</option>
+                                <option value="MALO">4 - Malo (Inoperativo / Baja)</option>
+                                <option value="CHATARRA">5 - Chatarra / RAEE</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Métricas RNT Art. 129°: Horómetro y Odómetro -->
+                    <div class="row-2" style="margin-top:10px;">
+                        <div class="field" style="margin:0;">
+                            <label>Horómetro (Horas Motor RNT)</label>
+                            <input type="number" step="0.1" id="f-horometro" placeholder="Ej. 14250.5">
+                        </div>
+                        <div class="field" style="margin:0;">
+                            <label>Odómetro (Kilometraje)</label>
+                            <input type="number" step="1" id="f-odometro" placeholder="Ej. 85400">
+                        </div>
+                    </div>
+
+                    <!-- Despiece Modular Padre - Hijo -->
+                    <div style="margin-top:10px; padding:8px 10px; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px;">
+                        <label class="check-box" style="margin:0; padding:0; background:transparent; border:none;">
+                            <input type="checkbox" id="chk-is-component" onchange="toggleComponentBox()">
+                            <span style="font-size:0.75rem;">¿Es componente / despiece de un activo mayor?</span>
+                        </label>
+                        <div id="parent-tag-box" class="field hidden" style="margin-top:8px; margin-bottom:0;">
+                            <label>Plaqueta del Activo Padre</label>
+                            <input type="text" id="f-parent-tag" placeholder="Ej. AF-00100 (Chasis / Máquina Principal)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campos Exclusivos Existencias (Almacén / NIC 2) -->
+                <div id="existencias-fields-container" class="hidden">
+                    <div class="row-2">
+                        <div class="field" style="margin:0;">
+                            <label>Código Material / SKU *</label>
+                            <input type="text" id="f-sku" placeholder="Ej. MAT-88401">
+                        </div>
+                        <div class="field" style="margin:0;">
+                            <label>N° Lote / Batch</label>
+                            <input type="text" id="f-lote" placeholder="Ej. L-2026-X">
+                        </div>
+                    </div>
+                    <div class="row-2" style="margin-top:10px;">
+                        <div class="field" style="margin:0;">
+                            <label>Cantidad Contada (Físico) *</label>
+                            <input type="number" step="0.01" id="f-cantidad" placeholder="Ej. 50">
+                        </div>
+                        <div class="field" style="margin:0;">
+                            <label>Unidad de Medida (Catálogo 03 SUNAT) *</label>
+                            <select id="f-unidad-medida">
+                                <option value="NIU" selected>NIU - Unidad (Bienes / Piezas)</option>
+                                <option value="KGM">KGM - Kilogramos</option>
+                                <option value="LTR">LTR - Litros</option>
+                                <option value="MTR">MTR - Metros Lineales</option>
+                                <option value="MTK">MTK - Metros Cuadrados</option>
+                                <option value="MTQ">MTQ - Metros Cúbicos</option>
+                                <option value="GLI">GLI - Galones</option>
+                                <option value="PZA">PZA - Piezas</option>
+                                <option value="CEN">CEN - Ciento</option>
+                                <option value="MIL">MIL - Millar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row-2" style="margin-top:10px;">
+                        <div class="field" style="margin:0;">
+                            <label>Fecha Vencimiento (Si aplica)</label>
+                            <input type="date" id="f-fecha-venc">
+                        </div>
+                        <div class="field" style="margin:0;">
+                            <label>Estado Físico Existencia</label>
+                            <select id="f-estado-existencia">
+                                <option value="CONFORME" selected>1 - Conforme (Buen estado)</option>
+                                <option value="DETERIORADO">2 - Deteriorado / Dañado (Desmedro)</option>
+                                <option value="VENCIDO">3 - Vencido (Baja tributaria)</option>
+                                <option value="OBSOLETO">4 - Obsoleto (Desuso tecnológico)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field" style="margin-top:10px;">
+                    <label>Observaciones Periciales</label>
+                    <input type="text" id="f-obs" placeholder="Placa borrosa, sin guarda, fuera de uso...">
+                </div>
+
+                <!-- Cámara Viva WebRTC Anti-Fraude con Doble Foto Pericial -->
+                <div class="field">
+                    <label>Evidencia Fotográfica Forense en Vivo (Doble Toma Pericial)</label>
+                    <video id="live-cam" class="cam-view" playsinline muted></video>
+                    <div class="btn-row">
+                        <button type="button" class="btn-sec" id="btn-open-cam" onclick="abrirCamaraEvidencia()">Activar Cámara</button>
+                        <button type="button" class="btn-sec hidden" id="btn-torch" onclick="toggleTorch()">🔦 Flash</button>
+                        <button type="button" class="btn-amber hidden" id="btn-shot-detail" onclick="dispararFotoForense('detalle')">📸 1. Placa/Plaqueta</button>
+                        <button type="button" class="btn-amber hidden" id="btn-shot-pano" onclick="dispararFotoForense('panoramica')">📸 2. Panorámica</button>
+                        <button type="button" class="btn-sec" onclick="capturarGpsEnVivo()">Fijar GPS</button>
+                    </div>
+                    <div id="gps-readout" style="font-size: 0.74rem; color: var(--muted); margin-top: 5px;">GPS pendiente de lectura...</div>
+                    <div class="row-2" style="margin-top:6px;">
+                        <div>
+                            <label style="font-size:0.65rem;">Foto 1: Detalle Placa</label>
+                            <img id="photo-thumb-1" alt="Foto Detalle" style="width:100%; max-height:120px; object-fit:cover; border-radius:6px; display:none; border:1px solid var(--emerald);">
+                        </div>
+                        <div>
+                            <label style="font-size:0.65rem;">Foto 2: Panorámica General</label>
+                            <img id="photo-thumb-2" alt="Foto Panorámica" style="width:100%; max-height:120px; object-fit:cover; border-radius:6px; display:none; border:1px solid #38bdf8;">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-gold" onclick="guardarActivoCifrado()">
+                    Cifrar y Encadenar Activo (AES-256-GCM + SHA-256)
+                </button>
+
+                <!-- Anulación y Cuadre de Marbetes Físicos -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:8px; border-top:1px dashed var(--border);">
+                    <span style="font-size:0.72rem; color:var(--muted);">¿Marbete físico dañado, doblado o inservible?</span>
+                    <button type="button" class="btn-danger" style="padding:5px 9px; font-size:0.72rem;" onclick="registrarPlaquetaAnulada()">⚠️ Anular Plaqueta</button>
+                </div>
+            </div>
+
+            <!-- Sincronización LAN / Exportación .vyspack / Crypto-Wipe -->
+            <div class="card">
+                <h2>Consolidación Segura con el Supervisor</h2>
+                <div class="field">
+                    <label>URL del Hub Local / HTTPS del Supervisor</label>
+                    <input type="text" id="inp-hub-url" placeholder="http://192.168.x.x:8765">
+                </div>
+                <div class="btn-row" style="margin-bottom: 8px;">
+                    <button type="button" class="btn-green" onclick="sincronizarConHub()">Sincronizar Lote a Hub</button>
+                    <button type="button" class="btn-amber" onclick="exportarVyspackFirmado()">Exportar .vyspack</button>
+                    <button type="button" class="btn-sec" onclick="compartirVyspackWhatsApp()" style="background:#25D366; color:#04130d; border-color:#25D366; font-weight:800;">📲 Enviar por WhatsApp</button>
+                </div>
+                <div id="sync-msg" style="font-size: 0.78rem; color: var(--muted); margin-bottom: 8px;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:8px; border-top:1px solid var(--border);">
+                    <span style="font-size:0.72rem; color:var(--muted);">Fin de jornada / Devolución de equipo:</span>
+                    <button type="button" class="btn-danger" style="padding:7px 11px; font-size:0.76rem;" onclick="ejecutarCryptoWipe()">Crypto-Wipe Total</button>
+                </div>
+            </div>
+
+            <!-- Cola Cifrada Desbloqueada en RAM -->
+            <div class="card">
+                <h2>Últimas Capturas Desbloqueadas en RAM (<span id="lbl-list-count">0</span>)</h2>
+                <div id="item-list" class="item-list"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        /* =========================================================================
+           SGAF-V&S v5.4.0 ZERO-TRUST FIELD ENGINE
+           100% Interoperable byte a byte con Python `sgaf_hub/security_crypto.py`
+        ========================================================================= */
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("./sw.js").catch(() => {});
+        }
+
+        const DB_NAME = "sgaf_vys_v41_vault";
+        const DB_VER = 1;
+        const PBKDF2_ITER = 150000;
+
+        // Prefijo/Sufijo ASN.1 DER exacto para SubjectPublicKeyInfo RSA-2048 (e=65537)
+        const RSA2048_SPKI_PREFIX_HEX = "30820122300d06092a864886f70d01010105000382010f003082010a0282010100";
+        const RSA2048_SPKI_SUFFIX_HEX = "0203010001";
+
+        let dbConn = null;
+        let vaultMeta = null;      // { token, claims, nda, pin_envelope, escrow_envelope, latest_vyspack, unsent_ack }
+        let ramDekKey = null;      // CryptoKey AES-256-GCM (SOLO EN RAM VOLÁTIL)
+        let ramDekRaw = null;      // Uint8Array(32) mientras está desbloqueado para regenerar latest_vyspack
+        let plainRecords = [];     // Registros descifrados solo en RAM mientras sesión está activa
+        let lastCapturedMs = 0;
+
+        let currentGps = null;     // { lat, lon, acc }
+        let currentPhotoB64 = null;
+        let currentPhotoSha256 = "";
+        let currentPhoto2B64 = null;
+        let currentPhoto2Sha256 = "";
+        let activeMediaStream = null;
+        let currentVideoTrack = null;
+        let isTorchOn = false;
+        let wakeLock = null;
+        let currentMode = "activo_fijo"; // "activo_fijo" | "existencias"
+
+        /* ---------- Utilidades Binarias / Criptográficas ---------- */
+        function hexToBytes(hex) {
+            const out = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i * 2, 2), 16);
+            return out;
+        }
+
+        function bytesToHex(bytes) {
+            return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function b64uEncode(bytes) {
+            let bin = "";
+            const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+            for (let i = 0; i < arr.length; i++) bin += String.fromCharCode(arr[i]);
+            return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        }
+
+        function b64uDecode(str) {
+            const pad = "=".repeat((4 - (str.length % 4)) % 4);
+            const b64 = (str + pad).replace(/-/g, "+").replace(/_/g, "/");
+            const bin = atob(b64);
+            const out = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+            return out;
+        }
+
+        function canonicalSortedJson(obj) {
+            const keys = Object.keys(obj).sort();
+            const parts = keys.map((k) => JSON.stringify(k) + ":" + JSON.stringify(obj[k]));
+            return "{" + parts.join(",") + "}";
+        }
+
+        async function sha256Hex(str) {
+            const data = new TextEncoder().encode(str);
+            const digest = await crypto.subtle.digest("SHA-256", data);
+            return bytesToHex(new Uint8Array(digest));
+        }
+
+        function haversineMeters(lat1, lon1, lat2, lon2) {
+            const R = 6371000.0;
+            const toRad = (d) => (d * Math.PI) / 180.0;
+            const p1 = toRad(lat1), p2 = toRad(lat2);
+            const dp = toRad(lat2 - lat1), dl = toRad(lon2 - lon1);
+            const a = Math.sin(dp / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl / 2) ** 2;
+            return Math.round(2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(Math.max(0, 1 - a))) * 100) / 100;
+        }
+
+        function parseUnverifiedVys1Token(tokenStr) {
+            const clean = (tokenStr || "").trim();
+            const parts = clean.split(".");
+            if (parts.length !== 3 || parts[0] !== "VYS1") {
+                throw new Error("Formato de token inválido. Debe comenzar con VYS1.");
+            }
+            const jsonStr = new TextDecoder().decode(b64uDecode(parts[1]));
+            const claims = JSON.parse(jsonStr);
+            if (!claims.p || !claims.w || !claims.k || !claims.exp) {
+                throw new Error("Credencial VYS1 incompleta o corrupta.");
+            }
+            return { token: clean, claims };
+        }
+
+        async function importProjectRsaPublicKey(modulusB64u) {
+            const modBytes = b64uDecode(modulusB64u);
+            if (modBytes.length !== 256) {
+                throw new Error("Módulo RSA-2048 del proyecto inválido.");
+            }
+            const prefix = hexToBytes(RSA2048_SPKI_PREFIX_HEX);
+            const suffix = hexToBytes(RSA2048_SPKI_SUFFIX_HEX);
+            const spki = new Uint8Array(prefix.length + modBytes.length + suffix.length);
+            spki.set(prefix, 0);
+            spki.set(modBytes, prefix.length);
+            spki.set(suffix, prefix.length + modBytes.length);
+
+            return crypto.subtle.importKey(
+                "spki",
+                spki.buffer,
+                { name: "RSA-OAEP", hash: "SHA-256" },
+                false,
+                ["encrypt"]
+            );
+        }
+
+        async function derivePinKek(pin, saltBytes) {
+            const baseKey = await crypto.subtle.importKey(
+                "raw",
+                new TextEncoder().encode(pin),
+                "PBKDF2",
+                false,
+                ["deriveKey"]
+            );
+            return crypto.subtle.deriveKey(
+                { name: "PBKDF2", salt: saltBytes, iterations: PBKDF2_ITER, hash: "SHA-256" },
+                baseKey,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        async function buildDualKeyVyspack(payloadObj, dekRawBytes, pinEnvelope, escrowEnvelope, claims) {
+            const header = {
+                format: "SGAF-VYSPACK-V41",
+                project_id: String(claims.p),
+                worker_id: String(claims.w)
+            };
+            const aadBytes = new TextEncoder().encode(canonicalSortedJson(header));
+            const ivData = crypto.getRandomValues(new Uint8Array(12));
+            const dekCryptoKey = await crypto.subtle.importKey("raw", dekRawBytes, { name: "AES-GCM" }, false, ["encrypt"]);
+            const plaintextBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
+            const cipherBuf = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: ivData, additionalData: aadBytes },
+                dekCryptoKey,
+                plaintextBytes
+            );
+
+            return {
+                schema: "SGAF-VYSPACK-V41",
+                header: header,
+                iv_data: b64uEncode(ivData),
+                ciphertext: b64uEncode(new Uint8Array(cipherBuf)),
+                pin_envelope: pinEnvelope,
+                escrow_envelope: escrowEnvelope
+            };
+        }
+
+        /* ---------- Cadena Hash Secuencial Anti-Fraude ---------- */
+        async function computeGenesisHash(projectId, workerId) {
+            return sha256Hex(`GENESIS:${projectId.trim()}:${workerId.trim()}`);
+        }
+
+        async function computeRecordHash(prevHash, codigoPlaqueta, capturedAtMs, lat, lon, photoSha256) {
+            const coordStr = (lat !== null && lat !== undefined && lon !== null && lon !== undefined)
+                ? `${Number(lat).toFixed(6)},${Number(lon).toFixed(6)}`
+                : "NO_GPS";
+            const canon = `${prevHash}|${codigoPlaqueta.trim().toUpperCase()}|${Math.trunc(capturedAtMs)}|${coordStr}|${photoSha256 || "NO_PHOTO"}`;
+            return sha256Hex(canon);
+        }
+
+        /* ---------- Persistencia Cifrada en IndexedDB ---------- */
+        function openVaultDb() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VER);
+                req.onupgradeneeded = (ev) => {
+                    const db = ev.target.result;
+                    if (!db.objectStoreNames.contains("meta")) db.createObjectStore("meta", { keyPath: "id" });
+                    if (!db.objectStoreNames.contains("records")) db.createObjectStore("records", { keyPath: "seq_num" });
+                };
+                req.onsuccess = (ev) => resolve(ev.target.result);
+                req.onerror = (ev) => reject(ev.target.error);
+            });
+        }
+
+        function idbGet(storeName, key) {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(storeName, "readonly");
+                const req = tx.objectStore(storeName).get(key);
+                req.onsuccess = () => resolve(req.result || null);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function idbPut(storeName, val) {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(storeName, "readwrite");
+                tx.objectStore(storeName).put(val);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        function idbGetAll(storeName) {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(storeName, "readonly");
+                const req = tx.objectStore(storeName).getAll();
+                req.onsuccess = () => resolve(req.result || []);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function idbClearAll() {
+            return new Promise((resolve, reject) => {
+                const tx = dbConn.transaction(["meta", "records"], "readwrite");
+                tx.objectStore("meta").clear();
+                tx.objectStore("records").clear();
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        /* ---------- Red y Telemetría ---------- */
+        function refreshNetPill() {
+            const el = document.getElementById("net-status");
+            if (navigator.onLine) {
+                el.textContent = "CON SEÑAL / LAN";
+                el.className = "pill";
+            } else {
+                el.textContent = "OFFLINE BÓVEDA";
+                el.className = "pill offline";
+            }
+        }
+        window.addEventListener("online", refreshNetPill);
+        window.addEventListener("offline", refreshNetPill);
+
+        /* ---------- Modo Solar y Ergonomía de Campo ---------- */
+        function toggleSolarTheme() {
+            document.body.classList.toggle("solar-theme");
+            const btn = document.getElementById("btn-solar");
+            if (btn) {
+                btn.textContent = document.body.classList.contains("solar-theme") ? "🌙 Noche" : "☀️ Sol";
+            }
+        }
+
+        async function requestWakeLock() {
+            try {
+                if ("wakeLock" in navigator && !wakeLock) {
+                    wakeLock = await navigator.wakeLock.request("screen");
+                }
+            } catch (_) {}
+        }
+
+        function releaseWakeLock() {
+            try {
+                if (wakeLock) {
+                    wakeLock.release();
+                    wakeLock = null;
+                }
+            } catch (_) {}
+        }
+
+        document.addEventListener("visibilitychange", async () => {
+            if (document.visibilityState === "visible" && ramDekKey) {
+                await requestWakeLock();
+            }
+        });
+
+        /* ---------- Selector de Modo: Activo Fijo vs Existencias ---------- */
+        function cambiarModoEncargo(modo) {
+            currentMode = modo;
+            const tabAf = document.getElementById("tab-mode-af");
+            const tabEx = document.getElementById("tab-mode-ex");
+            const afFields = document.getElementById("af-fields-container");
+            const exFields = document.getElementById("existencias-fields-container");
+            const lblTag = document.getElementById("lbl-tag-field");
+
+            if (modo === "existencias") {
+                tabEx.style.background = "rgba(16, 185, 129, 0.25)";
+                tabEx.style.borderColor = "var(--emerald)";
+                tabEx.style.color = "#6ee7b7";
+                tabEx.style.opacity = "1";
+
+                tabAf.style.background = "rgba(255, 255, 255, 0.07)";
+                tabAf.style.borderColor = "var(--border)";
+                tabAf.style.color = "#fff";
+                tabAf.style.opacity = "0.7";
+
+                afFields.classList.add("hidden");
+                exFields.classList.remove("hidden");
+                lblTag.textContent = "Código de Marbete / Conteo Almacén *";
+            } else {
+                tabAf.style.background = "rgba(212, 175, 55, 0.25)";
+                tabAf.style.borderColor = "var(--gold)";
+                tabAf.style.color = "var(--gold-light)";
+                tabAf.style.opacity = "1";
+
+                tabEx.style.background = "rgba(255, 255, 255, 0.07)";
+                tabEx.style.borderColor = "var(--border)";
+                tabEx.style.color = "#fff";
+                tabEx.style.opacity = "0.7";
+
+                exFields.classList.add("hidden");
+                afFields.classList.remove("hidden");
+                lblTag.textContent = "Código de Plaqueta / Marbete * (Láser o Cámara)";
+            }
+        }
+
+        function toggleComponentBox() {
+            const chk = document.getElementById("chk-is-component");
+            const box = document.getElementById("parent-tag-box");
+            if (chk && box) {
+                if (chk.checked) box.classList.remove("hidden");
+                else box.classList.add("hidden");
+            }
+        }
+
+        /* ---------- Sniffer Global de Escáner Láser Hardware (HID Keydown Burst) ---------- */
+        let barcodeBuffer = "";
+        let lastKeyTime = 0;
+        window.addEventListener("keydown", (e) => {
+            const now = performance.now();
+            const delta = now - lastKeyTime;
+            lastKeyTime = now;
+
+            if (e.key === "Enter") {
+                if (barcodeBuffer.length >= 3 && delta < 50) {
+                    e.preventDefault();
+                    const scanned = barcodeBuffer.trim().toUpperCase();
+                    barcodeBuffer = "";
+                    playScanBeep();
+                    if (currentMode === "existencias") {
+                        const fSku = document.getElementById("f-sku");
+                        if (fSku && (!fSku.value || document.activeElement !== fSku)) {
+                            fSku.value = scanned;
+                        }
+                    } else {
+                        const fCod = document.getElementById("f-codigo");
+                        if (fCod) fCod.value = scanned;
+                    }
+                } else {
+                    barcodeBuffer = "";
+                }
+                return;
+            }
+            if (e.key.length === 1) {
+                if (delta > 50) {
+                    barcodeBuffer = e.key;
+                } else {
+                    barcodeBuffer += e.key;
+                }
+            }
+        });
+
+        function stopMediaStreams() {
+            if (activeMediaStream) {
+                activeMediaStream.getTracks().forEach((t) => t.stop());
+                activeMediaStream = null;
+            }
+            currentVideoTrack = null;
+            isTorchOn = false;
+            document.querySelectorAll("video.cam-view").forEach((v) => { v.style.display = "none"; });
+            const btnTorch = document.getElementById("btn-torch");
+            if (btnTorch) { btnTorch.classList.add("hidden"); btnTorch.textContent = "🔦 Flash"; }
+            const btnDetail = document.getElementById("btn-shot-detail");
+            if (btnDetail) btnDetail.classList.add("hidden");
+            const btnPano = document.getElementById("btn-shot-pano");
+            if (btnPano) btnPano.classList.add("hidden");
+            const btnLegacy = document.getElementById("btn-shot-cam");
+            if (btnLegacy) btnLegacy.classList.add("hidden");
+        }
+
+        async function toggleTorch() {
+            if (!currentVideoTrack) return;
+            try {
+                const capabilities = currentVideoTrack.getCapabilities ? currentVideoTrack.getCapabilities() : {};
+                if (capabilities.torch) {
+                    isTorchOn = !isTorchOn;
+                    await currentVideoTrack.applyConstraints({ advanced: [{ torch: isTorchOn }] });
+                    const btn = document.getElementById("btn-torch");
+                    if (btn) btn.textContent = isTorchOn ? "🔦 Apagar" : "🔦 Flash";
+                } else {
+                    alert("La linterna no es soportada por este dispositivo.");
+                }
+            } catch (err) {
+                alert("Error al controlar la linterna: " + err.message);
+            }
+        }
+
+        /* ---------- Enrolamiento Inicial Zero-Trust ---------- */
+        async function iniciarEscaneoQrEnrolamiento() {
+            const vid = document.getElementById("qr-video");
+            try {
+                stopMediaStreams();
+                activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                vid.srcObject = activeMediaStream;
+                vid.style.display = "block";
+                await vid.play();
+                resetEcoTimer();
+
+                if ("BarcodeDetector" in window) {
+                    const det = new BarcodeDetector({ formats: ["qr_code"] });
+                    const timer = setInterval(async () => {
+                        if (!activeMediaStream) { clearInterval(timer); return; }
+                        try {
+                            const codes = await det.detect(vid);
+                            if (codes.length > 0) {
+                                clearInterval(timer);
+                                stopMediaStreams();
+                                let raw = codes[0].rawValue || "";
+                                if (raw.includes("#enroll=")) raw = raw.split("#enroll=")[1];
+                                document.getElementById("inp-token").value = decodeURIComponent(raw).trim();
+                            }
+                        } catch (_) {}
+                    }, 300);
+                } else {
+                    alert("Su navegador no soporta BarcodeDetector nativo. Escanee el QR con la cámara normal de su teléfono (abrirá el enlace directo) o pegue el token VYS1.");
+                    stopMediaStreams();
+                }
+            } catch (err) {
+                alert("No se pudo acceder a la cámara: " + err.message);
+            }
+        }
+
+        async function procesarEnrolamiento() {
+            const errBox = document.getElementById("enroll-error");
+            errBox.style.display = "none";
+            try {
+                if (!window.crypto || !window.crypto.subtle) {
+                    throw new Error("WebCrypto exige conexión HTTPS segura. Abra el portal oficial HTTPS de Vega y Sánchez o inicie el Hub local en Modo 2 (--tls).");
+                }
+                const tokenRaw = document.getElementById("inp-token").value.trim();
+                const dni = document.getElementById("inp-dni").value.trim();
+                const pin = document.getElementById("inp-new-pin").value.trim();
+                const ndaOk = document.getElementById("chk-nda").checked;
+                const sstOk = document.getElementById("chk-sst").checked;
+
+                const { token, claims } = parseUnverifiedVys1Token(tokenRaw);
+                if (claims.exp * 1000 <= Date.now()) {
+                    throw new Error("Este código QR / token ya expiró. Solicite uno vigente a su Supervisor.");
+                }
+                if (!/^\d{8,12}$/.test(dni)) {
+                    throw new Error("Ingrese un número de DNI / CE válido (8 a 12 dígitos).");
+                }
+                if (!/^\d{6}$/.test(pin)) {
+                    throw new Error("El PIN de seguridad debe tener exactamente 6 dígitos numéricos.");
+                }
+                if (!ndaOk || !sstOk) {
+                    throw new Error("Es obligatorio aceptar la Declaración Jurada NDA (Ley 29733) y SST/EPP (Ley 29783).");
+                }
+
+                if (navigator.storage && navigator.storage.persist) {
+                    try { await navigator.storage.persist(); } catch (_) {}
+                }
+
+                // 1. Generar DEK aleatoria de 256 bits y envolverla con PIN + Clave Pública Maestra RSA-2048
+                
+                const vNombre = (document.getElementById("inp-veedor-nombre") ? document.getElementById("inp-veedor-nombre").value : "").trim();
+                const vDni = (document.getElementById("inp-veedor-dni") ? document.getElementById("inp-veedor-dni").value : "").trim();
+                const vCargo = (document.getElementById("inp-veedor-cargo") ? document.getElementById("inp-veedor-cargo").value : "").trim();
+
+                if (!vNombre || !vDni || !vCargo) {
+                    throw new Error("Debe registrar Nombre, DNI y Cargo del Veedor del Cliente (NIA 501 / Art. 37° inc. f LIR).");
+                }
+                if (!hasVeedorDrawn) {
+                    throw new Error("El Veedor del Cliente debe firmar digitalmente en el recuadro de firma antes de iniciar la jornada.");
+                }
+                const canvasV = document.getElementById("canvas-veedor");
+                const vFirmaB64 = canvasV ? canvasV.toDataURL("image/png") : "";
+                const vFirmaHash = await sha256Hex(vFirmaB64);
+
+                const dekRaw = crypto.getRandomValues(new Uint8Array(32));
+                const saltPin = crypto.getRandomValues(new Uint8Array(16));
+                const ivPin = crypto.getRandomValues(new Uint8Array(12));
+                const kekPin = await derivePinKek(pin, saltPin);
+                const wrappedPinBuf = await crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv: ivPin, additionalData: new TextEncoder().encode("VYS-PIN-WRAP-V41") },
+                    kekPin,
+                    dekRaw
+                );
+
+                const rsaPubKey = await importProjectRsaPublicKey(claims.k);
+                const wrappedEscrowBuf = await crypto.subtle.encrypt({ name: "RSA-OAEP" }, rsaPubKey, dekRaw);
+
+                const signedAtUtc = new Date().toISOString();
+                const ndaHash = await sha256Hex(`VYS-NDA-SST-V41|${token}|${dni}|${signedAtUtc}`);
+
+                const pinEnvelope = {
+                    kdf: "PBKDF2-SHA256",
+                    iter: PBKDF2_ITER,
+                    salt: b64uEncode(saltPin),
+                    iv: b64uEncode(ivPin),
+                    wrapped_dek: b64uEncode(new Uint8Array(wrappedPinBuf))
+                };
+                const escrowEnvelope = {
+                    alg: "RSA-OAEP-2048-SHA256",
+                    wrapped_dek: b64uEncode(new Uint8Array(wrappedEscrowBuf))
+                };
+
+                const initialPack = await buildDualKeyVyspack(
+                    { token, nda: { dni, ndaHash, signedAtUtc }, records: [] },
+                    dekRaw,
+                    pinEnvelope,
+                    escrowEnvelope,
+                    claims
+                );
+
+                vaultMeta = {
+                    id: "active_session",
+                    token,
+                    claims,
+                    nda: { dni, ndaHash, signedAtUtc, sst_epp_ok: true },
+                    pin_envelope: pinEnvelope,
+                    escrow_envelope: escrowEnvelope,
+                    latest_vyspack: initialPack,
+                    backed_up_count: 0,
+                    synced_count: 0,
+                    ack_synced: false
+                };
+
+                // Intentar notificar firma NDA/SST al Hub si hay red local/HTTPS
+                if (claims.hub) {
+                    try {
+                        const r = await fetch(`${claims.hub.replace(/\/$/, "")}/api/v1/enroll-ack`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ token, worker_dni: dni, nda_hash: ndaHash, sst_epp_ok: true })
+                        });
+                        if (r.ok) vaultMeta.ack_synced = true;
+                    } catch (_) {}
+                }
+
+                await idbClearAll();
+                await idbPut("meta", vaultMeta);
+
+                ramDekRaw = dekRaw;
+                ramDekKey = await crypto.subtle.importKey("raw", dekRaw, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+                plainRecords = [];
+                lastCapturedMs = Date.now();
+
+                abrirVistaOperativa();
+            } catch (err) {
+                errBox.textContent = err.message;
+                errBox.style.display = "block";
+            }
+        }
+
+        /* ---------- Desbloqueo con PIN y Bloqueo por Expiración ---------- */
+        function mostrarVistaDesbloqueo() {
+            stopMediaStreams();
+            document.getElementById("view-enroll").classList.add("hidden");
+            document.getElementById("view-workspace").classList.add("hidden");
+            document.getElementById("view-unlock").classList.remove("hidden");
+
+            const c = vaultMeta.claims;
+            const expired = (c.exp * 1000) <= Date.now();
+            const badge = document.getElementById("unlock-badge");
+            const pinBox = document.getElementById("pin-unlock-box");
+
+            document.getElementById("unlock-meta").innerHTML =
+                `Brigadista: <strong>${c.n} (${c.w})</strong> · Sede: <strong>${c.s}</strong> · Proyecto: <code>${c.p}</code>`;
+
+            if (expired) {
+                badge.textContent = "CREDENCIAL EXPIRADA";
+                badge.className = "pill danger";
+                pinBox.classList.add("hidden");
+                const err = document.getElementById("unlock-error");
+                err.textContent = "El plazo autorizado de este proyecto ha concluido. La captura está bloqueada; exporte el paquete .vyspack para su Supervisor o ejecute Crypto-Wipe.";
+                err.style.display = "block";
+            } else {
+                badge.textContent = "BLOQUEADO CON PIN";
+                badge.className = "pill offline";
+                pinBox.classList.remove("hidden");
+                document.getElementById("unlock-error").style.display = "none";
+            }
+        }
+
+        async function desbloquearConPin() {
+            const errBox = document.getElementById("unlock-error");
+            errBox.style.display = "none";
+            try {
+                if ((vaultMeta.claims.exp * 1000) <= Date.now()) {
+                    mostrarVistaDesbloqueo();
+                    return;
+                }
+                const pin = document.getElementById("inp-unlock-pin").value.trim();
+                const env = vaultMeta.pin_envelope;
+                const kek = await derivePinKek(pin, b64uDecode(env.salt));
+                const rawBuf = await crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: b64uDecode(env.iv), additionalData: new TextEncoder().encode("VYS-PIN-WRAP-V41") },
+                    kek,
+                    b64uDecode(env.wrapped_dek)
+                );
+
+                ramDekRaw = new Uint8Array(rawBuf);
+                ramDekKey = await crypto.subtle.importKey("raw", ramDekRaw, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+                document.getElementById("inp-unlock-pin").value = "";
+
+                // Descifrar registros desde IndexedDB hacia RAM volátil
+                const encRows = await idbGetAll("records");
+                encRows.sort((a, b) => a.seq_num - b.seq_num);
+                plainRecords = [];
+                for (const row of encRows) {
+                    const decBuf = await crypto.subtle.decrypt(
+                        { name: "AES-GCM", iv: b64uDecode(row.iv) },
+                        ramDekKey,
+                        b64uDecode(row.ct)
+                    );
+                    const rec = JSON.parse(new TextDecoder().decode(decBuf));
+                    plainRecords.push(rec);
+                    lastCapturedRecord = rec;
+                    if (rec.captured_at_ms > lastCapturedMs) lastCapturedMs = rec.captured_at_ms;
+                }
+                abrirVistaOperativa();
+            } catch (_) {
+                errBox.textContent = "PIN incorrecto. Si olvidó su PIN, use el botón inferior para exportar el paquete .vyspack custodiado con la llave maestra del Supervisor.";
+                errBox.style.display = "block";
+            }
+        }
+
+        function bloquearPantalla() {
+            releaseWakeLock();
+            ramDekKey = null;
+            ramDekRaw = null;
+            plainRecords = [];
+            mostrarVistaDesbloqueo();
+        }
+
+        /* ---------- Vista Operativa de Campo ---------- */
+        function abrirVistaOperativa() {
+            document.getElementById("view-enroll").classList.add("hidden");
+            document.getElementById("view-unlock").classList.add("hidden");
+            document.getElementById("view-workspace").classList.remove("hidden");
+
+            requestWakeLock();
+
+            const c = vaultMeta.claims;
+            document.getElementById("lbl-worker").textContent = `${c.n} (${c.w})`;
+            document.getElementById("lbl-project").textContent = `${c.p} · Sede: ${c.s}`;
+            document.getElementById("lbl-exp").textContent = "Expira: " + new Date(c.exp * 1000).toLocaleString();
+
+            if (c.rng && c.rng.length === 2) {
+                const pfx = c.pfx ? `${c.pfx}` : "";
+                document.getElementById("lbl-range").textContent = `ROLLO: ${pfx}[${c.rng[0]}..${c.rng[1]}]`;
+            } else {
+                document.getElementById("lbl-range").textContent = "RANGO ABIERTO";
+            }
+
+            if (c.hub && !document.getElementById("inp-hub-url").value) {
+                document.getElementById("inp-hub-url").value = c.hub;
+            }
+            if (!document.getElementById("f-ubicacion").value) {
+                document.getElementById("f-ubicacion").value = c.s;
+            }
+
+            capturarGpsEnVivo();
+            renderizarEstadoOperativo();
+        }
+
+        /* ---------- GPS + Geocerca Haversine ---------- */
+        function capturarGpsEnVivo() {
+            const out = document.getElementById("gps-readout");
+            const stGeo = document.getElementById("st-geo");
+            if (!("geolocation" in navigator)) {
+                out.textContent = "GPS no soportado en este dispositivo.";
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    currentGps = {
+                        lat: Number(pos.coords.latitude.toFixed(6)),
+                        lon: Number(pos.coords.longitude.toFixed(6)),
+                        acc: Math.round(pos.coords.accuracy || 0)
+                    };
+                    let txt = `GPS fijado: ${currentGps.lat}, ${currentGps.lon} (±${currentGps.acc}m)`;
+                    if (vaultMeta && vaultMeta.claims.geo) {
+                        const [gLat, gLon, gRad] = vaultMeta.claims.geo;
+                        const dist = haversineMeters(currentGps.lat, currentGps.lon, gLat, gLon);
+                        currentGps.dist_m = dist;
+                        if (dist <= gRad) {
+                            stGeo.textContent = `${Math.round(dist)}m OK`;
+                            stGeo.style.color = "#6ee7b7";
+                            txt += ` · DENTRO DE PLANTA (${Math.round(dist)}m <= ${gRad}m)`;
+                        } else {
+                            stGeo.textContent = `${Math.round(dist)}m ALERTA`;
+                            stGeo.style.color = "#fda4af";
+                            txt += ` · FUERA DE GEOCERCA (${Math.round(dist)}m > ${gRad}m)`;
+                        }
+                    } else {
+                        stGeo.textContent = "FIJADO";
+                        stGeo.style.color = "#6ee7b7";
+                    }
+                    out.textContent = txt;
+                },
+                (err) => {
+                    currentGps = null; // FIX: resetea coordenadas para no arrastrar GPS fantasma
+                    out.textContent = "Sin lectura GPS (" + err.message + ") · ZONA INTERIOR";
+                    stGeo.textContent = "SIN GPS";
+                    stGeo.style.color = "#fda4af";
+                },
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 15000 }
+            );
+        }
+
+        /* ---------- Escáner de Plaqueta y Cámara Viva Forense (Con Feedback Háptico y Sonoro) ---------- */
+        let scanAudioCtx = null;
+        function initAudioFeedback() {
+            try {
+                if (!scanAudioCtx) {
+                    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtxClass) {
+                        scanAudioCtx = new AudioCtxClass();
+                    }
+                }
+                if (scanAudioCtx && scanAudioCtx.state === "suspended") {
+                    scanAudioCtx.resume();
+                }
+            } catch (_) {}
+        }
+
+        function playScanBeep() {
+            try {
+                if ("vibrate" in navigator) {
+                    navigator.vibrate([40, 30, 40]);
+                }
+                if (scanAudioCtx) {
+                    const osc = scanAudioCtx.createOscillator();
+                    const gain = scanAudioCtx.createGain();
+                    osc.type = "sine";
+                    osc.frequency.setValueAtTime(1200, scanAudioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.3, scanAudioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, scanAudioCtx.currentTime + 0.08);
+                    osc.connect(gain);
+                    gain.connect(scanAudioCtx.destination);
+                    osc.start();
+                    osc.stop(scanAudioCtx.currentTime + 0.08);
+                }
+            } catch (_) {}
+        }
+
+        async function escanearCodigoPlaqueta() {
+            initAudioFeedback();
+            const vid = document.getElementById("scan-video");
+            try {
+                stopMediaStreams();
+                activeMediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                vid.srcObject = activeMediaStream;
+                vid.style.display = "block";
+                await vid.play();
+                resetEcoTimer();
+                if ("BarcodeDetector" in window) {
+                    const det = new BarcodeDetector({ formats: ["code_128", "code_39", "qr_code", "ean_13"] });
+                    const timer = setInterval(async () => {
+                        if (!activeMediaStream) { clearInterval(timer); return; }
+                        try {
+                            const res = await det.detect(vid);
+                            if (res.length > 0) {
+                                clearInterval(timer);
+                                playScanBeep();
+                                const val = res[0].rawValue.trim().toUpperCase();
+                                document.getElementById("f-codigo").value = val;
+                                if (currentMode === "existencias") {
+                                    const fSku = document.getElementById("f-sku");
+                                    if (fSku && !fSku.value) fSku.value = val;
+                                }
+                                stopMediaStreams();
+                            }
+                        } catch (_) {}
+                    }, 250);
+                } else {
+                    alert("BarcodeDetector no disponible en este navegador; digite el código manualmente.");
+                    stopMediaStreams();
+                }
+            } catch (err) {
+                alert("No se pudo abrir el lector: " + err.message);
+            }
+        }
+
+        async function abrirCamaraEvidencia() {
+            const vid = document.getElementById("live-cam");
+            try {
+                stopMediaStreams();
+                activeMediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } }
+                });
+                currentVideoTrack = activeMediaStream.getVideoTracks()[0] || null;
+                vid.srcObject = activeMediaStream;
+                vid.style.display = "block";
+                document.getElementById("btn-shot-detail").classList.remove("hidden");
+                document.getElementById("btn-shot-pano").classList.remove("hidden");
+                if (currentVideoTrack && currentVideoTrack.getCapabilities && currentVideoTrack.getCapabilities().torch) {
+                    document.getElementById("btn-torch").classList.remove("hidden");
+                }
+                await vid.play();
+            } catch (err) {
+                alert("Acceso a cámara en vivo denegado o no disponible: " + err.message);
+            }
+        }
+
+        async function dispararFotoForense(tipo) {
+            const vid = document.getElementById("live-cam");
+            if (!activeMediaStream || !vid.videoWidth) return;
+
+            const maxW = 960;
+            const scale = Math.min(1, maxW / vid.videoWidth);
+            const w = Math.round(vid.videoWidth * scale);
+            const h = Math.round(vid.videoHeight * scale);
+
+            const canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(vid, 0, 0, w, h);
+
+            // Sello de agua forense inmutable
+            ctx.fillStyle = "rgba(6, 11, 22, 0.78)";
+            ctx.fillRect(0, h - 42, w, 42);
+            ctx.fillStyle = "#fae29c";
+            ctx.font = "bold 12px monospace";
+            const cod = (document.getElementById("f-codigo").value || "S/COD").trim().toUpperCase();
+            const tagLabel = (tipo === "panoramica") ? "PANORÁMICA" : "DETALLE";
+            const gpsTxt = currentGps ? `${currentGps.lat},${currentGps.lon}` : "NO_GPS";
+            const stamp = `V&S ZERO-TRUST [${tagLabel}] | ${vaultMeta.claims.p} | ${vaultMeta.claims.w} | ${cod} | ${new Date().toISOString()} | ${gpsTxt}`;
+            ctx.fillText(stamp.slice(0, 108), 8, h - 16);
+
+            const b64 = canvas.toDataURL("image/jpeg", 0.72);
+            const sha = await sha256Hex(b64);
+
+            if (tipo === "panoramica") {
+                currentPhoto2B64 = b64;
+                currentPhoto2Sha256 = sha;
+                const thumb2 = document.getElementById("photo-thumb-2");
+                if (thumb2) {
+                    thumb2.src = b64;
+                    thumb2.style.display = "block";
+                }
+            } else {
+                currentPhotoB64 = b64;
+                currentPhotoSha256 = sha;
+                const thumb1 = document.getElementById("photo-thumb-1");
+                if (thumb1) {
+                    thumb1.src = b64;
+                    thumb1.style.display = "block";
+                }
+            }
+            stopMediaStreams();
+        }
+
+        /* ---------- Guardado Cifrado + Cadena SHA-256 ---------- */
+        async function guardarActivoCifrado() {
+            const warnBox = document.getElementById("capture-warn");
+            warnBox.style.display = "none";
+
+            if (!ramDekKey || !ramDekRaw || !vaultMeta) {
+                bloquearPantalla();
+                return;
+            }
+            if ((vaultMeta.claims.exp * 1000) <= Date.now()) {
+                alert("Su credencial temporal de proyecto ha expirado.");
+                bloquearPantalla();
+                return;
+            }
+
+            const isEx = (currentMode === "existencias");
+            const codigo = document.getElementById("f-codigo").value.trim().toUpperCase();
+            const desc = document.getElementById("f-desc").value.trim();
+            const ubic = document.getElementById("f-ubicacion").value.trim() || vaultMeta.claims.s;
+
+            if (!codigo || !desc) {
+                warnBox.textContent = isEx 
+                    ? "El Código de Marbete/Conteo y la Descripción del Material son obligatorios."
+                    : "El Código de Plaqueta y la Descripción Técnica son obligatorios.";
+                warnBox.style.display = "block";
+                return;
+            }
+            if (plainRecords.some((r) => r.codigo_plaqueta === codigo)) {
+                warnBox.textContent = `El código ${codigo} ya fue registrado en su sesión actual.`;
+                warnBox.style.display = "block";
+                return;
+            }
+
+            // Validar rango de etiquetas asignado al brigadista (advertencia inmediata)
+            const c = vaultMeta.claims;
+            if (c.rng && c.rng.length === 2) {
+                const digits = codigo.replace(/\D/g, "");
+                const num = digits ? parseInt(digits, 10) : -1;
+                if (num < c.rng[0] || num > c.rng[1] || (c.pfx && !codigo.startsWith(c.pfx.toUpperCase()))) {
+                    const okOut = confirm(`ALERTA DE AUDITORÍA: El código ${codigo} está fuera de su rollo asignado (${c.pfx || ""}[${c.rng[0]}..${c.rng[1]}]). ¿Desea registrarlo dejando constancia en la bitácora del Supervisor?`);
+                    if (!okOut) return;
+                }
+            }
+
+            const nowMs = Date.now();
+            if (lastCapturedMs > 0 && nowMs < lastCapturedMs) {
+                warnBox.textContent = "ALERTA ANTI-FRAUDE: Se detectó retroceso en el reloj del teléfono. Ajuste la hora real antes de continuar.";
+                warnBox.style.display = "block";
+                return;
+            }
+            lastCapturedMs = nowMs;
+
+            const seqNum = plainRecords.length + 1;
+            const prevHash = plainRecords.length === 0
+                ? await computeGenesisHash(c.p, c.w)
+                : plainRecords[plainRecords.length - 1].curr_hash;
+
+            const lat = currentGps ? currentGps.lat : null;
+            const lon = currentGps ? currentGps.lon : null;
+            const currHash = await computeRecordHash(prevHash, codigo, nowMs, lat, lon, currentPhotoSha256);
+
+            const fHor = document.getElementById("f-horometro");
+            const fOdo = document.getElementById("f-odometro");
+            const fParent = document.getElementById("f-parent-tag");
+            const fSku = document.getElementById("f-sku");
+            const fLote = document.getElementById("f-lote");
+            const fCant = document.getElementById("f-cantidad");
+            const fUm = document.getElementById("f-unidad-medida");
+            const fVenc = document.getElementById("f-fecha-venc");
+            const fEstEx = document.getElementById("f-estado-existencia");
+
+            const rec = {
+                seq_num: seqNum,
+                tipo_encargo: currentMode,
+                codigo_plaqueta: codigo,
+                codigo_anterior: document.getElementById("f-cod-ant").value.trim() || null,
+                descripcion: desc,
+                marca: isEx ? null : (document.getElementById("f-marca").value.trim() || null),
+                modelo: isEx ? null : (document.getElementById("f-modelo").value.trim() || null),
+                serie: isEx ? null : (document.getElementById("f-serie").value.trim() || null),
+                ubicacion: ubic,
+                responsable: c.n,
+                estado_conservacion: isEx ? (fEstEx ? fEstEx.value : "CONFORME") : document.getElementById("f-estado").value,
+                observaciones: document.getElementById("f-obs").value.trim() || null,
+                horometro: (!isEx && fHor && fHor.value) ? parseFloat(fHor.value) : null,
+                odometro: (!isEx && fOdo && fOdo.value) ? parseFloat(fOdo.value) : null,
+                parent_tag: (!isEx && fParent && fParent.value.trim()) ? fParent.value.trim().toUpperCase() : null,
+                sku: isEx ? (fSku && fSku.value.trim() ? fSku.value.trim().toUpperCase() : codigo) : null,
+                lote: (isEx && fLote) ? fLote.value.trim() || null : null,
+                cantidad: (isEx && fCant && fCant.value) ? parseFloat(fCant.value) : 1.0,
+                unidad_medida: (isEx && fUm) ? fUm.value : "NIU",
+                fecha_vencimiento: (isEx && fVenc) ? fVenc.value || null : null,
+                lat: lat,
+                lon: lon,
+                gps_accuracy_m: currentGps ? currentGps.acc : null,
+                fuente_camara: currentPhotoB64 ? "WEBRTC_LIVE" : "SIN_FOTO",
+                photo_b64: currentPhotoB64,
+                photo_sha256: currentPhotoSha256 || "",
+                photo2_b64: currentPhoto2B64,
+                photo2_sha256: currentPhoto2Sha256 || "",
+                captured_at_ms: nowMs,
+                veedor_dni: (vaultMeta && vaultMeta.veedor) ? vaultMeta.veedor.dni : null,
+                veedor_nombre: (vaultMeta && vaultMeta.veedor) ? vaultMeta.veedor.nombre : null,
+                prev_hash: prevHash,
+                curr_hash: currHash
+            };
+
+            // Cifrar registro individual para IndexedDB
+            const ivRec = crypto.getRandomValues(new Uint8Array(12));
+            const ctRec = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: ivRec },
+                ramDekKey,
+                new TextEncoder().encode(JSON.stringify(rec))
+            );
+            await idbPut("records", {
+                seq_num: seqNum,
+                iv: b64uEncode(ivRec),
+                ct: b64uEncode(new Uint8Array(ctRec))
+            });
+
+            plainRecords.push(rec);
+            lastCapturedRecord = rec;
+
+            // Actualizar snapshot cifrado de doble sobre `.vyspack` (permite rescate con llave maestra aun con pantalla bloqueada)
+            vaultMeta.latest_vyspack = await buildDualKeyVyspack(
+                { token: vaultMeta.token, nda: vaultMeta.nda, records: plainRecords },
+                ramDekRaw,
+                vaultMeta.pin_envelope,
+                vaultMeta.escrow_envelope,
+                vaultMeta.claims
+            );
+            await idbPut("meta", vaultMeta);
+
+            // Limpiar campos del ítem
+            ["f-cod-ant", "f-desc", "f-marca", "f-modelo", "f-serie", "f-obs", "f-horometro", "f-odometro", "f-parent-tag", "f-sku", "f-lote", "f-cantidad", "f-fecha-venc"].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.value = "";
+            });
+            const elCod = document.getElementById("f-codigo");
+            if (elCod) {
+                const nextTag = calcularSiguienteCodigoPlaqueta(codigo);
+                elCod.value = (nextTag && nextTag !== codigo) ? nextTag : "";
+                elCod.select();
+            }
+            const chkComp = document.getElementById("chk-is-component");
+            if (chkComp) chkComp.checked = false;
+            const pBox = document.getElementById("parent-tag-box");
+            if (pBox) pBox.classList.add("hidden");
+
+            currentPhotoB64 = null;
+            currentPhotoSha256 = "";
+            currentPhoto2B64 = null;
+            currentPhoto2Sha256 = "";
+            const t1 = document.getElementById("photo-thumb-1");
+            if (t1) t1.style.display = "none";
+            const t2 = document.getElementById("photo-thumb-2");
+            if (t2) t2.style.display = "none";
+
+            renderizarEstadoOperativo();
+        }
+
+        /* ---------- Registro de Plaquetas Físicas Anuladas / Mermas ---------- */
+        async function registrarPlaquetaAnulada() {
+            const cod = prompt("Ingrese el Código de la Plaqueta que se dañó, dobló o quedó inservible:");
+            if (!cod || !cod.trim()) return;
+            const codigo = cod.trim().toUpperCase();
+            const motivo = prompt("Motivo de anulación (ej. Doblada en remache, Adhesivo contaminado, Caída a tanque):", "Doblada en fijación física") || "Doblada en fijación física";
+
+            if (plainRecords.some((r) => r.codigo_plaqueta === codigo)) {
+                alert(`La plaqueta ${codigo} ya está registrada en la sesión.`);
+                return;
+            }
+
+            const c = vaultMeta.claims;
+            const nowMs = Date.now();
+            const seqNum = plainRecords.length + 1;
+            const prevHash = plainRecords.length === 0
+                ? await computeGenesisHash(c.p, c.w)
+                : plainRecords[plainRecords.length - 1].curr_hash;
+
+            const lat = currentGps ? currentGps.lat : null;
+            const lon = currentGps ? currentGps.lon : null;
+            const currHash = await computeRecordHash(prevHash, codigo, nowMs, lat, lon, "ANULADA");
+
+            const rec = {
+                seq_num: seqNum,
+                tipo_encargo: "plaqueta_anulada",
+                codigo_plaqueta: codigo,
+                codigo_anterior: null,
+                descripcion: `[PLAQUETA ANULADA / MERMA FÍSICA] Motivo: ${motivo}`,
+                marca: null,
+                modelo: null,
+                serie: null,
+                ubicacion: vaultMeta.claims.s || "PLANTA",
+                responsable: c.n,
+                estado_conservacion: "ANULADA",
+                observaciones: `Merma física de marbete: ${motivo}`,
+                lat: lat,
+                lon: lon,
+                gps_accuracy_m: currentGps ? currentGps.acc : null,
+                fuente_camara: "MERMA_FISICA",
+                photo_b64: null,
+                photo_sha256: "ANULADA",
+                photo2_b64: null,
+                photo2_sha256: "ANULADA",
+                captured_at_ms: nowMs,
+                veedor_dni: (vaultMeta && vaultMeta.veedor) ? vaultMeta.veedor.dni : null,
+                veedor_nombre: (vaultMeta && vaultMeta.veedor) ? vaultMeta.veedor.nombre : null,
+                prev_hash: prevHash,
+                curr_hash: currHash
+            };
+
+            const ivRec = crypto.getRandomValues(new Uint8Array(12));
+            const ctRec = await crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: ivRec },
+                ramDekKey,
+                new TextEncoder().encode(JSON.stringify(rec))
+            );
+            await idbPut("records", {
+                seq_num: seqNum,
+                iv: b64uEncode(ivRec),
+                ct: b64uEncode(new Uint8Array(ctRec))
+            });
+
+            plainRecords.push(rec);
+
+            vaultMeta.latest_vyspack = await buildDualKeyVyspack(
+                { token: vaultMeta.token, nda: vaultMeta.nda, records: plainRecords },
+                ramDekRaw,
+                vaultMeta.pin_envelope,
+                vaultMeta.escrow_envelope,
+                vaultMeta.claims
+            );
+            await idbPut("meta", vaultMeta);
+
+            renderizarEstadoOperativo();
+            alert(`Plaqueta ${codigo} registrada como ANULADA/MERMA. El rollo mantendrá su cuadre exacto.`);
+        }
+
+        function renderizarEstadoOperativo() {
+            const total = plainRecords.length;
+            const conFoto = plainRecords.filter((r) => !!r.photo_b64).length;
+            document.getElementById("st-total").textContent = total;
+            document.getElementById("st-fotos").textContent = conFoto;
+            document.getElementById("lbl-list-count").textContent = total;
+
+            const unbacked = total - (vaultMeta.backed_up_count || 0);
+            const nudge = document.getElementById("backup-nudge");
+            if (unbacked >= 50) {
+                document.getElementById("nudge-count").textContent = unbacked;
+                nudge.style.display = "block";
+            } else {
+                nudge.style.display = "none";
+            }
+
+            const currentHour = new Date().getHours();
+            const shiftEnd = document.getElementById("shift-end-nudge");
+            if (shiftEnd) {
+                shiftEnd.style.display = (currentHour >= 17 || total >= 50) ? "block" : "none";
+            }
+
+            const list = document.getElementById("item-list");
+            if (total === 0) {
+                list.innerHTML = `<div style="font-size:0.8rem; color:var(--muted); text-align:center; padding:12px;">Bóveda lista. Ningún activo capturado aún.</div>`;
+                return;
+            }
+            list.innerHTML = plainRecords.slice().reverse().slice(0, 30).map((r) => {
+                let badge = "AF";
+                if (r.tipo_encargo === "existencias") badge = "EXISTENCIA";
+                else if (r.tipo_encargo === "plaqueta_anulada") badge = "ANULADA";
+                
+                let photoStatus = "SIN FOTO";
+                if (r.photo_b64 && r.photo2_b64) photoStatus = "2 FOTOS OK";
+                else if (r.photo_b64 || r.photo2_b64) photoStatus = "1 FOTO OK";
+                else if (r.tipo_encargo === "plaqueta_anulada") photoStatus = "MERMA";
+
+                return `
+                <div class="item-row">
+                    <div>
+                        <strong style="color:var(--gold-light); font-family:monospace;">#${r.seq_num} [${badge}] ${r.codigo_plaqueta}</strong> — ${r.descripcion}
+                        <small>${r.ubicacion} · ${r.estado_conservacion} · SHA256: ${r.curr_hash.slice(0, 12)}...</small>
+                    </div>
+                    <span class="pill" style="font-size:0.65rem;">${photoStatus}</span>
+                </div>`;
+            }).join("");
+        }
+
+        /* ---------- Sincronización Directa a Hub y Exportación .vyspack ---------- */
+        async function sincronizarConHub() {
+            const msg = document.getElementById("sync-msg");
+            const hubUrl = document.getElementById("inp-hub-url").value.trim().replace(/\/$/, "");
+            if (!hubUrl) {
+                msg.style.color = "#fda4af";
+                msg.textContent = "Ingrese la dirección URL del Hub del Supervisor o exporte un paquete .vyspack.";
+                return;
+            }
+            msg.style.color = "#fde68a";
+            msg.textContent = "Sincronizando lote firmado con el Hub del Supervisor...";
+
+            try {
+                if (!vaultMeta.ack_synced) {
+                    await fetch(`${hubUrl}/api/v1/enroll-ack`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            token: vaultMeta.token,
+                            worker_dni: vaultMeta.nda.dni,
+                            nda_hash: vaultMeta.nda.ndaHash,
+                            sst_epp_ok: true
+                        })
+                    });
+                    vaultMeta.ack_synced = true;
+                }
+
+                const batchToSend = plainRecords.slice(vaultMeta.synced_count || 0);
+                if (batchToSend.length === 0) {
+                    msg.style.color = "#6ee7b7";
+                    msg.textContent = "Todos los activos capturados ya se encuentran sincronizados en el Hub.";
+                    return;
+                }
+
+                const resp = await fetch(`${hubUrl}/api/v1/sync`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token: vaultMeta.token, records: batchToSend })
+                });
+                const data = await resp.json();
+                if (!resp.ok) {
+                    if (resp.status === 403 && String(data.detail || "").includes("REVOCADO")) {
+                        await idbClearAll();
+                        alert("ACCESO REVOCADO POR EL SUPERVISOR (Kill-Switch). La bóveda local ha sido cerrada.");
+                        location.reload();
+                        return;
+                    }
+                    throw new Error(data.detail || "Error al sincronizar con el Hub.");
+                }
+
+                vaultMeta.synced_count = plainRecords.length;
+                vaultMeta.backed_up_count = plainRecords.length;
+                await idbPut("meta", vaultMeta);
+                renderizarEstadoOperativo();
+
+                msg.style.color = "#6ee7b7";
+                msg.textContent = `Sincronización incremental exitosa: ${data.inserted} activos nuevos registrados (Total en Hub: ${plainRecords.length}).`;
+            } catch (err) {
+                msg.style.color = "#fda4af";
+                const safeDropUrl = `${hubUrl}/drop`.replace(/"/g, "");
+                const originSame = window.location.href.startsWith("http://192") || window.location.href.startsWith("http://localhost");
+                const altLanUrl = hubUrl + "/campo.html";
+                msg.innerHTML = `⚠️ <strong>Conexión LAN Restringida:</strong> ${err.message}<br>` +
+                    `1. Si Chrome mostró <em>"quiere acceder a otros dispositivos"</em>, pulse <strong>Permitir</strong>.<br>` +
+                    `2. Si sale error de superposición en Android, pulse <strong>📲 Enviar por WhatsApp</strong> o <strong>Exportar .vyspack</strong>.<br>` +
+                    `3. Alternativa 100% directa en la misma red Wi-Fi: abra <a href="${altLanUrl}" target="_blank" style="color:var(--gold-light); font-weight:bold;">${altLanUrl}</a> (mismo origen sin restricciones).`;
+            }
+        }
+
+        function descargarObjetoVyspack(packObj) {
+            const c = vaultMeta.claims;
+            const blob = new Blob([JSON.stringify(packObj)], { type: "application/octet-stream" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = `SGAF_${c.p}_${c.w}_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.vyspack`;
+            a.click();
+        }
+
+        async function exportarVyspackFirmado() {
+            if (!vaultMeta || !vaultMeta.latest_vyspack) return;
+            descargarObjetoVyspack(vaultMeta.latest_vyspack);
+            vaultMeta.backed_up_count = plainRecords.length;
+            await idbPut("meta", vaultMeta);
+            renderizarEstadoOperativo();
+        }
+
+        async function compartirVyspackWhatsApp() {
+            if (!vaultMeta || !vaultMeta.latest_vyspack) {
+                alert("No hay un paquete de inventario activo para compartir.");
+                return;
+            }
+            const c = (vaultMeta && vaultMeta.claims) ? vaultMeta.claims : { p: "PROYECTO", w: "BRIGADA" };
+            const fname = `SGAF_${c.p}_${c.w}_${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.vyspack`;
+            const jsonStr = JSON.stringify(vaultMeta.latest_vyspack);
+            const blob = new Blob([jsonStr], { type: "application/octet-stream" });
+            const file = new File([blob], fname, { type: "application/octet-stream" });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        title: `Paquete Cifrado SGAF - ${c.p}`,
+                        text: `Entrega de brigada ${c.w} (${c.p}). Paquete cifrado con llave RSA del supervisor.`,
+                        files: [file],
+                    });
+                    vaultMeta.backed_up_count = plainRecords.length;
+                    await idbPut("meta", vaultMeta);
+                    renderizarEstadoOperativo();
+                    return;
+                } catch (e) {
+                    if (e.name === "AbortError") return;
+                }
+            }
+
+            descargarObjetoVyspack(vaultMeta.latest_vyspack);
+            vaultMeta.backed_up_count = plainRecords.length;
+            await idbPut("meta", vaultMeta);
+            renderizarEstadoOperativo();
+
+            const msg = encodeURIComponent(
+                `*VEGA Y SÁNCHEZ CONSULTORES SAC*\n` +
+                `*Entrega de Inventario en Campo (.vyspack)*\n` +
+                `📁 Archivo descargado: ${fname}\n` +
+                `🏢 Proyecto: ${c.p}\n` +
+                `👷 Brigada: ${c.w}\n` +
+                `Adjunto el archivo cifrado para conciliación en el SGAF Central.`
+            );
+            window.open(`https://api.whatsapp.com/send?phone=51997754542&text=${msg}`, "_blank");
+        }
+
+        function exportarVyspackEmergencia() {
+            if (!vaultMeta || !vaultMeta.latest_vyspack) {
+                alert("No existe paquete cifrado almacenado en este dispositivo.");
+                return;
+            }
+            descargarObjetoVyspack(vaultMeta.latest_vyspack);
+        }
+
+        async function ejecutarCryptoWipe() {
+            if (!confirm("CONFIRMACIÓN CRYPTO-WIPE: Se destruirán irreversiblemente las llaves criptográficas y todos los registros locales de este teléfono. ¿Continuar?")) {
+                return;
+            }
+            stopMediaStreams();
+            ramDekKey = null;
+            ramDekRaw = null;
+            plainRecords = [];
+            vaultMeta = null;
+            await idbClearAll();
+            location.reload();
+        }
+
+        /* ---------- Guardián BeforeUnload Anti-Pérdida en Campo ---------- */
+        window.addEventListener("beforeunload", function (e) {
+            if (plainRecords && plainRecords.length > 0) {
+                const unbacked = plainRecords.length - (vaultMeta ? (vaultMeta.backed_up_count || 0) : 0);
+                if (unbacked > 0) {
+                    const msg = `Atención Pericial: Tiene ${unbacked} activos pendientes de respaldar en .vyspack. ¿Desea salir del navegador de todos modos?`;
+                    e.preventDefault();
+                    e.returnValue = msg;
+                    return msg;
+                }
+            }
+        });
+
+        /* ---------- Modo Eco-Batería (Pausa de Sensor tras 25s de inactividad) ---------- */
+        let ecoInactivityTimer = null;
+        function resetEcoTimer() {
+            const notice = document.getElementById("eco-battery-notice");
+            if (notice) notice.style.display = "none";
+            if (ecoInactivityTimer) clearTimeout(ecoInactivityTimer);
+            if (activeMediaStream) {
+                ecoInactivityTimer = setTimeout(() => {
+                    if (activeMediaStream) {
+                        stopMediaStreams();
+                        if (notice) notice.style.display = "block";
+                    }
+                }, 25000);
+            }
+        }
+        ["touchstart", "mousedown", "keydown", "scroll"].forEach((evt) => {
+            window.addEventListener(evt, resetEcoTimer, { passive: true });
+        });
+
+        /* ---------- Arranque e Inspección de Hash `#enroll=` ---------- */
+        (async function bootstrap() {
+            refreshNetPill();
+            dbConn = await openVaultDb();
+            vaultMeta = await idbGet("meta", "active_session");
+
+            // Capturar token desde URL `#enroll=VYS1...` y limpiar historial inmediatamente
+            if (window.location.hash && window.location.hash.startsWith("#enroll=")) {
+                const enrolledToken = decodeURIComponent(window.location.hash.slice("#enroll=".length)).trim();
+                history.replaceState(null, "", window.location.pathname + window.location.search);
+                if (!vaultMeta) {
+                    document.getElementById("inp-token").value = enrolledToken;
+                }
+            }
+
+            if (vaultMeta) {
+                mostrarVistaDesbloqueo();
+            }
+        })();
+    
+        /* =========================================================================
+           SGAF-V&S v5.4.0 FIELD MASTER OPERATIONAL EXTENSIONS (7 EJES DE CAMPO)
+        ========================================================================= */
+        let lastCapturedRecord = null;
+        let isBatteryCritical = false;
+        let canvasVeedorCtx = null;
+        let isDrawingVeedor = false;
+        let hasVeedorDrawn = false;
+
+        /* ---------- Eje 1: Ergonomía de Planta & Captura Rápida ---------- */
+        function calcularSiguienteCodigoPlaqueta(codigoActual) {
+            if (!codigoActual) return "";
+            const m = codigoActual.match(/^(.*?)(\d+)$/);
+            if (!m) return codigoActual;
+            const pfx = m[1];
+            const numStr = m[2];
+            const nextVal = parseInt(numStr, 10) + 1;
+            const padded = String(nextVal).padStart(numStr.length, "0");
+            return pfx + padded;
+        }
+
+        function clonarActivoAnterior() {
+            if (!lastCapturedRecord) {
+                alert("Aún no ha capturado ningún activo en esta sesión para clonar.");
+                return;
+            }
+            const r = lastCapturedRecord;
+            if (r.descripcion) document.getElementById("f-desc").value = r.descripcion;
+            if (r.marca) document.getElementById("f-marca").value = r.marca;
+            if (r.modelo) document.getElementById("f-modelo").value = r.modelo;
+            if (r.ubicacion) document.getElementById("f-ubicacion").value = r.ubicacion;
+            if (r.estado_conservacion && r.estado_conservacion !== "ANULADA") {
+                const sel = document.getElementById("f-estado");
+                if (sel) sel.value = r.estado_conservacion;
+            }
+            if (currentMode === "existencias") {
+                if (r.sku) document.getElementById("f-sku").value = r.sku;
+                if (r.unidad_medida) document.getElementById("f-unidad-medida").value = r.unidad_medida;
+            }
+            const codInput = document.getElementById("f-codigo");
+            if (codInput) {
+                codInput.focus();
+                codInput.select();
+            }
+        }
+
+        // Atajo de teclado global Alt+C para clonar activo anterior
+        window.addEventListener("keydown", function(e) {
+            if (e.altKey && (e.key === "c" || e.key === "C")) {
+                e.preventDefault();
+                clonarActivoAnterior();
+            }
+        });
+
+        /* ---------- Eje 2: Veedor de Cuadrilla & Firma Digital Táctil ---------- */
+        function initCanvasVeedor() {
+            const canvas = document.getElementById("canvas-veedor");
+            if (!canvas) return;
+            canvasVeedorCtx = canvas.getContext("2d");
+            canvasVeedorCtx.strokeStyle = "#002b49";
+            canvasVeedorCtx.lineWidth = 2.5;
+            canvasVeedorCtx.lineCap = "round";
+            canvasVeedorCtx.lineJoin = "round";
+
+            function getCanvasPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            }
+
+            function startDraw(e) {
+                e.preventDefault();
+                isDrawingVeedor = true;
+                hasVeedorDrawn = true;
+                const pos = getCanvasPos(e);
+                canvasVeedorCtx.beginPath();
+                canvasVeedorCtx.moveTo(pos.x, pos.y);
+            }
+
+            function moveDraw(e) {
+                if (!isDrawingVeedor) return;
+                e.preventDefault();
+                const pos = getCanvasPos(e);
+                canvasVeedorCtx.lineTo(pos.x, pos.y);
+                canvasVeedorCtx.stroke();
+            }
+
+            function endDraw(e) {
+                if (isDrawingVeedor) {
+                    canvasVeedorCtx.closePath();
+                    isDrawingVeedor = false;
+                }
+            }
+
+            canvas.addEventListener("mousedown", startDraw);
+            canvas.addEventListener("mousemove", moveDraw);
+            window.addEventListener("mouseup", endDraw);
+
+            canvas.addEventListener("touchstart", startDraw, { passive: false });
+            canvas.addEventListener("touchmove", moveDraw, { passive: false });
+            window.addEventListener("touchend", endDraw, { passive: false });
+        }
+
+        function limpiarFirmaVeedor() {
+            const canvas = document.getElementById("canvas-veedor");
+            if (canvas && canvasVeedorCtx) {
+                canvasVeedorCtx.clearRect(0, 0, canvas.width, canvas.height);
+                hasVeedorDrawn = false;
+            }
+        }
+
+        /* ---------- Eje 5: Matriz Visual de Criterios de Conservación ---------- */
+        function abrirModalCriterios() {
+            const modal = document.getElementById("modal-criterios");
+            if (modal) modal.style.display = "flex";
+        }
+
+        function cerrarModalCriterios() {
+            const modal = document.getElementById("modal-criterios");
+            if (modal) modal.style.display = "none";
+        }
+
+        /* ---------- Eje 6: Modo Batería Crítica (< 15%) & Resiliencia ---------- */
+        function setupBatteryMonitor() {
+            if ("getBattery" in navigator) {
+                navigator.getBattery().then(function(battery) {
+                    function evalBattery() {
+                        const pct = Math.round(battery.level * 100);
+                        const isCrit = (battery.level <= 0.15 && !battery.charging);
+                        isBatteryCritical = isCrit;
+                        const notice = document.getElementById("alert-battery-critical");
+                        const lbl = document.getElementById("lbl-bat-pct");
+                        if (lbl) lbl.textContent = pct + "%";
+                        if (notice) notice.style.display = isCrit ? "block" : "none";
+                        if (isCrit && activeMediaStream) {
+                            stopMediaStreams();
+                        }
+                    }
+                    evalBattery();
+                    battery.addEventListener("levelchange", evalBattery);
+                    battery.addEventListener("chargingchange", evalBattery);
+                }).catch(function() {});
+            }
+        }
+
+    </script>
+
+    <!-- Datalists Predictivos Offline (115 Marcas y 65 Familias Industriales) -->
+    <datalist id="dl-marcas">
+        <option value="3M"></option>
+        <option value="ABB"></option>
+        <option value="Allen-Bradley"></option>
+        <option value="Atlas Copco"></option>
+        <option value="Baldor"></option>
+        <option value="Barmesa"></option>
+        <option value="Black & Decker"></option>
+        <option value="Bobcat"></option>
+        <option value="Bonfiglioli"></option>
+        <option value="Bosch"></option>
+        <option value="Canon"></option>
+        <option value="Case"></option>
+        <option value="Caterpillar"></option>
+        <option value="Chevrolet"></option>
+        <option value="Cisco"></option>
+        <option value="Cummins"></option>
+        <option value="Danfoss"></option>
+        <option value="DeWalt"></option>
+        <option value="Dell"></option>
+        <option value="Donaldson"></option>
+        <option value="Doosan"></option>
+        <option value="ESAB"></option>
+        <option value="Eaton"></option>
+        <option value="Endress+Hauser"></option>
+        <option value="Epiroc"></option>
+        <option value="Epson"></option>
+        <option value="FAG"></option>
+        <option value="Falk"></option>
+        <option value="Festo"></option>
+        <option value="Flowserve"></option>
+        <option value="Fluke"></option>
+        <option value="Flygt"></option>
+        <option value="Ford"></option>
+        <option value="Gardner Denver"></option>
+        <option value="Generac"></option>
+        <option value="General Electric"></option>
+        <option value="Goulds"></option>
+        <option value="Grundfos"></option>
+        <option value="HP"></option>
+        <option value="HiKOKI"></option>
+        <option value="Hilti"></option>
+        <option value="Hino"></option>
+        <option value="Hitachi"></option>
+        <option value="Hobart"></option>
+        <option value="Honeywell"></option>
+        <option value="Hypertherm"></option>
+        <option value="Hyundai"></option>
+        <option value="Ingersoll Rand"></option>
+        <option value="Isuzu"></option>
+        <option value="JCB"></option>
+        <option value="John Deere"></option>
+        <option value="KSB"></option>
+        <option value="Kaeser"></option>
+        <option value="Kohler"></option>
+        <option value="Komatsu"></option>
+        <option value="Koyo"></option>
+        <option value="Kärcher"></option>
+        <option value="LG"></option>
+        <option value="Leeson"></option>
+        <option value="Legrand"></option>
+        <option value="Lenovo"></option>
+        <option value="Liebherr"></option>
+        <option value="Lincoln Electric"></option>
+        <option value="Makita"></option>
+        <option value="Marathon"></option>
+        <option value="Martin Sprocket"></option>
+        <option value="Mercedes-Benz"></option>
+        <option value="Metabo"></option>
+        <option value="Metso"></option>
+        <option value="Miller"></option>
+        <option value="Milwaukee"></option>
+        <option value="Mitsubishi"></option>
+        <option value="Mitsubishi Electric"></option>
+        <option value="NSK"></option>
+        <option value="NTN"></option>
+        <option value="Nilfisk"></option>
+        <option value="Nissan"></option>
+        <option value="Nord"></option>
+        <option value="Omron"></option>
+        <option value="Osram"></option>
+        <option value="Outotec"></option>
+        <option value="Parker Hannifin"></option>
+        <option value="Pedrollo"></option>
+        <option value="Pentair"></option>
+        <option value="Perkins"></option>
+        <option value="Philips"></option>
+        <option value="Pramac"></option>
+        <option value="Rexroth"></option>
+        <option value="Ridgid"></option>
+        <option value="Rockwell Automation"></option>
+        <option value="Rosemount"></option>
+        <option value="Ryobi"></option>
+        <option value="SEW-Eurodrive"></option>
+        <option value="SKF"></option>
+        <option value="SMC"></option>
+        <option value="Samsung"></option>
+        <option value="Sandvik"></option>
+        <option value="Sany"></option>
+        <option value="Scania"></option>
+        <option value="Schneider Electric"></option>
+        <option value="Siemens"></option>
+        <option value="Sony"></option>
+        <option value="Square D"></option>
+        <option value="Stanley"></option>
+        <option value="Sullair"></option>
+        <option value="Sulzer"></option>
+        <option value="Sumitomo"></option>
+        <option value="Timken"></option>
+        <option value="Toyota"></option>
+        <option value="US Motors"></option>
+        <option value="Volvo"></option>
+        <option value="Weg"></option>
+        <option value="Weir"></option>
+        <option value="Westinghouse"></option>
+        <option value="Yanmar"></option>
+        <option value="Yokogawa"></option>
+        <option value="Zoomlion"></option>
+    </datalist>
+    <datalist id="dl-familias">
+        <option value="Aire Acondicionado Split"></option>
+        <option value="Apilador Eléctrico"></option>
+        <option value="Balanza Camionera"></option>
+        <option value="Balanza de Plataforma"></option>
+        <option value="Banco de Condensadores"></option>
+        <option value="Bomba Centrífuga de Agua"></option>
+        <option value="Bomba Sumergible"></option>
+        <option value="Bomba de Lodos"></option>
+        <option value="Cargador Frontal"></option>
+        <option value="Centro de Control de Motores (CCM)"></option>
+        <option value="Chiller Industrial"></option>
+        <option value="Cizalla Guillotina"></option>
+        <option value="Compresor de Pistón"></option>
+        <option value="Compresor de Tornillo"></option>
+        <option value="Computadora Portátil (Laptop)"></option>
+        <option value="Cámara Frigorífica"></option>
+        <option value="Escritorio Gerencial"></option>
+        <option value="Estación de Trabajo (Workstation)"></option>
+        <option value="Estantería Metálica Ranurada"></option>
+        <option value="Excavadora Hidráulica"></option>
+        <option value="Extractor Centrífugo"></option>
+        <option value="Faja Transportadora"></option>
+        <option value="Fresa Universal"></option>
+        <option value="Generador Diésel / Grupo Electrógeno"></option>
+        <option value="Grúa Puente"></option>
+        <option value="Impresora Multifuncional"></option>
+        <option value="Luminaria Industrial LED"></option>
+        <option value="Manómetro Diferencial"></option>
+        <option value="Medidor de Flujo Electromagnético"></option>
+        <option value="Molino SAG"></option>
+        <option value="Molino de Bolas"></option>
+        <option value="Monitor LED"></option>
+        <option value="Montacargas Eléctrico"></option>
+        <option value="Montacargas a Combustión"></option>
+        <option value="Motor Eléctrico Trifásico"></option>
+        <option value="Plegadora Hidráulica"></option>
+        <option value="Polipasto Eléctrico"></option>
+        <option value="Prensa Hidráulica"></option>
+        <option value="Racks para Paletas"></option>
+        <option value="Retroexcavadora"></option>
+        <option value="Rodillo Compactador"></option>
+        <option value="Router Industrial"></option>
+        <option value="Sensor de Nivel Ultrasónico"></option>
+        <option value="Servidor Rack"></option>
+        <option value="Silla Ergonómica Operativa"></option>
+        <option value="Silo Metálico"></option>
+        <option value="Sistema de Alimentación Ininterrumpida (UPS)"></option>
+        <option value="Soldadora Inverter"></option>
+        <option value="Soldadora MIG-MAG"></option>
+        <option value="Soldadora TIG"></option>
+        <option value="Switch Gestionable"></option>
+        <option value="Tablero Eléctrico General (TGBT)"></option>
+        <option value="Tablero de Distribución Secundaria"></option>
+        <option value="Taladro de Columna"></option>
+        <option value="Tanque de Almacenamiento"></option>
+        <option value="Torno Paralelo"></option>
+        <option value="Torre de Enfriamiento"></option>
+        <option value="Transformador de Distribución"></option>
+        <option value="Transformador de Potencia"></option>
+        <option value="Transpaleta Hidráulica"></option>
+        <option value="Unidad Manejadora de Aire (UMA)"></option>
+        <option value="Variador de Frecuencia (VFD)"></option>
+        <option value="Vehículo Camioneta 4x4"></option>
+        <option value="Ventilador Industrial"></option>
+        <option value="Volquete"></option>
+    </datalist>
+
+
+    <!-- Modal Pericial de Criterios de Conservación (Ross-Heidecke / SBN / Art. 43° LIR) -->
+    <div id="modal-criterios" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:100; align-items:center; justify-content:center; padding:14px; backdrop-filter:blur(4px);">
+        <div class="card card-gold" style="max-width:580px; width:100%; max-height:90vh; overflow-y:auto; border-radius:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+                <h2 style="margin:0; font-size:0.95rem; color:var(--gold-light);">Matriz Pericial de Conservación (Ross-Heidecke / SBN)</h2>
+                <button type="button" class="btn-sec" onclick="cerrarModalCriterios()" style="flex:0; padding:4px 8px; font-size:0.75rem;">✕ Cerrar</button>
+            </div>
+            <div style="font-size:0.77rem; color:var(--muted); margin-bottom:12px; line-height:1.4;">
+                Criterios de tasación física unificados con el Reglamento Nacional de Tasaciones (R.M. 172-2016-VIVIENDA) y el Art. 43° de la Ley del Impuesto a la Renta:
+            </div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="background:rgba(16,185,129,0.1); border:1px solid var(--emerald); border-radius:8px; padding:9px;">
+                    <strong style="color:#6ee7b7; font-size:0.83rem;">1. ÓPTIMO (Depreciación Física: 0% - 5%)</strong>
+                    <div style="font-size:0.75rem; color:#d1fae5; margin-top:2px;">Bien nuevo o recién puesto en marcha, sin desgaste físico ni obsolescencia. Rendimiento 100% nominal.</div>
+                </div>
+                <div style="background:rgba(56,189,248,0.1); border:1px solid #38bdf8; border-radius:8px; padding:9px;">
+                    <strong style="color:#7dd3fc; font-size:0.83rem;">2. BUENO (Depreciación Física: 5% - 18%)</strong>
+                    <div style="font-size:0.75rem; color:#e0f2fe; margin-top:2px;">Operatividad normal con mantenimiento preventivo al día. Pintura o acabados con desgaste leve.</div>
+                </div>
+                <div style="background:rgba(245,158,11,0.1); border:1px solid var(--amber); border-radius:8px; padding:9px;">
+                    <strong style="color:#fde68a; font-size:0.83rem;">3. REGULAR (Depreciación Física: 18% - 50%)</strong>
+                    <div style="font-size:0.75rem; color:#fef3c7; margin-top:2px;">Operativo pero con desgaste medio evidente, holguras o fugas leves. Requiere overhaul o mantenimiento correctivo menor.</div>
+                </div>
+                <div style="background:rgba(244,63,94,0.12); border:1px solid var(--ruby); border-radius:8px; padding:9px;">
+                    <strong style="color:#fda4af; font-size:0.83rem;">4. MALO (Depreciación Física: 50% - 85%)</strong>
+                    <div style="font-size:0.75rem; color:#ffe4e6; margin-top:2px;">Inoperativo o con fallas críticas estructurales. Costo de reparación superior al 60% del valor de reposición. <em>Pasible de baja técnica y castigo tributario Art. 43° LIR</em>.</div>
+                </div>
+                <div style="background:rgba(148,163,184,0.15); border:1px solid #94a3b8; border-radius:8px; padding:9px;">
+                    <strong style="color:#cbd5e1; font-size:0.83rem;">5. CHATARRA / RAEE (Depreciación Física: 85% - 100%)</strong>
+                    <div style="font-size:0.75rem; color:#f1f5f9; margin-top:2px;">Irrecuperable para fines productivos. Solo valor de desguace metálico o residuo RAEE. <em>Desmedro tributario deducible al 100% mediante destrucción notarial (Art. 37° inc. f LIR)</em>.</div>
+                </div>
+            </div>
+            <button type="button" class="btn-gold" onclick="cerrarModalCriterios()" style="margin-top:14px;">Entendido, Volver a Captura</button>
+        </div>
+    </div>
+
+</body>
+</html>
